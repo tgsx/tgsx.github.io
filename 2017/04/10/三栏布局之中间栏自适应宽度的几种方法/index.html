@@ -97,7 +97,7 @@
 <meta property="og:description" content="现如今网站层出不穷，对响应式的要求也越来越高，大多数网站都是基于两栏或者三栏布局，那么我们是如何实现左边栏固定宽度而右边栏自适应的呢？又是如何做到左右两边固定宽度，中间自适应的呢（下一篇博客解决这个问题）？
    下面就让我们共同来解决这些questions。
    HTML代码如下：    12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html lang=&apos;en&apos;&amp;">
-<meta property="og:updated_time" content="2017-04-09T19:23:01.000Z">
+<meta property="og:updated_time" content="2017-04-09T19:23:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="两栏布局之右边栏自适应宽度的几种方法">
 <meta name="twitter:description" content="现如今网站层出不穷，对响应式的要求也越来越高，大多数网站都是基于两栏或者三栏布局，那么我们是如何实现左边栏固定宽度而右边栏自适应的呢？又是如何做到左右两边固定宽度，中间自适应的呢（下一篇博客解决这个问题）？
@@ -366,9 +366,8 @@
 <blockquote>
 <p>规则:BFC的区域不会与float box重叠。</p>
 </blockquote>
-<p>了解规则后,我们可以通过生成BFC来实现自适应的分栏</p>
-<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span>&#123;<span class="attribute">overflow</span>:hidden;&#125;</div></pre></td></tr></table></figure>
-</code></pre><p>这样我们就解决的重叠覆盖的问题，至此，两种解决两栏自适应布局的方法也介绍完了，敬请期待下一篇解决三栏布局的博客！</p>
+<p>了解规则后,我们可以通过生成BFC来实现自适应的分栏<br>    <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span>&#123;<span class="attribute">overflow</span>:hidden;&#125;</div></pre></td></tr></table></figure></p>
+<p>这样我们就解决的重叠覆盖的问题，至此，两种解决两栏自适应布局的方法也介绍完了，敬请期待下一篇解决三栏布局的博客！</p>
 
       
     </div>
