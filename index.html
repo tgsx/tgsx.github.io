@@ -601,12 +601,15 @@
 </code></pre><h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.left</span>&#123;</div><div class="line">  		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">80%</span>:</div><div class="line">		background:red;</div><div class="line">		<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">&#125;</div><div class="line">   <span class="selector-class">.right</span>&#123;                                                                                </div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">		<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">background</span>:green;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </code></pre><p>上面代码会造成类似文字环绕效果，实际是float元素覆盖在了右边元素上面。<br>这里我们利用BFC(格式化上下文)来实现功能,这里小小科普一下BFC.</p>
 <blockquote>
-<p>BFC:BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。<br>会生成BFC的元素:</p>
+<p>BFC:BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。    </p>
+</blockquote>
+<p>会生成BFC的元素:</p>
 <pre><code>- 根元素
 - float属性不为none                                                                                                                   - position为absolute或fixed                                                                                                
 - display为inline-block, table-cell, table-caption, flex, inline-flex
 - overflow不为visible
 </code></pre><p>一般情况下，div和浮动元素做兄弟元素时，是覆盖的关系(呈现类似文字环绕效果).BFC特性很多，而我们这里，只关心一个，和float元素做相邻兄弟时候的表现.</p>
+<blockquote>
 <p>规则:BFC的区域不会与float box重叠。</p>
 </blockquote>
 <p>了解规则后,我们可以通过生成BFC来实现自适应的分栏</p>
