@@ -596,32 +596,23 @@
             <p>  现如今网站层出不穷，对响应式的要求也越来越高，大多数网站都是基于两栏或者三栏布局，那么我们是如何实现左边栏固定宽度而右边栏自适应的呢？又是如何做到左右两边固定宽度，中间自适应的呢（下一篇博客解决这个问题）？</p>
 <p>   下面就让我们共同来解决这些questions。</p>
 <p>   HTML代码如下：<br>    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">'en'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>两栏自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h2><pre><code>让左边的内容*脱离文档流*,右边栏设置*margin-left*来实现视觉上的左右分栏:
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">   <span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.lef</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>:</div><div class="line">	background:red;</div><div class="line">	<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">	&#125;</div><div class="line"><span class="selector-class">.right</span>&#123;</div><div class="line">	<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">background</span>:green;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h2 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h2><p>让左边的内容<em>脱离文档流</em>,右边栏设置<em>margin-left</em>来实现视觉上的左右分栏:</p>
+<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">   <span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.lef</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>:</div><div class="line">	background:red;</div><div class="line">	<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">	&#125;</div><div class="line"><span class="selector-class">.right</span>&#123;</div><div class="line">	<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">background</span>:green;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
 </code></pre><h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.left</span>&#123;</div><div class="line">  		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">80%</span>:</div><div class="line">		background:red;</div><div class="line">		<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">&#125;</div><div class="line">   <span class="selector-class">.right</span>&#123;                                                                                </div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">		<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">background</span>:green;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</code></pre><p>上面代码会造成类似文字环绕效果，实际是float元素覆盖在了右边元素上面。<br>这里我们利用BFC(格式化上下文)来实现功能,这里小小科普一下BFC.</p>
+<blockquote>
+<p>BFC:BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。<br>会生成BFC的元素:</p>
+<pre><code>- 根元素
+- float属性不为none                                                                                                                   - position为absolute或fixed                                                                                                
+- display为inline-block, table-cell, table-caption, flex, inline-flex
+- overflow不为visible
+</code></pre><p>一般情况下，div和浮动元素做兄弟元素时，是覆盖的关系(呈现类似文字环绕效果).BFC特性很多，而我们这里，只关心一个，和float元素做相邻兄弟时候的表现.</p>
+<p>规则:BFC的区域不会与float box重叠。</p>
+</blockquote>
+<p>了解规则后,我们可以通过生成BFC来实现自适应的分栏</p>
+<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span>&#123;<span class="attribute">overflow</span>:hidden;&#125;</div></pre></td></tr></table></figure>
+</code></pre><p>这样我们就解决的重叠覆盖的问题，至此，两种解决两栏自适应布局的方法也介绍完了，敬请期待下一篇解决三栏布局的博客！</p>
 
-
-上面代码会造成类似文字环绕效果，实际是float元素覆盖在了右边元素上面。
-这里我们利用BFC(格式化上下文)来实现功能,这里小小科普一下BFC.
-
-&gt; BFC:BFC(Block formatting context)直译为&quot;块级格式化上下文&quot;。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。    
-会生成BFC的元素:
-     - 根元素
-     - float属性不为none                                                                                                                   - position为absolute或fixed                                                                                                
-     - display为inline-block, table-cell, table-caption, flex, inline-flex
-     - overflow不为visible
-一般情况下，div和浮动元素做兄弟元素时，是覆盖的关系(呈现类似文字环绕效果).BFC特性很多，而我们这里，只关心一个，和float元素做相邻兄
-弟时候的表现.
-
- &gt; 规则:BFC的区域不会与float box重叠。
-
- 了解规则后,我们可以通过生成BFC来实现自适应的分栏
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span>&#123;<span class="attribute">overflow</span>:hidden;&#125;</div></pre></td></tr></table></figure>
-
-这样我们就解决的重叠覆盖的问题，至此，两种解决两栏自适应布局的方法也介绍完了，敬请期待下一篇解决三栏布局的博客！
-</code></pre>
           
         
       
