@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTML,CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="��ҳ��������д�Ĺ����У�box modelһֱ�Ǻ���Ҫ��һ�飬����������д��������Ҳ��ˮ�����ɡ�box-sizing��CSS3��box����֮һ����ô��Ϊbox������֮һ������Ȼ��ѭcss��box modelԭ����Ϊ�˸��õ�����box-sizing�������˽�box modelҲ���ޱ�Ҫ��
+
+CSS��">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS����֮box-sizing">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/bordrSizing/index.html">
+<meta property="og:site_name" content="Liby">
+<meta property="og:description" content="��ҳ��������д�Ĺ����У�box modelһֱ�Ǻ���Ҫ��һ�飬����������д��������Ҳ��ˮ�����ɡ�box-sizing��CSS3��box����֮һ����ô��Ϊbox������֮һ������Ȼ��ѭcss��box modelԭ����Ϊ�˸��õ�����box-sizing�������˽�box modelҲ���ޱ�Ҫ��
+
+CSS��">
+<meta property="og:image" content="http://og48zuyzv.bkt.clouddn.com/box-1.png">
+<meta property="og:image" content="http://og48zuyzv.bkt.clouddn.com/box-2.png">
+<meta property="og:updated_time" content="2017-06-08T15:18:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS����֮box-sizing">
+<meta name="twitter:description" content="��ҳ��������д�Ĺ����У�box modelһֱ�Ǻ���Ҫ��һ�飬����������д��������Ҳ��ˮ�����ɡ�box-sizing��CSS3��box����֮һ����ô��Ϊbox������֮һ������Ȼ��ѭcss��box modelԭ����Ϊ�˸��õ�����box-sizing�������˽�box modelҲ���ޱ�Ҫ��
+
+CSS��">
+<meta name="twitter:image" content="http://og48zuyzv.bkt.clouddn.com/box-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/bordrSizing/"/>
+
+
+
+
+
+  <title> CSS����֮box-sizing | Liby </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liby</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/bordrSizing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS����֮box-sizing
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>��ҳ��������д�Ĺ����У�box modelһֱ�Ǻ���Ҫ��һ�飬����������д��������Ҳ��ˮ�����ɡ�box-sizing��CSS3��box����֮һ����ô��Ϊbox������֮һ������Ȼ��ѭcss��box modelԭ����Ϊ�˸��õ�����box-sizing�������˽�box modelҲ���ޱ�Ҫ��</p>
+<blockquote>
+<p>CSS��box model��Ϊ���֣���һ����W3C�ı�׼ģ�ͣ���һ����IE�Ĵ�ͳģ�ͣ���֮ͬ�����ڶ��Ƕ�Ԫ�ؼ����ߴ���ģ�ͣ�����width��height��padding��border��margin�Լ�ʵ�ʳߴ��ļ�����ϵ����֮ͬ���������ϸΪ�����ܣ�</p>
+</blockquote>
+<h2 id="W3C�i�׼Box-Model"><a href="#W3C�i�׼Box-Model" class="headerlink" title="W3C�ı�׼Box Model"></a>W3C�ı�׼Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*���гߴ����㣨Ԫ�ؿռ��ߴ磩*/</div><div class="line">  Element�ռ��߶� = content height + padding + border + margin</div><div class="line">  Element �ռ����� = content width + padding + border + margin</div><div class="line">  /*�ںгߴ����㣨Ԫ�ش�С��*/</div><div class="line">  Element Height = content height + padding + border ��HeightΪ���ݸ߶ȣ�</div><div class="line">  Element Width = content width + padding + border ��WidthΪ���ݿ��ȣ�</div></pre></td></tr></table></figure>
+<h2 id="IE�µJ�ͳBox-Model��IE6���£�����IE6�汾����QuirksMode��IE5-5-������"><a href="#IE�µJ�ͳBox-Model��IE6���£�����IE6�汾����QuirksMode��IE5-5-������" class="headerlink" title="IE�µĴ�ͳBox Model��IE6���£�����IE6�汾����QuirksMode��IE5.5+������"></a>IE�µĴ�ͳBox Model��IE6���£�����IE6�汾����QuirksMode��IE5.5+������</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*���гߴ����㣨Ԫ�ؿռ��ߴ磩*/</div><div class="line">  Element�ռ��߶� = content Height + margin (Height������Ԫ�����ݿ��ȣ��߿����ȣ��ھ�����)</div><div class="line">  Element�ռ����� = content Width + margin (Width������Ԫ�����ݿ��ȡ��߿����ȡ��ھ�����)</div><div class="line">  /*�ںгߴ����㣨Ԫ�ش�С��*/</div><div class="line">  Element Height = content Height(Height������Ԫ�����ݿ��ȣ��߿����ȣ��ھ�����)</div><div class="line">  Element Width = content Width(Width������Ԫ�����ݿ��ȡ��߿����ȡ��ھ�����)</div></pre></td></tr></table></figure>
+<p>�������������ݻ������о����±ƣ������ٸ����ӣ����������Ͼ���get���ˣ�<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>��chrome�������£����ᷢ��Ч������ͼ��<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="2"></p>
+<p><strong>box model</strong><br><ul><br>   <li></li></ul></p>
+<pre><code>��ɫ������������width+height����������content������
+</code></pre><p>   </p></li><br>   <li><p></p>
+<pre><code>��ɫ������������padding�����������ڱ߾࣬
+</code></pre><p>   </p></li><br>   <li><p></p>
+<pre><code>��ɫ������������padding���������ı߿���
+</code></pre><p>   </p></li><br>   <li><p></p>
+<pre><code>��ɫ�߿�����ҳ���߿��ľ�����������padding�������������߾࣬
+</code></pre><p>   </p></li><br></ul><p></p>
+<blockquote>
+<p>����ע��:<br>���еı߾��ͱ߿򶼲���Ӱ�����Ƕ���content�Ĵ�С�������Ը��ӵ���ʽ���������ǵ�����box�Ĵ�С��    </p>
+</blockquote>
+
+
+<ul>
+<li><p>��IE5���棨��box-sizing��border-boxģ�£������������ģ�</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
+<p><strong>box model</strong></p>
+<ul><br>   <li><br>       ��ɫ������������width*height-padding-border����������content����(ע��)��<br>   </li><br>   <li><br>       ��ɫ������������padding�����������ڱ߾࣬<br>   </li><br>   <li><br>       ��ɫ������������padding���������ı߿���<br>   </li><br>   <li><br>       ��ɫ�߿�������һ��box�ľ�����������padding�������������߾࣬<br><br>   </li><br></ul>
+
+<blockquote>
+<p>���ѿ�������ʵ����������content�������飬ie�Ĵ�ͳmodel����width��height�����Ĳ�����content�������ˣ�����padding+border+content���ɵĿ飬��ô��������padding����border��ֻ���������������ϻ��֣���������width*height�����Ļ������������ţ����˸о����������˵�˼ά����������дҳ����ʱ���Ͳ���Ҫ����̫�����������飬ֻ��Ҫ�����ڵ�ǰ�����򣬲���̫������ǣһ������ȫ����</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>�����ԣ�content-box��content����=widht<em>height����border-box��content����=width</em>height-padding-border</strong>��������������û�����ˡ�</p>
+<h2 id="������box-modelgʽ���л�"><a href="#������box-modelgʽ���л�" class="headerlink" title="������box modelģʽ���л�"></a>������box modelģʽ���л�</h2><p>box-sizing�ִ���������֧�֣���IE����ֻ��IE8�汾���ϲ�֧�֣���Ȼ�ִ�������֧��box-sizing������Щ������������Ҫ�����Լ���ǰ׺��Mozilla��Ҫ����-moz-��Webkit�ں���Ҫ����-webkit-��Presto�ں�-o-,IE8-ms-������box-sizing����������ʱ��Ҫ���ϸ��Ե�ǰ׺��</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C��׼(IE9+��Safari5.1+,Chrome10.0+,Opera10.6+������box-sizing��w3c��׼�﷨)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C��׼(IE9+��Safari5.1+,Chrome10.0+,Opera10.6+������box-sizing��w3c��׼�﷨)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/" rel="next" title="纵向自动填充及监听滚轮事件的兼容性问题">
+                <i class="fa fa-chevron-left"></i> 纵向自动填充及监听滚轮事件的兼容性问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/03/cssheight/" rel="prev" title="css高度坍塌及解决方法">
+                css高度坍塌及解决方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
+               alt="Liby" />
+          <p class="site-author-name" itemprop="name">Liby</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#W3C�i�׼Box-Model"><span class="nav-number">1.</span> <span class="nav-text">W3C�ı�׼Box Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IE�µJ�ͳBox-Model��IE6���£�����IE6�汾����QuirksMode��IE5-5-������"><span class="nav-number">2.</span> <span class="nav-text">IE�µĴ�ͳBox Model��IE6���£�����IE6�汾����QuirksMode��IE5.5+������</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#������box-modelgʽ���л�"><span class="nav-number">3.</span> <span class="nav-text">������box modelģʽ���л�</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
