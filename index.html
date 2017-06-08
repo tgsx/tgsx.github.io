@@ -420,7 +420,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/bordrSizing/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liby">
@@ -442,8 +442,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/03/bordrSizing/" itemprop="url">
-                  CSS����֮box-sizing
+                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
+                  CSS属性之box-sizing
                 </a>
               
             
@@ -497,43 +497,43 @@
       
         
           
-            <p>��ҳ��������д�Ĺ����У�box modelһֱ�Ǻ���Ҫ��һ�飬����������д��������Ҳ��ˮ�����ɡ�box-sizing��CSS3��box����֮һ����ô��Ϊbox������֮һ������Ȼ��ѭcss��box modelԭ����Ϊ�˸��õ�����box-sizing�������˽�box modelҲ���ޱ�Ҫ��</p>
+            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
 <blockquote>
-<p>CSS��box model��Ϊ���֣���һ����W3C�ı�׼ģ�ͣ���һ����IE�Ĵ�ͳģ�ͣ���֮ͬ�����ڶ��Ƕ�Ԫ�ؼ����ߴ���ģ�ͣ�����width��height��padding��border��margin�Լ�ʵ�ʳߴ��ļ�����ϵ����֮ͬ���������ϸΪ�����ܣ�</p>
+<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
 </blockquote>
-<h2 id="W3C�i�׼Box-Model"><a href="#W3C�i�׼Box-Model" class="headerlink" title="W3C�ı�׼Box Model"></a>W3C�ı�׼Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*���гߴ����㣨Ԫ�ؿռ��ߴ磩*/</div><div class="line">  Element�ռ��߶� = content height + padding + border + margin</div><div class="line">  Element �ռ����� = content width + padding + border + margin</div><div class="line">  /*�ںгߴ����㣨Ԫ�ش�С��*/</div><div class="line">  Element Height = content height + padding + border ��HeightΪ���ݸ߶ȣ�</div><div class="line">  Element Width = content width + padding + border ��WidthΪ���ݿ��ȣ�</div></pre></td></tr></table></figure>
-<h2 id="IE�µJ�ͳBox-Model��IE6���£�����IE6�汾����QuirksMode��IE5-5-������"><a href="#IE�µJ�ͳBox-Model��IE6���£�����IE6�汾����QuirksMode��IE5-5-������" class="headerlink" title="IE�µĴ�ͳBox Model��IE6���£�����IE6�汾����QuirksMode��IE5.5+������"></a>IE�µĴ�ͳBox Model��IE6���£�����IE6�汾����QuirksMode��IE5.5+������</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*���гߴ����㣨Ԫ�ؿռ��ߴ磩*/</div><div class="line">  Element�ռ��߶� = content Height + margin (Height������Ԫ�����ݿ��ȣ��߿����ȣ��ھ�����)</div><div class="line">  Element�ռ����� = content Width + margin (Width������Ԫ�����ݿ��ȡ��߿����ȡ��ھ�����)</div><div class="line">  /*�ںгߴ����㣨Ԫ�ش�С��*/</div><div class="line">  Element Height = content Height(Height������Ԫ�����ݿ��ȣ��߿����ȣ��ھ�����)</div><div class="line">  Element Width = content Width(Width������Ԫ�����ݿ��ȡ��߿����ȡ��ھ�����)</div></pre></td></tr></table></figure>
-<p>�������������ݻ������о����±ƣ������ٸ����ӣ����������Ͼ���get���ˣ�<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
+<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
+<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <ul>
-<li><p>��chrome�������£����ᷢ��Ч������ͼ��<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="2"></p>
+<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="2"></p>
 <p><strong>box model</strong><br><ul><br>   <li></li></ul></p>
-<pre><code>��ɫ������������width+height����������content������
+<pre><code>紫色区域就是我们width+height定义出来的content区域，
 </code></pre><p>   </p></li><br>   <li><p></p>
-<pre><code>��ɫ������������padding�����������ڱ߾࣬
+<pre><code>红色区域就是我们padding定义出来的内边距，
 </code></pre><p>   </p></li><br>   <li><p></p>
-<pre><code>��ɫ������������padding���������ı߿���
+<pre><code>绿色区域就是我们padding定义出来的边框，
 </code></pre><p>   </p></li><br>   <li><p></p>
-<pre><code>��ɫ�߿�����ҳ���߿��ľ�����������padding�������������߾࣬
+<pre><code>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，
 </code></pre><p>   </p></li><br></ul><p></p>
 <blockquote>
-<p>����ע��:<br>���еı߾��ͱ߿򶼲���Ӱ�����Ƕ���content�Ĵ�С�������Ը��ӵ���ʽ���������ǵ�����box�Ĵ�С��    </p>
+<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
 </blockquote>
 
 
 <ul>
-<li><p>��IE5���棨��box-sizing��border-boxģ�£������������ģ�</p>
+<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
 <p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
 <p><strong>box model</strong></p>
-<ul><br>   <li><br>       ��ɫ������������width*height-padding-border����������content����(ע��)��<br>   </li><br>   <li><br>       ��ɫ������������padding�����������ڱ߾࣬<br>   </li><br>   <li><br>       ��ɫ������������padding���������ı߿���<br>   </li><br>   <li><br>       ��ɫ�߿�������һ��box�ľ�����������padding�������������߾࣬<br><br>   </li><br></ul>
+<ul><br>   <li><br>       紫色区域就是我们width*height-padding-border定义出来的content区域(注意)，<br>   </li><br>   <li><br>       红色区域就是我们padding定义出来的内边距，<br>   </li><br>   <li><br>       绿色区域就是我们padding定义出来的边框，<br>   </li><br>   <li><br>       绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br><br>   </li><br></ul>
 
 <blockquote>
-<p>���ѿ�������ʵ����������content�������飬ie�Ĵ�ͳmodel����width��height�����Ĳ�����content�������ˣ�����padding+border+content���ɵĿ飬��ô��������padding����border��ֻ���������������ϻ��֣���������width*height�����Ļ������������ţ����˸о����������˵�˼ά����������дҳ����ʱ���Ͳ���Ҫ����̫�����������飬ֻ��Ҫ�����ڵ�ǰ�����򣬲���̫������ǣһ������ȫ����</p>
+<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
 </blockquote>
 </li>
 </ul>
-<p><strong>�����ԣ�content-box��content����=widht<em>height����border-box��content����=width</em>height-padding-border</strong>��������������û�����ˡ�</p>
-<h2 id="������box-modelgʽ���л�"><a href="#������box-modelgʽ���л�" class="headerlink" title="������box modelģʽ���л�"></a>������box modelģʽ���л�</h2><p>box-sizing�ִ���������֧�֣���IE����ֻ��IE8�汾���ϲ�֧�֣���Ȼ�ִ�������֧��box-sizing������Щ������������Ҫ�����Լ���ǰ׺��Mozilla��Ҫ����-moz-��Webkit�ں���Ҫ����-webkit-��Presto�ں�-o-,IE8-ms-������box-sizing����������ʱ��Ҫ���ϸ��Ե�ǰ׺��</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C��׼(IE9+��Safari5.1+,Chrome10.0+,Opera10.6+������box-sizing��w3c��׼�﷨)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C��׼(IE9+��Safari5.1+,Chrome10.0+,Opera10.6+������box-sizing��w3c��׼�﷨)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
+<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 
           
         
