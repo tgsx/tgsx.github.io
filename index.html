@@ -704,7 +704,33 @@
 </tbody>
 </table>
 <p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span>&#123;<span class="attribute">float</span>:left;&#125;</div><div class="line"><span class="selector-id">#nav</span> &gt; <span class="selector-tag">div</span>&#123;<span class="attribute">height</span>:<span class="number">40px</span>;&#125;</div><div class="line"><span class="selector-tag">p</span> + <span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="三、CSS2-1属性选择器"><a href="#三、CSS2-1属性选择器" class="headerlink" title="三、CSS2.1属性选择器"></a>三、CSS2.1属性选择器</h2><p>E[attr] | 匹配所有具有attr属性的E元素，不考虑它的值（ps：E可以省略,如’[selected],下同’）<br>E[attr=val] | 匹配所有属性attr值等于val的元素E<br>E[attr~=val]| 匹配所有attr属性具有多个空格分割的值，其中一个值等于”val”的E元素<br>E[attr|=val] | 匹配所有attr属性具有多个连字号分割的值，其中一个值以”val”开头的E元素，主要用于lang的属性，比如”en”、”en-us”</p>
+<h2 id="三、CSS2-1属性选择器"><a href="#三、CSS2-1属性选择器" class="headerlink" title="三、CSS2.1属性选择器"></a>三、CSS2.1属性选择器</h2><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E[attr]</td>
+<td>匹配所有具有attr属性的E元素，不考虑它的值（ps：E可以省略,如’[selected],下同’）</td>
+</tr>
+<tr>
+<td>E[attr=val]</td>
+<td>匹配所有属性attr值等于val的元素E</td>
+</tr>
+<tr>
+<td>E[attr~=val]</td>
+<td>匹配所有attr属性具有多个空格分割的值，其中一个值等于”val”的E元素</td>
+</tr>
+<tr>
+<td>E[attr</td>
+<td>=val]</td>
+<td>匹配所有attr属性具有多个连字号分割的值，其中一个值以”val”开头的E元素，主要用于lang的属性，比如”en”、”en-us”</td>
+</tr>
+</tbody>
+</table>
 <p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[title]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=button]</span>&#123;<span class="attribute">width</span>:<span class="number">60px</span>;&#125;</div><div class="line"><span class="selector-tag">td</span><span class="selector-attr">[headers~=coll]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[lang|=en]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="四、css2-1中的伪类"><a href="#四、css2-1中的伪类" class="headerlink" title="四、css2.1中的伪类"></a>四、css2.1中的伪类</h2><table>
 <thead>
