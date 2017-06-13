@@ -1,0 +1,843 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTML,CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="css选择器作为网页中我们用来选中样式添加样式的一样利器，掌握好它无疑是我们能够在开发中顺心顺手的前提。这里汇总了CSS和CSS3的选择器，这里有些选择器你可能不常用，但是过一眼还是很有必要的，大家共勉！
+##一、基本选择器
+
+
+
+选择器
+含义
+
+
+
+
+*
+类似于正则的*，匹配任何元素
+
+
+E
+标签选择器，匹配所有标签名为E的元素
+
+
+.className
+类选择器，匹配标签中含有class=”c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS选择器及优先级">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/css选择器/index.html">
+<meta property="og:site_name" content="Liby">
+<meta property="og:description" content="css选择器作为网页中我们用来选中样式添加样式的一样利器，掌握好它无疑是我们能够在开发中顺心顺手的前提。这里汇总了CSS和CSS3的选择器，这里有些选择器你可能不常用，但是过一眼还是很有必要的，大家共勉！
+##一、基本选择器
+
+
+
+选择器
+含义
+
+
+
+
+*
+类似于正则的*，匹配任何元素
+
+
+E
+标签选择器，匹配所有标签名为E的元素
+
+
+.className
+类选择器，匹配标签中含有class=”c">
+<meta property="og:updated_time" content="2017-06-13T04:56:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS选择器及优先级">
+<meta name="twitter:description" content="css选择器作为网页中我们用来选中样式添加样式的一样利器，掌握好它无疑是我们能够在开发中顺心顺手的前提。这里汇总了CSS和CSS3的选择器，这里有些选择器你可能不常用，但是过一眼还是很有必要的，大家共勉！
+##一、基本选择器
+
+
+
+选择器
+含义
+
+
+
+
+*
+类似于正则的*，匹配任何元素
+
+
+E
+标签选择器，匹配所有标签名为E的元素
+
+
+.className
+类选择器，匹配标签中含有class=”c">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/css选择器/"/>
+
+
+
+
+
+  <title> CSS选择器及优先级 | Liby </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liby</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/css选择器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS选择器及优先级
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>css选择器作为网页中我们用来选中样式添加样式的一样利器，掌握好它无疑是我们能够在开发中顺心顺手的前提。这里汇总了CSS和CSS3的选择器，这里有些选择器你可能不常用，但是过一眼还是很有必要的，大家共勉！</p>
+<p>##一、基本选择器</p>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td>类似于正则的*，匹配任何元素</td>
+</tr>
+<tr>
+<td>E</td>
+<td>标签选择器，匹配所有标签名为E的元素</td>
+</tr>
+<tr>
+<td>.className</td>
+<td>类选择器，匹配标签中含有class=”className”的属性</td>
+</tr>
+<tr>
+<td>#idName</td>
+<td>id选择器，匹配标签中含有id=”idName”的属性</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>class和id的区别即多和一的区别，希望大家自己查阅资料，。</p>
+</blockquote>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">a</span>&#123;<span class="attribute">color</span>:<span class="number">#000</span>;&#125;</div><div class="line"><span class="selector-class">.form-group</span>&#123;<span class="attribute">height</span>:<span class="number">150px</span>;&#125;</div><div class="line"><span class="selector-id">#nav</span>&#123;<span class="attribute">backgound</span>:<span class="built_in">rgba</span>(0,0,0,0.7);&#125;</div></pre></td></tr></table></figure></p>
+<p>##二、组合选择器<br>选择器 | 含义<br>—|—<br>E1，E2 | 多元素选择器，同时匹配所有标签名为E1和E2的元素，以逗号分割<br>E1 E2 | 后代元素选择器，匹配所有E1元素中的E2元素，以空格作为标识<br>E1 &gt; E2 | 子元素选择器，匹配所有E1元素子元素中E2<br>E1 + E2 | 邻居选择器，匹配所有与E元素同级且在紧邻其后的元素E2</p>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span>&#123;<span class="attribute">float</span>:left;&#125;</div><div class="line"><span class="selector-id">#nav</span> &gt; <span class="selector-tag">div</span>&#123;<span class="attribute">height</span>:<span class="number">40px</span>;&#125;</div><div class="line"><span class="selector-tag">p</span> + <span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>##三、CSS2.1属性选择器</p>
+<p>E[attr] | 匹配所有具有attr属性的E元素，不考虑它的值（ps：E可以省略,如’[selected],下同’）<br>E[attr=val] | 匹配所有属性attr值等于val的元素E<br>E[attr~=val]| 匹配所有attr属性具有多个空格分割的值，其中一个值等于”val”的E元素<br>E[attr|=val] | 匹配所有attr属性具有多个连字号分割的值，其中一个值以”val”开头的E元素，主要用于lang的属性，比如”en”、”en-us”</p>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[title]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=button]</span>&#123;<span class="attribute">width</span>:<span class="number">60px</span>;&#125;</div><div class="line"><span class="selector-tag">td</span><span class="selector-attr">[headers~=coll]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[lang|=en]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>##四、css2.1中的伪类<br>选择器 | 含义<br>—|—<br>E：first-child | 匹配父元素E的第一个子元素<br>E：link |匹配所有未被点击链接的E元素<br>E：visited | 匹配所有已被点击链接的E元素<br>E：active | 匹配鼠标已经按下还没释放的E元素<br>E：hover  | 匹配鼠标悬停的E元素<br>E：focus | 匹配获得当前焦点的E元素<br>E:lang(c) | 匹配lang属性等于c的E元素</p>
+<p><strong>EXP:</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ul:first-child&#123;background：#000;&#125;</div><div class="line">/*hover，link，active，vistied主要匹配的状态不同，感兴趣的可以自行百度*/</div><div class="line">a:hover&#123;color:orange;&#125;</div><div class="line">input[type=text]:focu[color:#000;]</div><div class="line">q:lang(sv)&#123;quotes:"\201D" "\201D" "\2019" "\2019"&#125;</div></pre></td></tr></table></figure></p>
+<p>##五、CSS2.1中的伪元素<br>选择器 | 含义<br>—|—<br>E：first-line |　匹配E元素的第一行<br>E：first-letter | 匹配E元素的第一个字母<br>E：before   | 在E元素之前插入生成的内容<br>E：after | 在E元素之后插入生成的内容</p>
+<blockquote>
+<p>下一篇博客会说到三角形的生成以及before和after的应用</p>
+</blockquote>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cbb</span><span class="selector-pseudo">:before</span> &#123; <span class="attribute">content</span>:<span class="string">""</span>; <span class="attribute">display</span>:block; <span class="attribute">height</span>:<span class="number">17px</span>; <span class="attribute">width</span>:<span class="number">18px</span>; <span class="attribute">background</span>:<span class="built_in">url</span>(top.png) no-repeat <span class="number">0</span> <span class="number">0</span>; <span class="attribute">margin</span>:<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">18px</span>; &#125;</div><div class="line"></div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span><span class="selector-pseudo">:after</span> &#123; <span class="attribute">content</span>: <span class="string">" ("</span> <span class="built_in">attr</span>(href) <span class="string">") "</span>; &#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p>##六、CSS3的同级元素通用选择器<br>选择器 | 含义<br>—|—<br>E1~E2 | 匹配E1元素之后的同级E2元素</p>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> ~ <span class="selector-tag">div</span>&#123;<span class="attribute">background</span>:<span class="number">#fff</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>##七、CSS3属性选择器<br>选择器 | 含义<br>—|—<br>E[attr^=”val”] | 匹配属性attr的值以“val”开头的元素<br>E[attr$=”val”] | 匹配属性attr的值以”val“结尾的元素<br>E[attr*=”val”] | 匹配属性attr值中包含“val”的元素</p>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span><span class="selector-attr">[id^="nav"]</span>&#123;<span class="attribute">background</span>:<span class="number">#ff0</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>#八、CSS3中与用户界面有关的伪类<br>选择器 | 含义<br>—|—<br>E:enabled | 匹配表单中激活的元素<br>E：disabled | 匹配表单中被禁用的元素<br>E:checked | 匹配表单中被选中的radio或checkbox元素<br>E::selection | 匹配用户当前选择的元素</p>
+<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type="text"]</span><span class="selector-pseudo">:disabled</span>&#123;<span class="attribute">background</span>:<span class="number">#ddd</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>#九、CSS3中的结构性伪类<br>选择器 | 含义<br>—|—<br>E:root | 匹配文档的根元素，对于HTML文档，就是HTML元素<br>E:nth-child(n) | 匹配其父元素的第n（起始为1）个子元素<br>E:nth-last-child(n) | 匹配其父元素的倒数第n（起始为1）个子元素<br>E：nth-of-type(n) | 与nth—child作用类似，但是仅匹配使用同种标签的元素<br>E:nth-last-of-type(n) | 与nth-last-child作用类似，但是仅匹配使用同种标签的元素<br>E:last-child | 匹配父元素的最后一个子元素，等同于nth-last-child(1)<br>E:first-of-type | 匹配父元素下使用同种标签的第一个子元素，等同于nth-of-type(1)<br>E:last-of-type | 匹配父元素下使用同种标签的最后一个子元素，等同于nth-last-of-type(1)<br>E:only-child | 匹配父元素下仅有的一个子元素，等同于:first-child:last-child 或 :nth-child(1):nth-last-child(1)<br>E:only-of-type | 匹配父元素下使用同种标签的为一个一个子元素，等同于:first-of-type:last-of-type 或 :nth-of-type(1):nth-last-of-type(1)<br>E:empty | 匹配一个不包含任何子元素的元素，ps：文本节点也被看做子元素<br><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"></div><div class="line"><span class="comment">/*匹配p元素下的奇数位子元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(odd)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;  </div><div class="line">  </div><div class="line"><span class="comment">/*匹配p元素下的偶数数位子元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(even)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"></div><div class="line"><span class="comment">/*这种用法要了解,灵活匹配中间的元素*/</span></div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(3n+3)</span>&#123;<span class="attribute">background</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>#十、CSS3的反选伪类<br>选择器 | 含义<br>—|—<br>E:not(s) |　匹配不符合当前选择器的任何元素<br><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*匹配所有不包含class1的元素*/</span></div><div class="line"><span class="selector-pseudo">:not(.class1)</span></div><div class="line"></div><div class="line"><span class="comment">/*匹配所有含有子元素的p元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:not(</span><span class="selector-pseudo">:empty)</span></div></pre></td></tr></table></figure></p>
+<p>#十一、CSS3中的target伪类<br>选择器 | 含义<br>—|—<br>E:target |　　匹配文档中特定”id”点击后的效果</p>
+<p>更多信息请参照<a href="http://www.w3school.com.cn/css/css_pseudo_classes.asp" target="_blank" rel="external">W3C</a>进行阅读,关于伪类的知识点就介绍到这里了！</p>
+<hr>
+<p>##选择器优先级<br>页面中我们可能对一个元素应用了多个样式，那它到底会应用那个样式呢，这涉及到了优先级，下面就补充下关于选择器的优先级问题。</p>
+<p>选择器的特殊性分为<strong>4个权重值</strong>，<strong>a b c d</strong>，值分别为1000,100,10,1,从左到右，越左边的越优先。</p>
+<ul>
+<li>HTML内样式，那么特殊性最优先，权重为1000</li>
+<li>id选择器的特殊性是b，权重为100</li>
+<li>类选择器、伪类选择器、属性选择器为c，权重为10</li>
+<li>标签选择器、伪元素选择器为d，权重为1</li>
+</ul>
+<p>ps:</p>
+<ul>
+<li>比较的过程就是将权重相加，大者优先级高</li>
+<li>结果相同的情况下，后定义的样式会覆盖前面的</li>
+<li>样式中含有！important，则该样式或者该属性优先级最高，无视其他样式，即使是<strong>内联样式</strong>。</li>
+</ul>
+<p>###!important特殊性<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#id</span> &#123; <span class="attribute">color</span>: red &#125;   </div><div class="line"><span class="selector-class">.class</span> &#123; <span class="attribute">color</span>: yellow <span class="meta">!important</span> &#125;</div></pre></td></tr></table></figure></p>
+<p>第二个样式优先于第一个样式，即使id选择器优先级高于类选择器<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-tag">div</span> &#123;   </div><div class="line">  <span class="attribute">color</span>: yellow <span class="meta">!important</span>;     </div><div class="line">  <span class="attribute">color</span>: red;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种情况带!important的属性优先级高，但是在IE6这样会显示为红色，是因为IE6的一点小bug，通过书写格式可以避免，可以参考<a href="http://www.cnblogs.com/yudy/archive/2013/05/27/3102825.html" target="_blank" rel="external">这篇博文</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/" rel="next" title="纵向自动填充及监听滚轮事件的兼容性问题">
+                <i class="fa fa-chevron-left"></i> 纵向自动填充及监听滚轮事件的兼容性问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/03/boxSizing/" rel="prev" title="CSS属性之box-sizing">
+                CSS属性之box-sizing <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
+               alt="Liby" />
+          <p class="site-author-name" itemprop="name">Liby</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
