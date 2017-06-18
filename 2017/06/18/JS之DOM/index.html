@@ -1,0 +1,847 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="DOMDOM是文档对象模型（Document Object Model）,它是为文文档结构更改和查询提供的一系列API。通过这些API，我们可以对页面进行添加、移动或者更改节点，从而对调整页面结构。1998年，W3C发布了第一级的DOM规范。为基本的文档结构及查询提供了接口。
+到目前为止，DOM被分为不同的部分（核心、XML、HTML）和级别（Level 1/2/3）
+
+Core DOM  定义了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Liby">
+<meta property="og:url" content="http://yoursite.com/2017/06/18/JS之DOM/index.html">
+<meta property="og:site_name" content="Liby">
+<meta property="og:description" content="DOMDOM是文档对象模型（Document Object Model）,它是为文文档结构更改和查询提供的一系列API。通过这些API，我们可以对页面进行添加、移动或者更改节点，从而对调整页面结构。1998年，W3C发布了第一级的DOM规范。为基本的文档结构及查询提供了接口。
+到目前为止，DOM被分为不同的部分（核心、XML、HTML）和级别（Level 1/2/3）
+
+Core DOM  定义了">
+<meta property="og:updated_time" content="2017-06-18T09:40:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Liby">
+<meta name="twitter:description" content="DOMDOM是文档对象模型（Document Object Model）,它是为文文档结构更改和查询提供的一系列API。通过这些API，我们可以对页面进行添加、移动或者更改节点，从而对调整页面结构。1998年，W3C发布了第一级的DOM规范。为基本的文档结构及查询提供了接口。
+到目前为止，DOM被分为不同的部分（核心、XML、HTML）和级别（Level 1/2/3）
+
+Core DOM  定义了">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/18/JS之DOM/"/>
+
+
+
+
+
+  <title>  | Liby </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liby</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/JS之DOM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-18T17:42:03+08:00">
+                2017-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>DOM是文档对象模型（Document Object Model）,它是为文文档结构更改和查询提供的一系列API。通过这些API，我们可以对页面进行添加、移动或者更改节点，从而对调整页面结构。1998年，W3C发布了第一级的DOM规范。为基本的文档结构及查询提供了接口。</p>
+<p>到目前为止，DOM被分为不同的部分（核心、XML、HTML）和级别（Level 1/2/3）</p>
+<ul>
+<li>Core DOM<br>  定义了一套标准的针对任何结构化文档的对象</li>
+<li>XML Dom<br>  定义了一套标准的针对XML文档的对象</li>
+<li>HTML DOM<br>  定义了一套标准的针对HTML文档的对象</li>
+</ul>
+<p>IE中Dom对象都是以CDom的形式实现的，所以和其他浏览器的实现会有一些差异。</p>
+<h2 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h2><p>Dom会将结构性文档描绘成一个由节点形成的文档树。其中，节点又分为多种类型，每种类型代表文档中不同的信息。不同的节点之间的关系行了层次结构，由根节点向下延伸，形成了一棵完整的文档树。</p>
+<p>每个文档都有一个根节点，为文档节点（document）。在文档节点之下，一般都会有<hmtl>元素充当文档元素，文档中的所有内容都包含在内。</hmtl></p>
+<h2 id="节点类型"><a href="#节点类型" class="headerlink" title="节点类型"></a>节点类型</h2><p>DOM1级定义了一个Node接口，在js中作为Node类型实现，而且js中的所有节点类型都继承至Node类型。</p>
+<p>常见的节点类型(及代表等级)有：</p>
+<ul>
+<li>元素节点（ELEMENT_NODE 1）</li>
+<li>属性节点（ATTRIBUTE_NODE 2）</li>
+<li>文本节点(TEXT_NODE 3)</li>
+<li>注释节点(COMMENT_NODE 8)</li>
+<li>文档类型（DOCUMENT_NODE 9）</li>
+</ul>
+<p>判断某节点的节点类型：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(someNode.nodeType == <span class="number">1</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span> node is a element);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>除了nodeType，还可以通过nodeName和nodeValue获得节点信息。</p>
+<ul>
+<li>对于元素节点，nodeName就是标签名，nodeValue就是null</li>
+<li>对于文本节点，nodeName是“#text”，nodeValue是文本字符串</li>
+</ul>
+<h2 id="节点关系"><a href="#节点关系" class="headerlink" title="节点关系"></a>节点关系</h2><p>每个节点都有一个childNodes属性，它的值是一个类数组对象NodeList，里面保存了此节点的所有直接子元素。</p>
+<p>这个对象也有length属性，但它并不是Array的实例。且它是在Dom结构上动态查询的结果，并不是一直不变的。</p>
+<p>访问这个类数组可以用数组的方括号或者item方法。</p>
+<p>每个节点拥有访问其他节点的几个属性：</p>
+<ul>
+<li>parentNode：指向父节点</li>
+<li>firstNode：指向childNodes列表中第一个子元素</li>
+<li>lastNode：指向childNodes列表中最后一个子元素</li>
+<li>previousSibling：指向前一个同胞（同级）元素</li>
+<li>nextSibling：指向后一个同胞元素</li>
+<li>ownerDocument：指向文档节点，即document</li>
+</ul>
+<p>通过hasChildNodes（）方法可以直接知道元素是否有子元素</p>
+<h2 id="操作节点"><a href="#操作节点" class="headerlink" title="操作节点"></a>操作节点</h2><p>操作子节点的常用方法：</p>
+<ul>
+<li>appendchild（）：在节点的childNodes列表末尾插入一个节点，如果该节点已经存在，就会将该节点从原位置移至新位置</li>
+<li>insertBefore（）：把节点插入到指定位置，接收两个参数，<strong>要插入的节点</strong>及<strong>作为参照的节点</strong>，被插入的节点最后会置于同胞参照节点的前面。</li>
+<li>replaceChild（）：替换子节点，接收两个参数，<strong>要插入的节点</strong>和<strong>要替换的节点</strong>，并返回被替换的节点</li>
+<li>removeChild（）：移除子节点，将要移除的子节点作为参数，并作为返回值返回。</li>
+</ul>
+<h2 id="Document类型"><a href="#Document类型" class="headerlink" title="Document类型"></a>Document类型</h2><p>Document类型有一个实例–documnet，它也作为全局对象被挂在window对象上。</p>
+<p>document对象作为我们常用的一个对象，弄清楚它的方法属性是非常有必要的：</p>
+<ul>
+<li>childNodes：既然document也是一个节点，那么他也有所有节点共有的属性</li>
+<li>documentElement：指向文档中的html元素</li>
+<li>body：指向文档中的body元素</li>
+<li>doctype：取得对&lt;!Doctype&gt;的引用</li>
+<li>title：文档标题</li>
+<li>url：获取完整的url</li>
+<li>domain：取得域名（只能设置url中包含的域）</li>
+<li>referrer：取得来源页面的url</li>
+</ul>
+<p>要注意domain，比如在页面中引入了一个框架且页面的域和此框架的域并不相同，那么这时他们是不能通信的，我们可以通过设置domai为相同域来实现通信。设置domain属性只支持从紧绷（mail.qq.com）到松散(qq.com)，不支持重新设置为从松散都紧绷。</p>
+<h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p>下面是我们常见的集中获得元素索引的方法：</p>
+<ul>
+<li>getElementById（）：传入要获取元素的id</li>
+<li><p>getElementsByTagName()：传入要获取元素的标签名，返回包含零或多个元素的NodesList</p>
+<ul>
+<li>getElementsByTagName(*)会返回页面所有元素的集合，但在IE中会返回所有注释节点，因为它将注释实现为元素</li>
+</ul>
+</li>
+<li><p>getElementByName（）：HTMLDocument特有的方法，返回带有name特性的包含所有元素的HTMLCollection，可以通过namedItem（）方法（可以在nodesList中获取特定name的项）来获取第一项</p>
+</li>
+</ul>
+<h3 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h3><p>元素类型（NodeType为1）算是我们最常用到的类型之一了，它提供了我们访问标签名、子节点及其他他行的途径。</p>
+<p>它有以下特征：</p>
+<ul>
+<li>nodeType为1</li>
+<li>nodeName为标签名，也可用tagName获得</li>
+<li>nodeValue为null</li>
+<li>子节点可能是<strong>Element、Text、Comment</strong>等</li>
+</ul>
+<blockquote>
+<p>HTMLElement类型直接继承与Element类型，我们的所有HTML元素都是HTMLElemnt或者它的子类的实例，这些元素都有一些<strong>共有的属性</strong>：</p>
+</blockquote>
+<ul>
+<li>id 唯一标识符</li>
+<li>title 元素的附加说明，鼠标获取焦点会显示</li>
+<li>className 类名</li>
+</ul>
+<h4 id="获取及设置Attribute"><a href="#获取及设置Attribute" class="headerlink" title="获取及设置Attribute"></a>获取及设置Attribute</h4><p>操作特性主要有三个：</p>
+<ul>
+<li>getAttribute：获取指定特性的value</li>
+<li>setAttribute：传入设置的特性名及新设置的value</li>
+<li>removeAttribute：传入要移除的特性名</li>
+</ul>
+<p>这些方法其实是在操作一个动态的<strong>NamedNodeMap</strong>，通过元素的Element.attributes我们可以访问它，我们可以通过操作attributes下的<strong>getNamedItem、setNamedItem</strong>等方法来实现统一的目的，只不过不是很方便就是了。<br>一般尽量少用这些方法，而是通过元素的属性直接去获取或者设置特性。</p>
+<h4 id="创建元素"><a href="#创建元素" class="headerlink" title="创建元素"></a>创建元素</h4><p>通过document.createElement(tagName)方法我们可以创建一个元素，这时元素尚未添加到文档树中，我们通过appendchild（）、insertBefore（）、replaceChild（）来进行插入。</p>
+<p>IE下可以直接传入html字符串，如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.createElement（“&lt;div  id=\<span class="string">"nav\"&gt;content&lt;/div&gt;”）</span></div></pre></td></tr></table></figure></p>
+<h3 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h3><p>文本节点可以包含转义后的HTML字符，但不能包含HTML代码，文本节点会作为父元素的第一个子元素，所以通过Element.childNodes[0]就可访问。</p>
+<p>它有以下特征：</p>
+<ul>
+<li>nodeType为3</li>
+<li>nodeName为#text，也可用tagName获得</li>
+<li>nodeValue为文本</li>
+<li>父节点是Element，不支持子节点</li>
+</ul>
+<p>操作文本的方法：</p>
+<ul>
+<li>append（）：添加文本到末尾</li>
+<li>deleteData（）：传入offset（指定的位置），从这里开始删除count个字符</li>
+<li>insertData（）：在offset出入文本</li>
+<li>replace（）</li>
+<li>splitText（）</li>
+</ul>
+<p>创建文本节点的方法：</p>
+<pre><code>document.createTextNode():传入文本内容，最后也需要插入到文档中才能生效
+</code></pre><blockquote>
+<p>下一篇博客会介绍DOM的一些扩展和DOM2及DOM3的一些新增知识点。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/17/js之BOM/" rel="next" title="JS之DOM">
+                <i class="fa fa-chevron-left"></i> JS之DOM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
+               alt="Liby" />
+          <p class="site-author-name" itemprop="name">Liby</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM"><span class="nav-number">1.</span> <span class="nav-text">DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点层次"><span class="nav-number">1.1.</span> <span class="nav-text">节点层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点类型"><span class="nav-number">1.2.</span> <span class="nav-text">节点类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点关系"><span class="nav-number">1.3.</span> <span class="nav-text">节点关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作节点"><span class="nav-number">1.4.</span> <span class="nav-text">操作节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Document类型"><span class="nav-number">1.5.</span> <span class="nav-text">Document类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找元素"><span class="nav-number">1.5.1.</span> <span class="nav-text">查找元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Element类型"><span class="nav-number">1.5.2.</span> <span class="nav-text">Element类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取及设置Attribute"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">获取及设置Attribute</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建元素"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">创建元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Text类型"><span class="nav-number">1.5.3.</span> <span class="nav-text">Text类型</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
