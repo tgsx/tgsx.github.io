@@ -413,7 +413,7 @@
 <li><p>getElementByName（）：HTMLDocument特有的方法，返回带有name特性的包含所有元素的HTMLCollection，可以通过namedItem（）方法（可以在nodesList中获取特定name的项）来获取第一项</p>
 </li>
 </ul>
-<h3 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h3><p>元素类型（NodeType为1）算是我们最常用到的类型之一了，它提供了我们访问标签名、子节点及其他他行的途径。</p>
+<h2 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h2><p>元素类型（NodeType为1）算是我们最常用到的类型之一了，它提供了我们访问标签名、子节点及其他他行的途径。</p>
 <p>它有以下特征：</p>
 <ul>
 <li>nodeType为1</li>
@@ -429,16 +429,16 @@
 <li>title 元素的附加说明，鼠标获取焦点会显示</li>
 <li>className 类名</li>
 </ul>
-<h4 id="获取及设置Attribute"><a href="#获取及设置Attribute" class="headerlink" title="获取及设置Attribute"></a>获取及设置Attribute</h4><p>操作特性主要有三个：</p>
+<h3 id="获取及设置Attribute"><a href="#获取及设置Attribute" class="headerlink" title="获取及设置Attribute"></a>获取及设置Attribute</h3><p>操作特性主要有三个：</p>
 <ul>
 <li>getAttribute：获取指定特性的value</li>
 <li>setAttribute：传入设置的特性名及新设置的value</li>
 <li>removeAttribute：传入要移除的特性名</li>
 </ul>
 <p>这些方法其实是在操作一个动态的<strong>NamedNodeMap</strong>，通过元素的Element.attributes我们可以访问它，我们可以通过操作attributes下的<strong>getNamedItem、setNamedItem</strong>等方法来实现统一的目的，只不过不是很方便就是了。<br>一般尽量少用这些方法，而是通过元素的属性直接去获取或者设置特性。</p>
-<h4 id="创建元素"><a href="#创建元素" class="headerlink" title="创建元素"></a>创建元素</h4><p>通过document.createElement(tagName)方法我们可以创建一个元素，这时元素尚未添加到文档树中，我们通过appendchild（）、insertBefore（）、replaceChild（）来进行插入。</p>
+<h3 id="创建元素"><a href="#创建元素" class="headerlink" title="创建元素"></a>创建元素</h3><p>通过document.createElement(tagName)方法我们可以创建一个元素，这时元素尚未添加到文档树中，我们通过appendchild（）、insertBefore（）、replaceChild（）来进行插入。</p>
 <p>IE下可以直接传入html字符串，如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.createElement（“&lt;div  id=\<span class="string">"nav\"&gt;content&lt;/div&gt;”）</span></div></pre></td></tr></table></figure></p>
-<h3 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h3><p>文本节点可以包含转义后的HTML字符，但不能包含HTML代码，文本节点会作为父元素的第一个子元素，所以通过Element.childNodes[0]就可访问。</p>
+<h2 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h2><p>文本节点可以包含转义后的HTML字符，但不能包含HTML代码，文本节点会作为父元素的第一个子元素，所以通过Element.childNodes[0]就可访问。</p>
 <p>它有以下特征：</p>
 <ul>
 <li>nodeType为3</li>
