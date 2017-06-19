@@ -267,6 +267,278 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/js之鼠标和键盘事件一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/19/js之鼠标和键盘事件一/" itemprop="url">
+                  JS之事件（一）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T22:21:16+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>事件，像click，load，mouseover都是用户或者浏览器执行的某种动作,都会触发某些事件。在触发事件的时候，我们需要有一个事件监听函数（事件处理程序）来响应事件。事件监听函数的名字都是<strong>“on”</strong>+<strong>事件名</strong>组成的，像click的事件监听函数就是onclick。</p>
+<h2 id="HTML事件监听程序"><a href="#HTML事件监听程序" class="headerlink" title="HTML事件监听程序"></a>HTML事件监听程序</h2><p>对于元素支持的每种事件，都可以在元素中指定一个与事件监听函数同名的特性。特性的值是要执行的js代码，比如下面的例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"clicked me"</span> <span class="attr">onclick</span>=<span class="string">"console.log('clicked')"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>如果函数体内容多的话，需要把js代码放到javascript标签内，如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showMessage</span>（）</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log（‘clicked’）；</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"clicked me"</span> <span class="attr">onclick</span>=<span class="string">"showMessage（）"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>但是这样指定事件监听函数让得HTML与Javascript紧密耦合，如果需要更换事件监听函数，那么HTML和javascripot代码都需要修改，所以为什么不干脆全部使用js来绑定和声明事件监听函数呢！</p>
+<h2 id="js事件监听程序"><a href="#js事件监听程序" class="headerlink" title="js事件监听程序"></a>js事件监听程序</h2><h3 id="DOM0级事件处理程序"><a href="#DOM0级事件处理程序" class="headerlink" title="DOM0级事件处理程序"></a>DOM0级事件处理程序</h3><p>每个元素都有自己的事件处理程序属性，通常事件名都为小写，如：onclick，onmouseover，在绑定处理函数时需要先获得元素的引用，直接看一个简单的例子吧：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> btn = doucment.getElementById(<span class="string">'button1'</span>);</div><div class="line"></div><div class="line">btn.onclick  = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.id);<span class="comment">//button1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>程序中的this指向的是当前元素，即btn，通过点取的方式，我们可以访问元素的任何属性和方法。</p>
+</blockquote>
+<h3 id="DOM2级事件处理程序"><a href="#DOM2级事件处理程序" class="headerlink" title="DOM2级事件处理程序"></a>DOM2级事件处理程序</h3><p>“DOM2级事件”定义了两个用于绑定事件和移除事件的方法：addEventListener（）和removeEevntListener（），这两个方法在之前冒泡和捕获那一节已经介绍过了，就不过多说明了。</p>
+<p>这两个方法都接收三个参数：</p>
+<ul>
+<li>事件名（不带on）</li>
+<li>事件处理函数</li>
+<li>是否捕获</li>
+</ul>
+<p>addEventListener（）的优势在于可以为同一元素绑定多个方法，执行顺序由绑定先后决定。</p>
+<blockquote>
+<p>在移除时传入的参数要与绑定时相同，这也意味着不能移除匿名函数</p>
+</blockquote>
+<h3 id="IE事件处理程序"><a href="#IE事件处理程序" class="headerlink" title="IE事件处理程序"></a>IE事件处理程序</h3><p>IE实现两个类似的方法：attachEvent（）和detachEvent（），之前同样也介绍过，下面就说一下特别的地方。</p>
+<p>这两个方法都接收两个参数：</p>
+<ul>
+<li>事件名</li>
+<li>事件处理函数</li>
+</ul>
+<blockquote>
+<p>DOM0级方法中事件处理程序会在元素的作用域内进行，而使用这两个方法时程序会在全局作用域中运行，因为this指向window。</p>
+</blockquote>
+<p>和addEventListener（）类似，attachEvent（）可以为元素绑定多个方法，不过是后绑定的先运行。</p>
+<h3 id="跨浏览器的事件处理程序"><a href="#跨浏览器的事件处理程序" class="headerlink" title="跨浏览器的事件处理程序"></a>跨浏览器的事件处理程序</h3><p>为了让我们的代码可以在所有浏览器正常运行，我们可以自己编写一个兼容所有浏览器的事件处理程序。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventUtil = &#123;</div><div class="line">    <span class="string">'addHandler'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">element,type,handler</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(element.addEventListener)&#123;</div><div class="line">            element.addEventListener(type,handler,<span class="literal">false</span>);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(element.attachEvent)&#123;</div><div class="line">            element.attachEvent(<span class="string">"on"</span>+type,handler);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            element[<span class="string">"on"</span>+type] = handler;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="string">'removeHandler'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">element,type,handler</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(element.removeEventListener)&#123;</div><div class="line">            element.removeEventListener(type,handler,<span class="literal">false</span>);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(element.detachEvent)&#123;</div><div class="line">            element.detachEvent(<span class="string">"on"</span>+type,handler);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            element[<span class="string">"on"</span>+type] = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>这算一个比较重要的点了，我们触发某个事件时，会产生一个事件对象event，其中包含着所有与时间有关的信息，如事件的类型，事件的目标（事件委托应用到），以及与特定事件相关的信息。例如，鼠标事件中，有包含鼠标位置的信息，键盘事件中则包含于按键相关的信息。浏览器虽然都支持event对象，但支持方式不尽相同。</p>
+<h3 id="DOM中的事件对象"><a href="#DOM中的事件对象" class="headerlink" title="DOM中的事件对象"></a>DOM中的事件对象</h3><p>当触发了事件时，兼容DOM的浏览器都自动会给我们的事件处理程序传入一个event对象，我们要做的只是在声明监听函数的时候加上一个event参数以便浏览器传入就ok了，如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line">btn.addEventListener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面列举type的属性及方法：</p>
+<ul>
+<li>type：事件类型</li>
+<li>bubbles：表明事件是否可以冒泡</li>
+<li>cancelable：表明是否可以阻止默认事件</li>
+<li>currentTarget：事件处理程序当前正在处理的元素，通常用target较多</li>
+<li>preventDefault（）：取消事件的默认行为，需要cancelable属性为True方可用，可用来定制自己的处理行为</li>
+<li>stopPropagation（）：取消事件的进一步捕获或者冒泡，需要bubbles为True方可用</li>
+<li>target：事件的真正目标</li>
+<li>eventPhase：确定事件当前正处于事件流的哪个阶段，1代表处于捕获阶段，2代表处于目标对象上，3代表处于冒泡阶段</li>
+</ul>
+<blockquote>
+<p>在事件处理程序内部，this始终等于currentTarget的值，如果不使用事件委托，那么this，currentTarget，target的值相同.</p>
+</blockquote>
+<h3 id="IE中的事件对象"><a href="#IE中的事件对象" class="headerlink" title="IE中的事件对象"></a>IE中的事件对象</h3><p>访问IE中的event的方式有几种，取决于绑定监听函数的方式。</p>
+<p>如果是使用DOM0级方法添加的事件监听函数，那么event对象会作为window对象的一个属性存在。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"button1"</span>);</div><div class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> event = <span class="built_in">window</span>.event;</div><div class="line">    <span class="built_in">console</span>.log(event.type);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果通过attachEevent方法来绑定监听函数，那么event对象会自动传入我们我们的事件处理函数中。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"button1"</span>);</div><div class="line">btn.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(event.type);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>同样，IE下的event对象也有一些属性和方法，大多都与DOM下的event属性方法对应：</p>
+<ul>
+<li>cancelBubble：取消冒泡，默认为false，与stopPropagation（）对应</li>
+<li>returnValue：默认为true，置为false可阻止默认事件，与preventDefault（）对应</li>
+<li>srcElement：与Dom中的target属性对应</li>
+<li>type：同DOM下的type</li>
+</ul>
+<blockquote>
+<p>IE中事件处理程序中的this会随绑定方式的不同而变化，所以最好使用srcElement比较稳妥。</p>
+</blockquote>
+<h3 id="跨浏览器的事件对象"><a href="#跨浏览器的事件对象" class="headerlink" title="跨浏览器的事件对象"></a>跨浏览器的事件对象</h3><p>下面来实现事件对象的兼容写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> eventUtil = &#123;</div><div class="line">    getEvent：<span class="function"><span class="keyword">function</span>（<span class="title">event</span>）</span>&#123;</div><div class="line">        <span class="keyword">return</span> event?event:<span class="built_in">window</span>.event;</div><div class="line">    &#125;</div><div class="line">    getTarget:<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> event.target || event.srcElement;</div><div class="line">    &#125;</div><div class="line">    preDefault:<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(event.preventDefault)&#123;</div><div class="line">            event.preventDefault();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            event.returnValue = <span class="literal">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    stopPropagation:<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(event.stopPropagation)&#123;</div><div class="line">            event.stopPropagation();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            event.cancelBubble = <span class="literal">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h2><p>介绍完基本的事件监听函数和事件对象，接下来就应该介绍种类繁多的事件类型及应用了。</p>
+<p>DOM3级事件规定了一下事件：</p>
+<ul>
+<li>UI（user Interface）事件，用户与元素交互时触发</li>
+<li>焦点事件，元素获取或失去焦点时触发</li>
+<li>鼠标事件，通过鼠标执行操作时触发</li>
+<li>滚轮事件，使用滚轮时触发</li>
+<li>文本事件，在文档中输入文本时触发</li>
+<li>键盘事件，在键盘上执行操作触发</li>
+<li>合成事件，在IME（输入法编辑器）输入字符触发</li>
+<li>变动事件，底层DOM结构发生变化时触发</li>
+</ul>
+<p>包括IE9在内的主流浏览器斗殴支持DOM2级事件，IE9也支持DOM3事件</p>
+<h3 id="UI事件"><a href="#UI事件" class="headerlink" title="UI事件"></a>UI事件</h3><p>UI事件指的并不一定是与用户操作有关的事件，较常用的有：</p>
+<ul>
+<li>load：页面完全加载后在window上触发，当所有框架加载完在框架集上触发，当图像加载完毕是在img元素上触发</li>
+<li>unload：与上面类似，只不过是在写在的时候触发</li>
+<li>select：用户选择文本框中的字符时触发。</li>
+<li>resize：当窗口或框架大小发生改变时触发</li>
+<li>scroll：用户滚动带滚动条的元素中的内容时触发</li>
+</ul>
+<p>这些事件都可以用HTML事件处理程序的方式实现。</p>
+<blockquote>
+<p>根据DOM级事件规范，我们应该在document上处理load事件，但实际上所有浏览器在window上都实现了该事件，确保向后兼容。</p>
+</blockquote>
+<h3 id="焦点事件"><a href="#焦点事件" class="headerlink" title="焦点事件"></a>焦点事件</h3><p>焦点事件与document.hasFocus（）及document.activeElement属性配合，可以知道用户在页面上的行踪。</p>
+<p>焦点事件有以下这些：</p>
+<ul>
+<li>blur：元素失去焦点时触发，不会冒泡</li>
+<li>focus：元素获取焦点是触发，不会冒泡</li>
+<li>focusin：元素获取焦点时触发，冒泡，除了FF外基本都支持（DOM3）</li>
+<li>focusout：元素失去焦点触发，冒泡，除了FF外基本都支持（DOM3）</li>
+<li>DOMFocusOut：只有Opera支持，与focusout等价</li>
+<li>DOMFocusIn：只有Opera支持，与focusin等价</li>
+</ul>
+<p>在页面中当焦点从一个元素移到另一个焦点上时，事件的触发顺序是这样的：</p>
+<ol><br><li>focusout在失去焦点的元素上触发</li><br><li>focusin在获得焦点的元素上触发</li><br><li>blur在失去焦点的元素上触发</li><br><li>DOMFocusOut在失去焦点的元素上触发</li><br><li>focus在获得焦点的元素上触发</li><br><li>DOMFoucusIn在获得焦点的元素上触发</li><br></ol>
+
+<p>要确定浏览器是否支持dom3的焦点事件，可以用以下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> isSupported = <span class="built_in">document</span>.implementation.hasFeature(<span class="string">"focusEvent"</span>,<span class="string">"3.0"</span>);</div></pre></td></tr></table></figure>
+<h3 id="鼠标和滚轮事件"><a href="#鼠标和滚轮事件" class="headerlink" title="鼠标和滚轮事件"></a>鼠标和滚轮事件</h3><p>网页中用户大多的操作行为都是通过鼠标来实现的，DOM3级中实现了9个鼠标事件：</p>
+<ul>
+<li>click：用户单击鼠标左键和enter键时触发</li>
+<li>dblclick：用户双击鼠标左键时触发，DOM3将它纳入了标准</li>
+<li>mousedown:用户按下鼠标按钮还没放开时触发</li>
+<li>mouseup：用户释放鼠标按钮时触发</li>
+<li>mouseenter：鼠标光标首次移进目标元素内触发，此事件不冒泡，移进后代元素不会触发，DOM3将它纳入了标准</li>
+<li>mouseoutleave：鼠标光标移到元素范围之外时触发，事件不冒泡，移进后代元素不会触发，DOM3将它纳入了标准</li>
+<li>onmouseover：鼠标光标首次移进目标元素内触发，移进后代会触发</li>
+<li>onmouseover：鼠标光标移出目标元素内触发，移进后代会触发</li>
+</ul>
+<blockquote>
+<p>总结：除mouseenter和mouseleave外，其他函数都会冒泡，也可以被取消默认行为。只有相继触发mousedown和onmouseup才会触发click事件。连续两次触发click才会引发dblclick事件。</p>
+</blockquote>
+<p>这四个事件触发的先后顺序如下：</p>
+<ol><br>    <li>mousedown</li><br>    <li>mouseup</li><br>    <li>click</li><br>    <li>mousedown</li><br>    <li>mouseup</li><br>    <li>click</li><br>    <li>dblclick</li><br><br></ol>
+
+<p>要确定浏览器是否支持DOM3和DOM3的鼠标事件，可以用以下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> isSupported2 = <span class="built_in">document</span>.implementation.hasFeature(<span class="string">"MouseEvents"</span>,<span class="string">"2.0"</span>);</div><div class="line"><span class="keyword">var</span> isSupported3 = <span class="built_in">document</span>.implementation.hasFeature(<span class="string">"MouseEvent"</span>,<span class="string">"2.0"</span>);</div></pre></td></tr></table></figure>
+<h4 id="滚轮事件"><a href="#滚轮事件" class="headerlink" title="滚轮事件"></a>滚轮事件</h4><p>鼠标能触发的还有一个滚轮事件，mousewheel，其实之前的博客中已经做了详细的介绍了。</p>
+<p>鼠标事件中事件对象具有以下属性：</p>
+<ul>
+<li>clientX：事件发生时鼠标在视口中的水平坐标</li>
+<li>clientY：事件发生时鼠标在视口中的垂直坐标</li>
+<li>pageX：事件发生时鼠标在页面中的水平坐标（包含了滚动的距离）</li>
+<li><p>pageY：事件发生时鼠标在页面中的垂直坐标（包含了滚动的距离）</p>
+<p>  以pageY为例，使用clientY和滚动信息就可以计算出pageY，这里我们需要通过document.body(混杂模式)和document.documentElement(标准模式)中的scrollLeft和scrollTop。</p>
+<p>  pageY = event.clientY + document.body.scrollTop || document.documentElement.scrollTop</p>
+</li>
+<li>screenX:事件发生时鼠标距离屏幕左边的距离</li>
+<li>screenY：事件发生时鼠标距离屏幕上方的距离</li>
+<li><p>修改键：</p>
+<ul>
+<li>有时我们会结合键盘和鼠标来修改鼠标事件，这时就要使用类似Shift、Ctrl、Alt和Meta之类的修改键了，有4个表示这些修改键状态的属性：<ul>
+<li>shiftKey</li>
+<li>ctrlKey</li>
+<li>altKey</li>
+<li>metaKey</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>mousewheel事件触发后，会冒泡到document或者window，此外，该事件对应的事件对象中有一个wheelDelta属性，当滑轮<strong>向上滚</strong>是，该属性值是<strong>120的倍数</strong>；<strong>向下滚时</strong>，该属性值是<strong>-120的倍数</strong>.<br>FF（fireFox）还支持一个DOMMouseScroll事件，与mousewheel类似，只不过该事件的信息存放在event.detail(<strong>Opera也是</strong>)中，属性值为-3的倍数时，为滑轮向前滚；为3的倍数时，为滑轮向后滚。</p>
+</blockquote>
+<p>为避免篇幅过长，其它事件在下一篇博客进行介绍。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/JS之DOM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1230,155 +1502,6 @@ func:用于监听的函数
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
-                  CSS属性之box-sizing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
-<blockquote>
-<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
-</blockquote>
-<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
-<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
-<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
-<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
-<blockquote>
-<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
-<p><strong>box model</strong></p>
-<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
-
-<blockquote>
-<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
-<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/css选择器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1976,6 +2099,155 @@ func:用于监听的函数
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
+                  CSS属性之box-sizing
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
+<blockquote>
+<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
+</blockquote>
+<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
+<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
+<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
+<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
+<blockquote>
+<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
+<p><strong>box model</strong></p>
+<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
+
+<blockquote>
+<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
+<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2118,151 +2390,6 @@ func:用于监听的函数
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/三栏布局之中间栏自适应宽度的几种方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/10/三栏布局之中间栏自适应宽度的几种方法/" itemprop="url">
-                  两栏布局之右边栏自适应宽度的几种方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T01:44:09+08:00">
-                2017-04-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>  现如今网站层出不穷，对响应式的要求也越来越高，大多数网站都是基于两栏或者三栏布局，那么我们是如何实现左边栏固定宽度而右边栏自适应的呢？又是如何做到左右两边固定宽度，中间自适应的呢（下一篇博客解决这个问题）？</p>
-<p>   下面就让我们共同来解决这些questions。</p>
-<p>   HTML代码如下：<br>    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">'en'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>两栏自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h2><p>让左边的内容<em>脱离文档流</em>,右边栏设置<em>margin-left</em>来实现视觉上的左右分栏:</p>
-<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">   <span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.lef</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>:</div><div class="line">	background:red;</div><div class="line">	<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">	&#125;</div><div class="line"><span class="selector-class">.right</span>&#123;</div><div class="line">	<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">background</span>:green;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-</code></pre><h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.left</span>&#123;</div><div class="line">  		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">80%</span>:</div><div class="line">		background:red;</div><div class="line">		<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">&#125;</div><div class="line">   <span class="selector-class">.right</span>&#123;                                                                                </div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">		<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">background</span>:green;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</code></pre><p>上面代码会造成类似文字环绕效果，实际是float元素覆盖在了右边元素上面。<br>这里我们利用BFC(格式化上下文)来实现功能,这里小小科普一下BFC.</p>
-<blockquote>
-<p>BFC:BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。    </p>
-</blockquote>
-<p>会生成BFC的元素:</p>
-<ul>
-<li>根元素</li>
-<li>float属性不为none                                    </li>
-<li>position为absolute或fixed                                                                                                </li>
-<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
-<li>overflow不为visible</li>
-</ul>
-<p>一般情况下，div和浮动元素做兄弟元素时，是覆盖的关系(呈现类似文字环绕效果).BFC特性很多，而我们这里，只关心一个，和float元素做相邻兄弟时候的表现.</p>
-<blockquote>
-<p>规则:BFC的区域不会与float box重叠。</p>
-</blockquote>
-<p>了解规则后,我们可以通过生成BFC来实现自适应的分栏</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span>&#123;<span class="attribute">overflow</span>:hidden;&#125;</div></pre></td></tr></table></figure>
-<p>这样我们就解决的重叠覆盖的问题，至此，两种解决两栏自适应布局的方法也介绍完了，敬请期待下一篇解决三栏布局的博客！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2312,7 +2439,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
