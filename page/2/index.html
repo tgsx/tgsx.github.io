@@ -267,6 +267,157 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/" itemprop="url">
+                  纵向自动填充及监听滚轮事件的兼容性问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-02T22:11:08+08:00">
+                2017-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="初始化文件reset-css"><a href="#初始化文件reset-css" class="headerlink" title="初始化文件reset.css"></a>初始化文件reset.css</h2><p>在开始进入正题之前先分享一段代码，对于新手的同学可以参考下！</p>
+<p>写过几个页面的同学都知道，标签元素如body，p等等浏览器默认都会赋予一些样式，而如a，buttom默认移动鼠标都不会出现小手的标记，在需要的时候一遍遍地添加显然是不合理的，也增加了冗余代码，我们可以在写其他css代码之前先引入下面的代码文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/*初始化  reset*/  </div><div class="line">body,button,dd,dl,dt,h1,h2,h3,h4,h5,h6,input,li,ol,p,td,ul&#123;margin:0;padding:0&#125;  </div><div class="line">body,button,input&#123;font:12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif&#125;  </div><div class="line">h1,h2,h3,h4,h5,h6,button,input&#123;font-size:100%&#125;  </div><div class="line">ol,ul&#123;list-style:none&#125;  </div><div class="line">a&#123;text-decoration:none&#125;  </div><div class="line">a:hover&#123;text-decoration:underline&#125;  </div><div class="line">fieldset,img&#123;border:0;vertical-align:top;&#125;  </div><div class="line">a,button&#123;cursor:pointer;&#125;  </div><div class="line">/*清除浮动*/  </div><div class="line">.clearfix:before,.clearfix:after &#123;  </div><div class="line">    content:"";  </div><div class="line">    display:table;  </div><div class="line">&#125;  </div><div class="line">.clearfix:after&#123;clear:both;&#125;  </div><div class="line">.clearfix&#123;  </div><div class="line">    *zoom:1;/*IE/7/6*/  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>引入上面代码之后，我们就可以开始愉快地书写我们的代码了！</p>
+</blockquote>
+<h2 id="纵向内容自动填充"><a href="#纵向内容自动填充" class="headerlink" title="纵向内容自动填充"></a>纵向内容自动填充</h2><p>之前有一篇博文讲的是三栏布局中间自适应的问题，现在讲纵向两栏内容自动填充的问题！</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/2-1.png" alt="2-1.png"></p>
+<p>纵向的自适应跟水平的略有不同，因为我们不能利用<strong>div标签的block特性（占据一行）</strong>了，而是利用<strong>头部元素绝对定位</strong>和<strong>内容元素的height：100%</strong>来实现，而且还需要借助js(窗口大小变化需要重新计算高度)。</p>
+<blockquote>
+<p>实际场景：这是我最近做一个小项目中的一个场景，头部固定高度，下面部分N屏，随滑轮滚动而切换，头部不变，不显示侧边栏。</p>
+</blockquote>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/2-2.png" alt="2-2.png"></p>
+<p>页面框架如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">    <span class="selector-id">#header</span>&#123;<span class="attribute">height</span>:<span class="number">130px</span>;<span class="attribute">position</span>:absolute;<span class="attribute">z-index</span>:<span class="number">100</span>;&#125;</div><div class="line">    <span class="selector-id">#content</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;<span class="attribute">padding-top</span>:<span class="number">130px</span>;<span class="attribute">overflow</span>:hidden;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"header"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">        这里是需要滚动的内容......</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>id为content的元素用了padding-top：130px，跟之前博文中的两栏布局类似，再用height：100%；达到视觉上的上下两栏，其实头部是覆盖在content之上的。</p>
+<blockquote>
+<p>但是，这样会造成一个问题，就是<strong>height+padding-top</strong>其实已经超出了窗口的大小，这时会出现滚动栏，那么如何让滚动栏消失呢？</p>
+</blockquote>
+<p>这里需要用到js（jq）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#content'</span>).css(&#123;<span class="string">"height"</span>:(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.clientHeight)<span class="number">-130</span>)+<span class="string">"px"</span>&#125;);</div></pre></td></tr></table></figure></p>
+<p>这样我们就能让侧边栏消失了，考虑到用户有时会缩放页面，所以最好把这句代码放到函数里面，并绑定到resize事件，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> resizes = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#content'</span>).css(&#123;<span class="string">"height"</span>:(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.clientHeight)<span class="number">-130</span>)+<span class="string">"px"</span>&#125;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//窗口变化时调用</span></div><div class="line">$(<span class="built_in">window</span>).resize = resizes;</div></pre></td></tr></table></figure></p>
+<h2 id="鼠标滚动的兼容性问题"><a href="#鼠标滚动的兼容性问题" class="headerlink" title="鼠标滚动的兼容性问题"></a>鼠标滚动的兼容性问题</h2><p>解决完布局的问题，接下来就是考虑如何解决鼠标滚动事件的兼容性问题了。<br>首先，不同的浏览器有不同的滚轮事件。主要是有两种，onmousewheel（firefox不支持）和DOMMouseScroll（只有firefox支持）。那么如何写一个可以兼容所有浏览器的监听函数呢？看下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">//判断浏览器类型</span></div><div class="line">   <span class="keyword">var</span> agent = navigator.userAgent;</div><div class="line">   <span class="comment">//firefox滚动函数</span></div><div class="line"><span class="keyword">var</span> DomScroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">				</div><div class="line">	<span class="comment">//event对象兼容获取</span></div><div class="line"></div><div class="line">	e = e || <span class="built_in">window</span>.event;</div><div class="line">	indexY = e.clientY;</div><div class="line">	wrapHeight = <span class="built_in">parseInt</span>(wrapper[<span class="number">0</span>].offsetHeight);</div><div class="line">       <span class="comment">//判断鼠标是否位于第二栏内</span></div><div class="line">	<span class="keyword">if</span> (indexY&gt;=wrapY)</div><div class="line">       &#123;	</div><div class="line">		<span class="comment">//获取滑动的方向</span></div><div class="line">		<span class="keyword">var</span> orient = e.detail</div><div class="line">					</div><div class="line">		<span class="keyword">if</span> (orient&gt;<span class="number">0</span>)</div><div class="line">		&#123;	</div><div class="line">			<span class="comment">//下滚</span></div><div class="line">			initial++;</div><div class="line">			<span class="keyword">if</span>(initial&gt;<span class="number">6</span>)&#123;</div><div class="line">				initial = <span class="number">6</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//上滚</span></div><div class="line">			initial--;</div><div class="line">			<span class="keyword">if</span>(initial&lt;<span class="number">0</span>)&#123;</div><div class="line">				initial = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		animation(initial);</div><div class="line">		</div><div class="line">		<span class="comment">//滚动一次后2s内不能再滚动</span></div><div class="line">		</div><div class="line">		<span class="built_in">document</span>.removeEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll);</div><div class="line">		setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">document</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll)&#125;,<span class="number">2000</span>);</div><div class="line">					</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line">	</div><div class="line"><span class="comment">//其他浏览器滚动函数</span></div><div class="line"><span class="keyword">var</span> wheelScroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = e || <span class="built_in">window</span>.event;</div><div class="line">	indexY = e.clientY;</div><div class="line">	wrapHeight = <span class="built_in">parseInt</span>(wrapper[<span class="number">0</span>].offsetHeight);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (indexY&gt;=wrapY)</div><div class="line">	&#123;	</div><div class="line">					</div><div class="line">		<span class="comment">//获取滑动滚动的方向，并且兼容浏览器</span></div><div class="line">		<span class="keyword">var</span> orient = e.wheelDelta;</div><div class="line">		<span class="keyword">if</span> (orient&lt;<span class="number">0</span>)</div><div class="line">		&#123;</div><div class="line">			<span class="comment">//下滚</span></div><div class="line">			initial++;</div><div class="line">			<span class="keyword">if</span>(initial&gt;<span class="number">6</span>)&#123;</div><div class="line">				initial = <span class="number">6</span>;</div><div class="line">			&#125;</div><div class="line">						</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//上滚</span></div><div class="line">			initial--;</div><div class="line">			<span class="keyword">if</span>(initial&lt;<span class="number">0</span>)&#123;</div><div class="line">				initial = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">						</div><div class="line">		&#125;</div><div class="line">		animation(initial);</div><div class="line">		<span class="built_in">document</span>.onmousewheel = <span class="literal">null</span>;</div><div class="line">		setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">document</span>.onmousewheel=wheelScroll&#125;,<span class="number">2000</span>)</div><div class="line">						</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"></div><div class="line"><span class="comment">//判断并滚动</span></div><div class="line"><span class="keyword">if</span>(<span class="regexp">/.*Firefox.*/</span>.test(agent))&#123;</div><div class="line">			</div><div class="line">	<span class="built_in">document</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll);</div><div class="line">			</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="built_in">document</span>.onmousewheel = wheelScroll;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>我们首先要通过navigator.UserAgent获取agent对象，利用正则我们可以判断当前浏览器的类别，如果是firefox浏览器，则需要通过<strong>document.addEventListener(“DOMMouseScroll”,DomScroll);</strong>来监听事件，否则用document.onmousewheel = wheelScroll即可;</p>
+</li>
+<li><p>通常我们都需要知道鼠标滑轮是上滚还是下滚，从而作出更多的操作。</p>
+<blockquote>
+<p>这里需要注意，现在五大浏览器（IE、Opera、Safari、Firefox、Chrome）中Firefox 使用detail，其余四类使用wheelDelta；两者只在取值上不一致，代表含义也不一致，detail与wheelDelta只各取两个值，detail只取±3，wheelDelta只取±120，其中detail正数表示为向下，负数表示向上，而wheelDelta正数表示为向上，负数表示向下，网上的文章有出入（说含义一样实际不是），请以实践为主！</p>
+</blockquote>
+</li>
+</ul>
+<p>到这里内容就结束了，如想了解更多自适应和兼容性的问题，请看高级程序设计这本书或者google寻找资料！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/三栏布局之中间栏自适应宽度的几种方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -741,7 +892,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

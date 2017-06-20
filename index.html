@@ -267,6 +267,188 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/js-event2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/19/js-event2/" itemprop="url">
+                  JS之事件（二）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T22:21:16+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="键盘与文本事件"><a href="#键盘与文本事件" class="headerlink" title="键盘与文本事件"></a>键盘与文本事件</h2><p>对键盘事件的支持主要遵循的是DOM0级，DOM3中制定了新的规范。</p>
+<p>键盘事件有三个：</p>
+<ul>
+<li>keydown：按下任意键时触发，按住不放会重复触发</li>
+<li>keypress：用户按下键盘上的<strong>字符键</strong>时触发，按住不放会重复触发</li>
+<li>keyup：用户释放按键时触发</li>
+</ul>
+<blockquote>
+<p>虽然所有元素都支持这些事件，但一般在文本框输入时才会用到。</p>
+</blockquote>
+<p>文本事件只有一个：textInput，此事件是对keypress的补充，在文本出入文本框之前会触发这事件</p>
+<p>按下字符键时，键盘事件的触发顺序如下：</p>
+<ol><br>    <li>keydown事件</li><br>    <li>keypress事件</li><br>    <li>keyup事件</li><br></ol>
+
+<p>keydown和keypress都是文本框内容发生变化前触发，而keyup则是文本框发生变化后触发的。</p>
+<p>如果用户按下的是字符键，那么会先触发keydown事件，然后就是keyup事件。</p>
+<blockquote>
+<p>键盘事件也支持相同的修改键，所以键盘事件的事件对象中也有shiftKey、ctrlKey、altKey和metaKey属性。</p>
+</blockquote>
+<h3 id="键码"><a href="#键码" class="headerlink" title="键码"></a>键码</h3><p>在发生keydown和keyup事件时，event对象的keyCode属性中会包含一个键码，该键码的值与数字字母字符键对应的ASCII码相同，如A对应的keyCode值就是65，详细的对应表大家可以百度。</p>
+<h3 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h3><p>IE9+及现代浏览器（除Opera）都支持一个charCode属性，只有在发生keyPress事件时才会包含此属性，值为字符键所对对应的ASCII码或者为0（非字符键）。IE8之前版本和Opera并不支持这个属性，所以我们需要实现跨浏览器的方式来获取字符编码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> eventUtil = &#123;</div><div class="line">    <span class="string">'getCharCode'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> event.charCode == <span class="string">"number"</span>)&#123;</div><div class="line">            <span class="keyword">return</span> event.charCode;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> event.keyCode;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>取得字符编码后，就可以用fromCharCode（）将其转化为实际的字符。</p>
+<h3 id="DOM3级键盘事件"><a href="#DOM3级键盘事件" class="headerlink" title="DOM3级键盘事件"></a>DOM3级键盘事件</h3><p>DOM3级事件中作出了一些修改：</p>
+<ul>
+<li>key:用来取代keyCode，值是一个字符串，在按下字符键时，值是对应的文本字符（区分大小写），按下非字符键时，值是对应键名（如“shift”）</li>
+<li>char：取代charCode，与key类似，不过按下非字符键时，值为null</li>
+</ul>
+<blockquote>
+<p>IE9支持key但不支持char属性。Safari 5 和Chrome支持KeyIdentifier的属性，于key属性类似，不过当按下字符键时，keyIdentifier的值是一个Unicode值，不再是ASCII码。由于存在跨浏览器的兼容问题，不推荐使用key，char，和keyIdentifier。</p>
+</blockquote>
+<h2 id="HTML5事件"><a href="#HTML5事件" class="headerlink" title="HTML5事件"></a>HTML5事件</h2><p>DOM规范并没有包含所有浏览器支持的所有事件，很多浏览器都实现了自定义的事件，为此，html5列出了浏览器应该支持的所有事件。</p>
+<h3 id="contextmenu事件"><a href="#contextmenu事件" class="headerlink" title="contextmenu事件"></a>contextmenu事件</h3><p>网页中，我们通过右键可以调出上下文菜单，有时我们需要屏蔽这个默认事件，转而使用我们自定义的菜单，这时就需要使用contextmenu事件。此事件是冒泡的，所以我们可以为document指定一个事件处理程序，用以处理页面中触发的所有此类事件。</p>
+<p>实际应用中，我们需要结合事件对象的<strong>clientX和clietY</strong>来定位菜单出现的位置，同时当用户点击菜单时应该隐藏菜单。</p>
+<h3 id="beforeunload事件"><a href="#beforeunload事件" class="headerlink" title="beforeunload事件"></a>beforeunload事件</h3><p>beforeunload让我们有可能在页面卸载前阻止这一操作，继续使用原有页面。但是我们不能让用户无法离开当前页面，而是应该将决定权交给用户，只是在离开前提示一些信息，询问用户是否真的要离开。</p>
+<p>如果要在用户关闭时弹出一个信息框，需要这样做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventUtil.addEventHander(<span class="built_in">window</span>,<span class="string">"beforeunload"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">    event = eventUtil.getEvent(event);</div><div class="line">    <span class="keyword">var</span> message = <span class="string">'你真的要离开此页面吗？'</span></div><div class="line">    event.returnValue = message;<span class="comment">//IE及FF做法</span></div><div class="line">    <span class="keyword">return</span> message;<span class="comment">//safari及Chrome做法</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="pageshow事件和pagehide事件"><a href="#pageshow事件和pagehide事件" class="headerlink" title="pageshow事件和pagehide事件"></a>pageshow事件和pagehide事件</h3><p>在FF和Opera中有一个特性，<strong>往返缓存（back-foward cache 或bfcache）</strong>，能够使用户在后退或者前进时加快页面加载速度，其实他们是把整个网页保存在了缓存中。但是这里会有一个问题，如果我们的网页在bfcache中，那么再次打开着页面是不会触发load事件的，这对于那些需要在页面加载完执行一些事件的页面来说，就有可能会造成页面显示不正确。</p>
+<p>而pageshow事件在页面显示时会触发，无论该页面是不是存在于bfcache中。虽然事件的目标是document，但是必须要将其监听程序绑定在window上。</p>
+<p>pageshow事件对象还包含一个<strong>persisted</strong>属性，如果值为true，则表示页面存放在bfcache中。</p>
+<p>pagehide事件会在unload事件之前触发，如果页面在卸载之后是存放在bfcache中，那么persisted值为true。</p>
+<blockquote>
+<p>IE9+及现代浏览器都支持这两个事件。</p>
+</blockquote>
+<h3 id="触摸与手势事件"><a href="#触摸与手势事件" class="headerlink" title="触摸与手势事件"></a>触摸与手势事件</h3><p>现如今，移动端已然成为了除PC端外另一个网络流量的汇聚地，其中ios和Adroid最为耀眼，但是这些设备没有鼠标也没有键盘，那么我们要怎么监听用户的操作呢？移动端其实主要还是通过用户的手指触摸（touch）来触发事件，为此，html5提供了touch系列的事件来实现我们的目的。</p>
+<ul>
+<li>touchstart：当手指触摸屏幕时触发，即时已经有手指放在屏幕上也会触发</li>
+<li>touchmove：当手指在屏幕滑动时连续触发</li>
+<li>touchend：手指从屏幕移开时触发</li>
+<li>touchcancel：系统停止跟踪触摸是触发</li>
+</ul>
+<p>这些事件都是会冒泡，且event对象中也都包含常见的属性：clientX，clientY，bubbles，cancelable，detial，screenX，screenY等</p>
+<p>除此之外，触摸事件还支持三个用于跟踪触摸的属性：</p>
+<ul>
+<li>touches：表示当前跟踪的触摸操作的touch对象的数组</li>
+<li>targetTouchs：特定于事件目标的touch对象的数组</li>
+<li>changeTouches：表示自上次触摸以来发生了什么改变的Touch对象的数组</li>
+</ul>
+<p>触摸事件和鼠标事件的触发顺序如下：</p>
+<ol><br>    <li>touchstart</li><br>    <li>mouseover</li><br>    <li>mousemove</li><br>    <li>mousedown</li><br>    <li>mouseup</li><br>    <li>click</li><br>    <li>touchend</li><br></ol>
+
+<p>关于js事件较常用的都已经介绍完了，如果想更加详尽的学习，可以看javascript高级程序设计这本书，后面可能会通过一些例子或者项目将这些知识结合起来，敬请期待！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/js之鼠标和键盘事件一/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1946,159 +2128,6 @@ func:用于监听的函数
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
-                  css高度坍塌及解决方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
-<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
-</blockquote>
-<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
-<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
-<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
-<blockquote>
-<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
-</blockquote>
-<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
-<li>元素的垂直外边距不会和子元素重叠</li>
-<li>开启BFC的元素不会被浮动元素所覆盖</li>
-<li>开启BFC的元素可以包含浮动元素</li>
-</ul>
-<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
-<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
-<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
-<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
-<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
-</ul>
-<blockquote>
-<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
-</blockquote>
-<p>可选值：</p>
-<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
-
-<blockquote>
-<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2248,7 +2277,7 @@ func:用于监听的函数
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liby">
@@ -2270,8 +2299,8 @@ func:用于监听的函数
             
               
                 
-                <a class="post-title-link" href="/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/" itemprop="url">
-                  纵向自动填充及监听滚轮事件的兼容性问题
+                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
+                  css高度坍塌及解决方法
                 </a>
               
             
@@ -2287,8 +2316,8 @@ func:用于监听的函数
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-02T22:11:08+08:00">
-                2017-06-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
               </time>
             
 
@@ -2325,37 +2354,39 @@ func:用于监听的函数
       
         
           
-            <h2 id="初始化文件reset-css"><a href="#初始化文件reset-css" class="headerlink" title="初始化文件reset.css"></a>初始化文件reset.css</h2><p>在开始进入正题之前先分享一段代码，对于新手的同学可以参考下！</p>
-<p>写过几个页面的同学都知道，标签元素如body，p等等浏览器默认都会赋予一些样式，而如a，buttom默认移动鼠标都不会出现小手的标记，在需要的时候一遍遍地添加显然是不合理的，也增加了冗余代码，我们可以在写其他css代码之前先引入下面的代码文件：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/*初始化  reset*/  </div><div class="line">body,button,dd,dl,dt,h1,h2,h3,h4,h5,h6,input,li,ol,p,td,ul&#123;margin:0;padding:0&#125;  </div><div class="line">body,button,input&#123;font:12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif&#125;  </div><div class="line">h1,h2,h3,h4,h5,h6,button,input&#123;font-size:100%&#125;  </div><div class="line">ol,ul&#123;list-style:none&#125;  </div><div class="line">a&#123;text-decoration:none&#125;  </div><div class="line">a:hover&#123;text-decoration:underline&#125;  </div><div class="line">fieldset,img&#123;border:0;vertical-align:top;&#125;  </div><div class="line">a,button&#123;cursor:pointer;&#125;  </div><div class="line">/*清除浮动*/  </div><div class="line">.clearfix:before,.clearfix:after &#123;  </div><div class="line">    content:"";  </div><div class="line">    display:table;  </div><div class="line">&#125;  </div><div class="line">.clearfix:after&#123;clear:both;&#125;  </div><div class="line">.clearfix&#123;  </div><div class="line">    *zoom:1;/*IE/7/6*/  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>引入上面代码之后，我们就可以开始愉快地书写我们的代码了！</p>
+            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
+<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
 </blockquote>
-<h2 id="纵向内容自动填充"><a href="#纵向内容自动填充" class="headerlink" title="纵向内容自动填充"></a>纵向内容自动填充</h2><p>之前有一篇博文讲的是三栏布局中间自适应的问题，现在讲纵向两栏内容自动填充的问题！</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/2-1.png" alt="2-1.png"></p>
-<p>纵向的自适应跟水平的略有不同，因为我们不能利用<strong>div标签的block特性（占据一行）</strong>了，而是利用<strong>头部元素绝对定位</strong>和<strong>内容元素的height：100%</strong>来实现，而且还需要借助js(窗口大小变化需要重新计算高度)。</p>
+<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
+<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
+<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
 <blockquote>
-<p>实际场景：这是我最近做一个小项目中的一个场景，头部固定高度，下面部分N屏，随滑轮滚动而切换，头部不变，不显示侧边栏。</p>
+<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
 </blockquote>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/2-2.png" alt="2-2.png"></p>
-<p>页面框架如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">    <span class="selector-id">#header</span>&#123;<span class="attribute">height</span>:<span class="number">130px</span>;<span class="attribute">position</span>:absolute;<span class="attribute">z-index</span>:<span class="number">100</span>;&#125;</div><div class="line">    <span class="selector-id">#content</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;<span class="attribute">padding-top</span>:<span class="number">130px</span>;<span class="attribute">overflow</span>:hidden;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"header"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">        这里是需要滚动的内容......</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>id为content的元素用了padding-top：130px，跟之前博文中的两栏布局类似，再用height：100%；达到视觉上的上下两栏，其实头部是覆盖在content之上的。</p>
-<blockquote>
-<p>但是，这样会造成一个问题，就是<strong>height+padding-top</strong>其实已经超出了窗口的大小，这时会出现滚动栏，那么如何让滚动栏消失呢？</p>
-</blockquote>
-<p>这里需要用到js（jq）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#content'</span>).css(&#123;<span class="string">"height"</span>:(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.clientHeight)<span class="number">-130</span>)+<span class="string">"px"</span>&#125;);</div></pre></td></tr></table></figure></p>
-<p>这样我们就能让侧边栏消失了，考虑到用户有时会缩放页面，所以最好把这句代码放到函数里面，并绑定到resize事件，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> resizes = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#content'</span>).css(&#123;<span class="string">"height"</span>:(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.clientHeight)<span class="number">-130</span>)+<span class="string">"px"</span>&#125;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//窗口变化时调用</span></div><div class="line">$(<span class="built_in">window</span>).resize = resizes;</div></pre></td></tr></table></figure></p>
-<h2 id="鼠标滚动的兼容性问题"><a href="#鼠标滚动的兼容性问题" class="headerlink" title="鼠标滚动的兼容性问题"></a>鼠标滚动的兼容性问题</h2><p>解决完布局的问题，接下来就是考虑如何解决鼠标滚动事件的兼容性问题了。<br>首先，不同的浏览器有不同的滚轮事件。主要是有两种，onmousewheel（firefox不支持）和DOMMouseScroll（只有firefox支持）。那么如何写一个可以兼容所有浏览器的监听函数呢？看下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">//判断浏览器类型</span></div><div class="line">   <span class="keyword">var</span> agent = navigator.userAgent;</div><div class="line">   <span class="comment">//firefox滚动函数</span></div><div class="line"><span class="keyword">var</span> DomScroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">				</div><div class="line">	<span class="comment">//event对象兼容获取</span></div><div class="line"></div><div class="line">	e = e || <span class="built_in">window</span>.event;</div><div class="line">	indexY = e.clientY;</div><div class="line">	wrapHeight = <span class="built_in">parseInt</span>(wrapper[<span class="number">0</span>].offsetHeight);</div><div class="line">       <span class="comment">//判断鼠标是否位于第二栏内</span></div><div class="line">	<span class="keyword">if</span> (indexY&gt;=wrapY)</div><div class="line">       &#123;	</div><div class="line">		<span class="comment">//获取滑动的方向</span></div><div class="line">		<span class="keyword">var</span> orient = e.detail</div><div class="line">					</div><div class="line">		<span class="keyword">if</span> (orient&gt;<span class="number">0</span>)</div><div class="line">		&#123;	</div><div class="line">			<span class="comment">//下滚</span></div><div class="line">			initial++;</div><div class="line">			<span class="keyword">if</span>(initial&gt;<span class="number">6</span>)&#123;</div><div class="line">				initial = <span class="number">6</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//上滚</span></div><div class="line">			initial--;</div><div class="line">			<span class="keyword">if</span>(initial&lt;<span class="number">0</span>)&#123;</div><div class="line">				initial = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		animation(initial);</div><div class="line">		</div><div class="line">		<span class="comment">//滚动一次后2s内不能再滚动</span></div><div class="line">		</div><div class="line">		<span class="built_in">document</span>.removeEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll);</div><div class="line">		setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">document</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll)&#125;,<span class="number">2000</span>);</div><div class="line">					</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line">	</div><div class="line"><span class="comment">//其他浏览器滚动函数</span></div><div class="line"><span class="keyword">var</span> wheelScroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = e || <span class="built_in">window</span>.event;</div><div class="line">	indexY = e.clientY;</div><div class="line">	wrapHeight = <span class="built_in">parseInt</span>(wrapper[<span class="number">0</span>].offsetHeight);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (indexY&gt;=wrapY)</div><div class="line">	&#123;	</div><div class="line">					</div><div class="line">		<span class="comment">//获取滑动滚动的方向，并且兼容浏览器</span></div><div class="line">		<span class="keyword">var</span> orient = e.wheelDelta;</div><div class="line">		<span class="keyword">if</span> (orient&lt;<span class="number">0</span>)</div><div class="line">		&#123;</div><div class="line">			<span class="comment">//下滚</span></div><div class="line">			initial++;</div><div class="line">			<span class="keyword">if</span>(initial&gt;<span class="number">6</span>)&#123;</div><div class="line">				initial = <span class="number">6</span>;</div><div class="line">			&#125;</div><div class="line">						</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//上滚</span></div><div class="line">			initial--;</div><div class="line">			<span class="keyword">if</span>(initial&lt;<span class="number">0</span>)&#123;</div><div class="line">				initial = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">						</div><div class="line">		&#125;</div><div class="line">		animation(initial);</div><div class="line">		<span class="built_in">document</span>.onmousewheel = <span class="literal">null</span>;</div><div class="line">		setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">document</span>.onmousewheel=wheelScroll&#125;,<span class="number">2000</span>)</div><div class="line">						</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"></div><div class="line"><span class="comment">//判断并滚动</span></div><div class="line"><span class="keyword">if</span>(<span class="regexp">/.*Firefox.*/</span>.test(agent))&#123;</div><div class="line">			</div><div class="line">	<span class="built_in">document</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll);</div><div class="line">			</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="built_in">document</span>.onmousewheel = wheelScroll;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>我们首先要通过navigator.UserAgent获取agent对象，利用正则我们可以判断当前浏览器的类别，如果是firefox浏览器，则需要通过<strong>document.addEventListener(“DOMMouseScroll”,DomScroll);</strong>来监听事件，否则用document.onmousewheel = wheelScroll即可;</p>
-</li>
-<li><p>通常我们都需要知道鼠标滑轮是上滚还是下滚，从而作出更多的操作。</p>
-<blockquote>
-<p>这里需要注意，现在五大浏览器（IE、Opera、Safari、Firefox、Chrome）中Firefox 使用detail，其余四类使用wheelDelta；两者只在取值上不一致，代表含义也不一致，detail与wheelDelta只各取两个值，detail只取±3，wheelDelta只取±120，其中detail正数表示为向下，负数表示向上，而wheelDelta正数表示为向上，负数表示向下，网上的文章有出入（说含义一样实际不是），请以实践为主！</p>
-</blockquote>
-</li>
+<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
+<li>元素的垂直外边距不会和子元素重叠</li>
+<li>开启BFC的元素不会被浮动元素所覆盖</li>
+<li>开启BFC的元素可以包含浮动元素</li>
 </ul>
-<p>到这里内容就结束了，如想了解更多自适应和兼容性的问题，请看高级程序设计这本书或者google寻找资料！</p>
+<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
+<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
+<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
+<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
+<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
+</ul>
+<blockquote>
+<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
+</blockquote>
+<p>可选值：</p>
+<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
+
+<blockquote>
+<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
 
           
         
@@ -2439,7 +2470,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

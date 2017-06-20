@@ -1,0 +1,821 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="键盘与文本事件对键盘事件的支持主要遵循的是DOM0级，DOM3中制定了新的规范。
+键盘事件有三个：
+
+keydown：按下任意键时触发，按住不放会重复触发
+keypress：用户按下键盘上的字符键时触发，按住不放会重复触发
+keyup：用户释放按键时触发
+
+
+虽然所有元素都支持这些事件，但一般在文本框输入时才会用到。
+
+文本事件只有一个：textInput，此事件是对keypress的补充，在文本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS之事件（二）">
+<meta property="og:url" content="http://yoursite.com/2017/06/19/js-event2/index.html">
+<meta property="og:site_name" content="Liby">
+<meta property="og:description" content="键盘与文本事件对键盘事件的支持主要遵循的是DOM0级，DOM3中制定了新的规范。
+键盘事件有三个：
+
+keydown：按下任意键时触发，按住不放会重复触发
+keypress：用户按下键盘上的字符键时触发，按住不放会重复触发
+keyup：用户释放按键时触发
+
+
+虽然所有元素都支持这些事件，但一般在文本框输入时才会用到。
+
+文本事件只有一个：textInput，此事件是对keypress的补充，在文本">
+<meta property="og:updated_time" content="2017-06-20T09:36:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS之事件（二）">
+<meta name="twitter:description" content="键盘与文本事件对键盘事件的支持主要遵循的是DOM0级，DOM3中制定了新的规范。
+键盘事件有三个：
+
+keydown：按下任意键时触发，按住不放会重复触发
+keypress：用户按下键盘上的字符键时触发，按住不放会重复触发
+keyup：用户释放按键时触发
+
+
+虽然所有元素都支持这些事件，但一般在文本框输入时才会用到。
+
+文本事件只有一个：textInput，此事件是对keypress的补充，在文本">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/19/js-event2/"/>
+
+
+
+
+
+  <title> JS之事件（二） | Liby </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liby</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/js-event2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JS之事件（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T22:21:16+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="键盘与文本事件"><a href="#键盘与文本事件" class="headerlink" title="键盘与文本事件"></a>键盘与文本事件</h2><p>对键盘事件的支持主要遵循的是DOM0级，DOM3中制定了新的规范。</p>
+<p>键盘事件有三个：</p>
+<ul>
+<li>keydown：按下任意键时触发，按住不放会重复触发</li>
+<li>keypress：用户按下键盘上的<strong>字符键</strong>时触发，按住不放会重复触发</li>
+<li>keyup：用户释放按键时触发</li>
+</ul>
+<blockquote>
+<p>虽然所有元素都支持这些事件，但一般在文本框输入时才会用到。</p>
+</blockquote>
+<p>文本事件只有一个：textInput，此事件是对keypress的补充，在文本出入文本框之前会触发这事件</p>
+<p>按下字符键时，键盘事件的触发顺序如下：</p>
+<ol><br>    <li>keydown事件</li><br>    <li>keypress事件</li><br>    <li>keyup事件</li><br></ol>
+
+<p>keydown和keypress都是文本框内容发生变化前触发，而keyup则是文本框发生变化后触发的。</p>
+<p>如果用户按下的是字符键，那么会先触发keydown事件，然后就是keyup事件。</p>
+<blockquote>
+<p>键盘事件也支持相同的修改键，所以键盘事件的事件对象中也有shiftKey、ctrlKey、altKey和metaKey属性。</p>
+</blockquote>
+<h3 id="键码"><a href="#键码" class="headerlink" title="键码"></a>键码</h3><p>在发生keydown和keyup事件时，event对象的keyCode属性中会包含一个键码，该键码的值与数字字母字符键对应的ASCII码相同，如A对应的keyCode值就是65，详细的对应表大家可以百度。</p>
+<h3 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h3><p>IE9+及现代浏览器（除Opera）都支持一个charCode属性，只有在发生keyPress事件时才会包含此属性，值为字符键所对对应的ASCII码或者为0（非字符键）。IE8之前版本和Opera并不支持这个属性，所以我们需要实现跨浏览器的方式来获取字符编码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> eventUtil = &#123;</div><div class="line">    <span class="string">'getCharCode'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> event.charCode == <span class="string">"number"</span>)&#123;</div><div class="line">            <span class="keyword">return</span> event.charCode;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> event.keyCode;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>取得字符编码后，就可以用fromCharCode（）将其转化为实际的字符。</p>
+<h3 id="DOM3级键盘事件"><a href="#DOM3级键盘事件" class="headerlink" title="DOM3级键盘事件"></a>DOM3级键盘事件</h3><p>DOM3级事件中作出了一些修改：</p>
+<ul>
+<li>key:用来取代keyCode，值是一个字符串，在按下字符键时，值是对应的文本字符（区分大小写），按下非字符键时，值是对应键名（如“shift”）</li>
+<li>char：取代charCode，与key类似，不过按下非字符键时，值为null</li>
+</ul>
+<blockquote>
+<p>IE9支持key但不支持char属性。Safari 5 和Chrome支持KeyIdentifier的属性，于key属性类似，不过当按下字符键时，keyIdentifier的值是一个Unicode值，不再是ASCII码。由于存在跨浏览器的兼容问题，不推荐使用key，char，和keyIdentifier。</p>
+</blockquote>
+<h2 id="HTML5事件"><a href="#HTML5事件" class="headerlink" title="HTML5事件"></a>HTML5事件</h2><p>DOM规范并没有包含所有浏览器支持的所有事件，很多浏览器都实现了自定义的事件，为此，html5列出了浏览器应该支持的所有事件。</p>
+<h3 id="contextmenu事件"><a href="#contextmenu事件" class="headerlink" title="contextmenu事件"></a>contextmenu事件</h3><p>网页中，我们通过右键可以调出上下文菜单，有时我们需要屏蔽这个默认事件，转而使用我们自定义的菜单，这时就需要使用contextmenu事件。此事件是冒泡的，所以我们可以为document指定一个事件处理程序，用以处理页面中触发的所有此类事件。</p>
+<p>实际应用中，我们需要结合事件对象的<strong>clientX和clietY</strong>来定位菜单出现的位置，同时当用户点击菜单时应该隐藏菜单。</p>
+<h3 id="beforeunload事件"><a href="#beforeunload事件" class="headerlink" title="beforeunload事件"></a>beforeunload事件</h3><p>beforeunload让我们有可能在页面卸载前阻止这一操作，继续使用原有页面。但是我们不能让用户无法离开当前页面，而是应该将决定权交给用户，只是在离开前提示一些信息，询问用户是否真的要离开。</p>
+<p>如果要在用户关闭时弹出一个信息框，需要这样做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventUtil.addEventHander(<span class="built_in">window</span>,<span class="string">"beforeunload"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">    event = eventUtil.getEvent(event);</div><div class="line">    <span class="keyword">var</span> message = <span class="string">'你真的要离开此页面吗？'</span></div><div class="line">    event.returnValue = message;<span class="comment">//IE及FF做法</span></div><div class="line">    <span class="keyword">return</span> message;<span class="comment">//safari及Chrome做法</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="pageshow事件和pagehide事件"><a href="#pageshow事件和pagehide事件" class="headerlink" title="pageshow事件和pagehide事件"></a>pageshow事件和pagehide事件</h3><p>在FF和Opera中有一个特性，<strong>往返缓存（back-foward cache 或bfcache）</strong>，能够使用户在后退或者前进时加快页面加载速度，其实他们是把整个网页保存在了缓存中。但是这里会有一个问题，如果我们的网页在bfcache中，那么再次打开着页面是不会触发load事件的，这对于那些需要在页面加载完执行一些事件的页面来说，就有可能会造成页面显示不正确。</p>
+<p>而pageshow事件在页面显示时会触发，无论该页面是不是存在于bfcache中。虽然事件的目标是document，但是必须要将其监听程序绑定在window上。</p>
+<p>pageshow事件对象还包含一个<strong>persisted</strong>属性，如果值为true，则表示页面存放在bfcache中。</p>
+<p>pagehide事件会在unload事件之前触发，如果页面在卸载之后是存放在bfcache中，那么persisted值为true。</p>
+<blockquote>
+<p>IE9+及现代浏览器都支持这两个事件。</p>
+</blockquote>
+<h3 id="触摸与手势事件"><a href="#触摸与手势事件" class="headerlink" title="触摸与手势事件"></a>触摸与手势事件</h3><p>现如今，移动端已然成为了除PC端外另一个网络流量的汇聚地，其中ios和Adroid最为耀眼，但是这些设备没有鼠标也没有键盘，那么我们要怎么监听用户的操作呢？移动端其实主要还是通过用户的手指触摸（touch）来触发事件，为此，html5提供了touch系列的事件来实现我们的目的。</p>
+<ul>
+<li>touchstart：当手指触摸屏幕时触发，即时已经有手指放在屏幕上也会触发</li>
+<li>touchmove：当手指在屏幕滑动时连续触发</li>
+<li>touchend：手指从屏幕移开时触发</li>
+<li>touchcancel：系统停止跟踪触摸是触发</li>
+</ul>
+<p>这些事件都是会冒泡，且event对象中也都包含常见的属性：clientX，clientY，bubbles，cancelable，detial，screenX，screenY等</p>
+<p>除此之外，触摸事件还支持三个用于跟踪触摸的属性：</p>
+<ul>
+<li>touches：表示当前跟踪的触摸操作的touch对象的数组</li>
+<li>targetTouchs：特定于事件目标的touch对象的数组</li>
+<li>changeTouches：表示自上次触摸以来发生了什么改变的Touch对象的数组</li>
+</ul>
+<p>触摸事件和鼠标事件的触发顺序如下：</p>
+<ol><br>    <li>touchstart</li><br>    <li>mouseover</li><br>    <li>mousemove</li><br>    <li>mousedown</li><br>    <li>mouseup</li><br>    <li>click</li><br>    <li>touchend</li><br></ol>
+
+<p>关于js事件较常用的都已经介绍完了，如果想更加详尽的学习，可以看javascript高级程序设计这本书，后面可能会通过一些例子或者项目将这些知识结合起来，敬请期待！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/19/js之鼠标和键盘事件一/" rel="next" title="JS之事件（一）">
+                <i class="fa fa-chevron-left"></i> JS之事件（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
+               alt="Liby" />
+          <p class="site-author-name" itemprop="name">Liby</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#键盘与文本事件"><span class="nav-number">1.</span> <span class="nav-text">键盘与文本事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#键码"><span class="nav-number">1.1.</span> <span class="nav-text">键码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符编码"><span class="nav-number">1.2.</span> <span class="nav-text">字符编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM3级键盘事件"><span class="nav-number">1.3.</span> <span class="nav-text">DOM3级键盘事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5事件"><span class="nav-number">2.</span> <span class="nav-text">HTML5事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#contextmenu事件"><span class="nav-number">2.1.</span> <span class="nav-text">contextmenu事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beforeunload事件"><span class="nav-number">2.2.</span> <span class="nav-text">beforeunload事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pageshow事件和pagehide事件"><span class="nav-number">2.3.</span> <span class="nav-text">pageshow事件和pagehide事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触摸与手势事件"><span class="nav-number">2.4.</span> <span class="nav-text">触摸与手势事件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
