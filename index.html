@@ -267,6 +267,239 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/21/canvas/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/21/canvas/" itemprop="url">
+                  H5之canvas标签（一）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T18:25:25+08:00">
+                2017-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTML5中添加了很多新的标签，canvas就是其中之一，它被用来进行图形的绘制，关于图形的绘制我们需要通过javascript来完成，canvas标签仅是一个图形的容器。</p>
+<p>IE9及其他现代浏览器基本都支持这个标签。</p>
+<p>canvas由几组API组成，除了绘制基本图形的2D上下文，还有一个名为WebGL的3D上下文，不过浏览器支持还不够好，</p>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>使用\<canvas\>时，我们需要设置其宽高，用来指定绘图的区域。出现在开始和结束标签之间的内容作为后备信息，当浏览器不支持该标签时，里面的内容就会显示出来，HTML5中其他标签也是这么干的。<br>一个简单的canvas实例如下:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">width</span>=<span class="string">"299"</span> <span class="attr">height</span>=<span class="string">"199"</span> <span class="attr">id</span>=<span class="string">"myCanvas"</span>&gt;</span>sorry,the canvas isn't supported.<span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div></pre></td></tr></table></figure></canvas\></p>
+<p>这是我们的画布，也是我们绘制的图像的一个载体，要在画布上绘图，我们需要先通过<strong>getContext()</strong>方法取得绘图上下文：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用toDataUrl（）方法可以导出在canvas上绘制的图像。该方法接受一个MIME类型参数，如果我们需要取得画布中的一幅png图像，可以这样做：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> imageUrl = drawing.toDataUrl(<span class="string">"image/png"</span>);</div><div class="line">    <span class="comment">//显示图像</span></div><div class="line">    <span class="keyword">var</span> image = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</div><div class="line">    image.src = imageUrl;</div><div class="line">    <span class="built_in">document</span>.body.append(image);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>默认情况下，MIME类型为PNG格式。</p>
+<h3 id="canvas坐标系"><a href="#canvas坐标系" class="headerlink" title="canvas坐标系"></a>canvas坐标系</h3><p>canvas以左上角为原点（0,0），坐标值都以原点为参照进行计算，与background背景图片的位置计算方法相同。第一个值代表离左边框的距离，第二个值代表离上边框的距离。</p>
+<h3 id="填充和描边"><a href="#填充和描边" class="headerlink" title="填充和描边"></a>填充和描边</h3><p>通过2D绘图上下文提供的方法，我们可以绘制矩形，弧线等2D图形。对于这些图形，我们可以选择绘制的方式。这里有两个属性，来决定是进行填充还是进行描边：fillStyle和strokeStyle</p>
+<p>这两个属性的值可以是字符串、渐变对象、或模式对象，默认值都是“#000000”。我们可以用任何的颜色格式（rgb、rgba、hsl、hsla）来定义样式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    context.strokeStyle = <span class="string">"green"</span>;</div><div class="line">    context.fillStyle = <span class="string">"#f6c"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样设置后，下面涉及到填充和描边的操作都会使用这两个样式，绘制过程中样式可更改。</p>
+<h3 id="绘制矩形"><a href="#绘制矩形" class="headerlink" title="绘制矩形"></a>绘制矩形</h3><p>与绘制矩形相关的方法有：fillRect（）、strokeRect（）、clearRect（），这些参数都接受4个参数：矩形x坐标、矩形y坐标、矩形宽度、矩形高度，单位都为像素。</p>
+<p>绘制图形前都应先指定填充或者描边的样式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    </div><div class="line">    context.strokeStyle = <span class="string">"green"</span>;</div><div class="line">    context.strokeRect(<span class="number">10</span>,<span class="number">10</span>,<span class="number">50</span>,<span class="number">50</span>);</div><div class="line">    </div><div class="line">    context.fillStyle = <span class="string">"rgba(0,0,0,0.6)"</span>;</div><div class="line">    context.fillRect(<span class="number">100</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">30</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此外，还有以下属性能够控制线条和线条末端的形状：</p>
+<ul>
+<li>lineWidth：线条宽度</li>
+<li>lineCap：用于控制线条末端的形状，取值有butt（平头），round（圆头),square（方头）</li>
+<li>lineJoin：控制线条相交的方式，取值有round（圆交），bevel（斜交），miter（斜接）</li>
+</ul>
+<h3 id="绘制路径"><a href="#绘制路径" class="headerlink" title="绘制路径"></a>绘制路径</h3><p>2D绘图上下文提供了很多用于绘制路径的方法。在绘制之前，需要先调用beginPath（），表示要开始绘制新路径。然后再调用下面的方法绘制实际路径。</p>
+<h4 id="绘制圆弧"><a href="#绘制圆弧" class="headerlink" title="绘制圆弧"></a>绘制圆弧</h4><p>arc（x,y,radius,startAngle,endAngle,conterclockwise）:以（x,y）为圆心，radius为半径，起始和结束弧度分别为startAngle，endAngle来画圆弧，counterclockwise为false代表按逆时针计算角度。</p>
+<p>我们用这个方法来绘制一个圆形：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var drawing = document.getElementById("myCanvas");</div><div class="line">//检测浏览器是否支持canvas</div><div class="line">if(drawing.getContext)&#123;</div><div class="line">    var context = drawing.getContext("2d");</div><div class="line">    context.beginPath();</div><div class="line">    context.arc(100,100,40,0,Math.PI*2,true)'</div><div class="line">    //注意，这里不关闭路径的话会从上个路径继续绘制下个图形</div><div class="line">    context.closePath();</div><div class="line">    context.fillStyle = 'rgba(0,0,0,0.6)';</div><div class="line">    context.fill();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas1.png" alt="canvas1"></p>
+<blockquote>
+<p>绘制完一个图形要关闭路径，并且最后需要调用fill（）和stroke（）才能将图形绘制到画布上。</p>
+</blockquote>
+<p>画圆弧还有另外一个方法，<strong>arcTo（x1,y1,x2,y2,radius）</strong>：传入弧起点和终点的坐标以及弧的半径。</p>
+<h4 id="moveTo（）和lineTo（）"><a href="#moveTo（）和lineTo（）" class="headerlink" title="moveTo（）和lineTo（）"></a>moveTo（）和lineTo（）</h4><ul>
+<li>moveTo(x,y)：将绘图游标移动到（x,y），不画线</li>
+<li>lineTo（x,y）：在上一点和（x,y）之间绘制一条直线</li>
+</ul>
+<p>注意：</p>
+<p>每次画线都是从moveTo的点到lineTo的点</p>
+<p>如果没有moveTo，第一次lineTo的效果和moveTo相同</p>
+<p>每次lineTo后如果没有moveTo，下次会从上次lineTo的终点开始画线</p>
+<p>结合上面和圆弧来写一个时钟表盘的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    context.beginPath();</div><div class="line">    <span class="comment">//绘制外圆   </span></div><div class="line">    context.arc(<span class="number">100</span>,<span class="number">100</span>,<span class="number">80</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI*<span class="number">2</span>,<span class="literal">false</span>);</div><div class="line">    <span class="comment">//绘制内圆</span></div><div class="line">    context.arc(<span class="number">100</span>,<span class="number">100</span>,<span class="number">75</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI*<span class="number">2</span>,<span class="literal">false</span>);</div><div class="line">    <span class="comment">//绘制分针</span></div><div class="line">    context.moveTo(<span class="number">100</span>,<span class="number">100</span>);</div><div class="line">    context.lineTo(<span class="number">100</span>,<span class="number">35</span>);</div><div class="line">    <span class="comment">//绘制时针</span></div><div class="line">    context.moveTo(<span class="number">100</span>,<span class="number">100</span>);</div><div class="line">    context.lineTo(<span class="number">47</span>,<span class="number">100</span>);</div><div class="line">    <span class="comment">//描边</span></div><div class="line">    context.stroke();</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas2.png" alt="cavas2"></p>
+<h4 id="贝塞尔曲线（bezier）"><a href="#贝塞尔曲线（bezier）" class="headerlink" title="贝塞尔曲线（bezier）"></a>贝塞尔曲线（bezier）</h4><p>我们可以通过bezierCurveTo（）方法来画贝塞尔曲线，该方法有6个参数：clx，cly，c2x，c2y，x，y。该方法会从上一点到（x，y）之间绘制一条曲线，并以（c1x,c1y）和(c2x,c2y)为控制点。</p>
+<p>还有一个跟这个方法类似的方法–quadraticCurveTo（c1x,c2y,x,y）,用法相同，区别在于只有一个控制点（c1x,c1y），这是一个二次曲线的绘制方法。</p>
+<p>如下例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    context.beginPath();</div><div class="line">    context.moveTo(<span class="number">50</span>,<span class="number">50</span>);</div><div class="line">    context.bezierCurveTo(<span class="number">50</span>, <span class="number">50</span>,<span class="number">150</span>, <span class="number">50</span>, <span class="number">150</span>, <span class="number">100</span>);</div><div class="line">	context.quadraticCurveTo(<span class="number">150</span>, <span class="number">150</span>, <span class="number">250</span>, <span class="number">200</span>);</div><div class="line">	context.stroke();</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas3.png" alt="canvas3"></p>
+<h3 id="绘制文本"><a href="#绘制文本" class="headerlink" title="绘制文本"></a>绘制文本</h3><p>绘制文本主要有两个方法：fillText（）和strokeText（）。这两个方法都接收4个参数：要绘制的字符串，x坐标，y坐标，最大像素宽度。</p>
+<p>同时，这两个方法都以下面3个属性为基础：</p>
+<ul>
+<li>font：表示文本样式、大小和字体，如”bold 14px Arial“</li>
+<li>textAlign：表示文本对齐方式，取值有start、end、left、right、center。建议使用start和end，而不是left、right</li>
+<li>textBaseline：表示文本的基线（垂直对齐方式），取值有top、hanging、middle、alphabetic、ideographic、bottom</li>
+</ul>
+<p>这几个属性值都有默认值，fillText（）会使用fillStyle来填充文字，strokeText（）则使用strokeStyle为文字描边。</p>
+<p>绘制文本比较复杂，特别是但我们需要将文本控制在某个区域中时，为此，2d上下文为我们提供了一个确定文本你大小的方法measureText（），返回的是个包含width属性的对象。</p>
+<p>现在，如果我们想在一个150px宽度的矩形中绘制“hello canvas！”，我们可以这样做：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fontSize = <span class="number">30</span>；</div><div class="line">context.font = fontSize+<span class="string">"px Arial"</span>;</div><div class="line"><span class="keyword">while</span>(context.measureText(<span class="string">"hello canvas!"</span>)&gt;<span class="number">150</span>)&#123;</div><div class="line">    fontSize--;</div><div class="line">    context.font = fontSize + <span class="string">"px Arial"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">context.fillText(<span class="string">"hello canvas!"</span>,<span class="number">10</span>,<span class="number">10</span>);</div></pre></td></tr></table></figure></p>
+<p>上面代码会从30像素开始递减，直到文本的宽度小于150px，即找到合适的字体大小。</p>
+<h3 id="渐变"><a href="#渐变" class="headerlink" title="渐变"></a>渐变</h3><p>canvas中的渐变我们通过canvasGradient实例来实现，生成渐变对象的方法有两个：</p>
+<ul>
+<li>createLinearGradient（x1,y1,x2,y2）：接收渐变的起点（x1,y1）和终点和（x2,y2）</li>
+<li>createRadialGradient(x1,y1,r1,x2,y2,r2):跟上面方法类似，前三个参数定义一个以（x1,y1）为圆心，r1为半径的圆，后三个参数定义一个以（x2,y2）为圆心，r2为半径的圆</li>
+</ul>
+<p>通过上述方法创建好实例后，需要用addColorStop方法来上色，<br>addColorStop（）有两个参数：色标位置以及css颜色值，色标位置介于0到1之间。</p>
+<p>可以根据需要添加多个色标。</p>
+<p>来看2个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    <span class="comment">//创建一个线性渐变实例</span></div><div class="line">    </div><div class="line">    <span class="keyword">var</span> gradient = context.createLinearGradient(<span class="number">50</span>,<span class="number">50</span>,<span class="number">150</span>,<span class="number">150</span>);</div><div class="line">    gradient.addColorStop(<span class="number">0</span>,<span class="string">'#33cccc'</span>);</div><div class="line">    gradient.addColorStop(<span class="number">1</span>,<span class="string">'#ffccff'</span>);</div><div class="line">        </div><div class="line">    context.fillStyle = gradient;</div><div class="line">    context.fillRect(<span class="number">50</span>,<span class="number">50</span>,<span class="number">100</span>,<span class="number">100</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//创建径向渐变实例</span></div><div class="line">    <span class="keyword">var</span> radial = context.createRadialGradient(<span class="number">250</span>,<span class="number">100</span>,<span class="number">20</span>,<span class="number">300</span>,<span class="number">150</span>,<span class="number">50</span>);</div><div class="line">    radial.addColorStop(<span class="number">0</span>,<span class="string">'white'</span>);</div><div class="line">    radial.addColorStop(<span class="number">1</span>****,<span class="string">'black'</span>);</div><div class="line">    context.fillRect(<span class="number">200</span>,<span class="number">50</span>,<span class="number">100</span>,<span class="number">100</span>);   </div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas6.png" alt="canvas6"></p>
+<h3 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h3><p>2D上下文提供了几个绘制阴影的属性，这些属性会自动为图形或者路径添加阴影。</p>
+<ul>
+<li>shadowColor：css颜色值形式的阴影颜色</li>
+<li>shadowOffsetX：沿x轴的偏移量</li>
+<li>shadowOffsetY：沿y轴的偏移量</li>
+<li>shadowBlur：模糊的像素数，默认为0</li>
+</ul>
+<p>看一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    <span class="comment">//创建一个线性渐变实例</span></div><div class="line">    </div><div class="line">    context.shadowOffsetX = <span class="number">5</span>;</div><div class="line">    context.shadowOffsetY = <span class="number">4</span>;</div><div class="line">    context.shadowBlur = <span class="number">5</span>;</div><div class="line">    context.shadowColor = <span class="string">'#cff8de'</span>;</div><div class="line">    </div><div class="line">    context.fillStyle=<span class="string">"#3399ff"</span>;</div><div class="line">    context.fillRect(<span class="number">40</span>,<span class="number">40</span>,<span class="number">100</span>,<span class="number">100</span>);</div><div class="line">    </div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas7.png" alt="canvas7"></p>
+<h3 id="变形"><a href="#变形" class="headerlink" title="变形"></a>变形</h3><p>2D绘制上下文支持我们对图像进行绘制变换，变换时我们需要用到变换矩阵，下面的方法会改变变换矩阵，从而导致不同的效果。</p>
+<h4 id="save（）和restore（）"><a href="#save（）和restore（）" class="headerlink" title="save（）和restore（）"></a>save（）和restore（）</h4><p>了解变形之前需要先知道两个在绘制图形时必不可少的方法–save（）和restore（），他们是用来保存和回复canvas状态的，不需要传入参数。</p>
+<p>canvas状态存储在栈中，当save（）方法被调用时，当前的状态就会被保存到栈中。</p>
+<p>canvas状态包括的内容有：</p>
+<ul>
+<li>当前应用的变形（scale，translate，rotate）</li>
+<li>strokeStyle, fillStyle, globalAlpha, lineWidth, lineCap, lineJoin, miterLimit, shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, globalCompositeOperation 的值</li>
+<li>当前的裁剪路径（clipping path）</li>
+</ul>
+<p>而restore（）方法被调用时，则会从栈中弹出上一个保存的状态，恢复所有设定。</p>
+<h4 id="translate（）"><a href="#translate（）" class="headerlink" title="translate（）"></a>translate（）</h4><p>translate（x,y）方法接收新位置的坐标，x是左右偏移量，y是上下偏移量，<strong>表示将坐标原点</strong>移到（x,y）。</p>
+<blockquote>
+<p>这里需要牢记偏移的是坐标原点，实际上所有变形操作的都是坐标原点。</p>
+</blockquote>
+<p>在变形之前用save（）保存状态是一个好的习惯，因为在一个循环中做位移但没有保存和回复canvas状态，最后有些东西会不见，因为它很可能超出了canvas范围之外了。</p>
+<h4 id="rotate（）"><a href="#rotate（）" class="headerlink" title="rotate（）"></a>rotate（）</h4><p>rotate（）方法接收一个angle参数，通过这个方法我们可以围绕原点旋转图像。</p>
+<p>通过旋转，我们可以绘制有趣的图形：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    context.translate(<span class="number">100</span>,<span class="number">100</span>);</div><div class="line">    context.translate(<span class="number">100</span>,<span class="number">100</span>);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">        context.save();</div><div class="line">        context.fillStyle=<span class="string">'rgb('</span>+(<span class="number">51</span>*i)+<span class="string">',255,'</span>+(<span class="number">255</span><span class="number">-51</span>*i)+<span class="string">')'</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;i*<span class="number">6</span>;j++)&#123;</div><div class="line">            context.rotate(<span class="built_in">Math</span>.PI*<span class="number">2</span>/(i*<span class="number">6</span>));</div><div class="line">            context.beginPath();</div><div class="line">            context.arc(<span class="number">0</span>,i*<span class="number">12.5</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI*<span class="number">2</span>,<span class="literal">true</span>);</div><div class="line">            context.fill();</div><div class="line">        &#125;</div><div class="line">        context.restore();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas4.png" alt="canvas4"></p>
+<h4 id="scale（）"><a href="#scale（）" class="headerlink" title="scale（）"></a>scale（）</h4><p>变形的另外一个方法是scale（x,y），即缩放。它接收两个参数，分别为x轴和y轴的缩放因子，默认都是1.</p>
+<h4 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h4><p>变形的最后一个方法是transform（m11,m12,m21,m22,dx,dy）,这个方法会讲当前的变形矩阵乘上一个基于自身参数的矩阵，各个参数的意义如下：</p>
+<ul>
+<li>m11：水平方向的缩放</li>
+<li>m12：水平方向的偏移</li>
+<li>m21：垂直方向的偏移</li>
+<li>m22：垂直方向的缩放</li>
+<li>dx：水平方向的移动</li>
+<li>dy：垂直方向的移动</li>
+</ul>
+<p>setTransform（m11,m12,m21,m22,dx,dy）会将变化矩阵重置为单位矩阵然后再调用transform（）。</p>
+<p>resetTransform（m11,m12,m21,m22,dx,dy）将当前变形为单位矩阵。</p>
+<p>tranlate（）、scale（）、rotate（）三个方法调用的先后顺序不同，最后出现的效果也不同，但是只要记住这三个方法都是操作的坐标轴，就会好理解得多了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> drawing = <span class="built_in">document</span>.getElementById(<span class="string">"myCanvas"</span>);</div><div class="line"><span class="comment">//检测浏览器是否支持canvas</span></div><div class="line"><span class="keyword">if</span>(drawing.getContext)&#123;</div><div class="line">    <span class="keyword">var</span> context = drawing.getContext(<span class="string">"2d"</span>);</div><div class="line">    context.save(); <span class="comment">//保存了当前context的状态</span></div><div class="line">    context.fillStyle = <span class="string">"#EEEEFF"</span>;</div><div class="line">    context.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">400</span>, <span class="number">300</span>);</div><div class="line"></div><div class="line">    context.fillStyle = <span class="string">"red"</span>;</div><div class="line">	<span class="comment">//平移 缩放 旋转   </span></div><div class="line">    context.translate(<span class="number">100</span>, <span class="number">100</span>);</div><div class="line">    context.scale(<span class="number">0.5</span>, <span class="number">0.5</span>);</div><div class="line">    context.rotate(<span class="built_in">Math</span>.PI / <span class="number">4</span>);</div><div class="line">    context.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</div><div class="line"></div><div class="line">	context.restore(); <span class="comment">//恢复到刚刚保存的状态</span></div><div class="line">	context.save(); <span class="comment">//保存了当前context的状态</span></div><div class="line">	context.fillStyle = <span class="string">"green"</span>;</div><div class="line">	<span class="comment">//缩放 平移 旋转 2 1 3 </span></div><div class="line">	context.scale(<span class="number">0.5</span>, <span class="number">0.5</span>);</div><div class="line">	context.translate(<span class="number">100</span>, <span class="number">100</span>);</div><div class="line">	context.rotate(<span class="built_in">Math</span>.PI / <span class="number">4</span>);</div><div class="line">	context.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</div><div class="line"></div><div class="line">	context.restore(); <span class="comment">//恢复到刚刚保存的状态</span></div><div class="line">	context.save(); <span class="comment">//保存了当前context的状态</span></div><div class="line">	context.fillStyle = <span class="string">"blue"</span>;</div><div class="line">	<span class="comment">//缩放 旋转 平移  2 3  1 </span></div><div class="line">	context.scale(<span class="number">0.5</span>, <span class="number">0.5</span>);</div><div class="line">	context.rotate(<span class="built_in">Math</span>.PI / <span class="number">4</span>);</div><div class="line">	context.translate(<span class="number">100</span>, <span class="number">100</span>);</div><div class="line">	context.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</div><div class="line"></div><div class="line">	context.restore(); <span class="comment">//恢复到刚刚保存的状态</span></div><div class="line">	context.save(); <span class="comment">//保存了当前context的状态</span></div><div class="line">	context.fillStyle = <span class="string">"pink"</span>;</div><div class="line">	<span class="comment">//旋转 平移 缩放  3 1 2 </span></div><div class="line">	context.rotate(<span class="built_in">Math</span>.PI / <span class="number">4</span>);</div><div class="line">	context.translate(<span class="number">100</span>, <span class="number">100</span>);</div><div class="line">	context.scale(<span class="number">0.5</span>, <span class="number">0.5</span>);</div><div class="line">	context.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/canvas1/canvas5.png" alt="canvas5"></p>
+<blockquote>
+<p>（平移，缩放，旋转）和（平移，旋转，缩放）效果一样，（缩放，旋转，平移）和（旋转，缩放，平移）一样</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/js-event2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2268,159 +2501,6 @@ func:用于监听的函数
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
-                  css高度坍塌及解决方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
-<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
-</blockquote>
-<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
-<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
-<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
-<blockquote>
-<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
-</blockquote>
-<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
-<li>元素的垂直外边距不会和子元素重叠</li>
-<li>开启BFC的元素不会被浮动元素所覆盖</li>
-<li>开启BFC的元素可以包含浮动元素</li>
-</ul>
-<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
-<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
-<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
-<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
-<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
-</ul>
-<blockquote>
-<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
-</blockquote>
-<p>可选值：</p>
-<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
-
-<blockquote>
-<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2470,7 +2550,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2483,7 +2563,7 @@ func:用于监听的函数
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
