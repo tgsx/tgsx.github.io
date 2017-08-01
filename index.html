@@ -267,6 +267,299 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/浏览器请求资源的过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/30/浏览器请求资源的过程/" itemprop="url">
+                  浏览器请求资源的过程发生了什么
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-30T19:03:20+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>当我们在浏览器地址栏输入像’www.google.com’这样的网址时，按下Enter键后一段时间后就能看到网页呈现在我们面前，其实中间发生了很多事情，大致的流程是这样的：</p>
+<ul>
+<li>DNS域名解析</li>
+<li>建立TCP连接（三次握手）</li>
+<li>发起HTTP请求</li>
+<li>获取响应结果</li>
+<li>浏览器解析HTML，获取其他静态资源</li>
+<li>浏览器页面渲染</li>
+<li>断开链接（四次挥手）</li>
+</ul>
+<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS解析过程其实就是查询域名与IP映射的过程，在网络上，IP才是计算机的唯一（通讯）标识，之所以会出现域名，是因为它对于用户来说方便记忆并且有比IP更高的可用性。既然底层的通信是通过ip来进行的，那么我们输入url后，势必就需要一个中间人来帮我们进行<strong>域名</strong>到<strong>ip</strong>之间的转换，这样我们才可能进行后续的步骤，这个中间人就是DNS解析。</p>
+<h3 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h3><p>在分析解析过程之前，我们需要域名的组成方式：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>说明</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>根域</td>
+<td>位于域名的末尾,用句号(.)表示,表明最高级别的层次结构</td>
+<td>.</td>
+</tr>
+<tr>
+<td>顶级域</td>
+<td>用来指示某个国家/地区或组织使用的名称的类型名称</td>
+<td>.com</td>
+</tr>
+<tr>
+<td>二级域</td>
+<td>个人或组织在Internet上使用的注册名称</td>
+<td>google.com</td>
+</tr>
+<tr>
+<td>子域</td>
+<td>已注册的二级域名的派生域名，即网站名</td>
+<td>www.google.com</td>
+</tr>
+</tbody>
+</table>
+<h4 id="域名服务器分类"><a href="#域名服务器分类" class="headerlink" title="域名服务器分类"></a>域名服务器分类</h4><p>这里有几种不同的域名服务器分类：</p>
+<ul>
+<li>根域名服务器：管理顶级域名，会告诉本地服务器顶级域名服务器的ip</li>
+<li>顶级域名服务器：管理二级域名，与根服务器类似</li>
+<li>权限域名服务器：负责一个区的域名服务器</li>
+<li>本地域名服务器：主机发出的dns请求会先被发送到本地域名服务器</li>
+</ul>
+<h4 id="查询方式"><a href="#查询方式" class="headerlink" title="查询方式"></a>查询方式</h4><p>1 主机向本地域名服务器的查询一般都是<code>递归式查询</code>。递归查询：主机向本地服务器询问要查询域名对应的ip时，如果本地服务器不知道，便代替用户向根域名服务器发起请求。</p>
+<p>2 本地域名服务器向根域名服务器的查询是<code>迭代查询</code>。迭代查询：当根服务器收到本地服务器的请求时，要么给出所要查询的ip地址，要么告诉本地服务器向下一级的域名服务器去查询。本地域名服务器再向顶级域名服务器发起请求，结果类似，查询不到的情况下继续向权限服务器发起请求，最终将结果返回给主机</p>
+<p>综上所述：域名的解析过程类似下面：</p>
+<blockquote>
+<p><strong>.</strong>-&gt;<strong>.com</strong>-&gt;<strong>google.com</strong>-&gt;<strong>www.google.com</strong></p>
+</blockquote>
+<h5 id="DNS负载均衡"><a href="#DNS负载均衡" class="headerlink" title="DNS负载均衡"></a>DNS负载均衡</h5><p>现实生活中，淘宝双十一每分钟的请求量是无比巨大的，如果用户请求的都是同一台服务器的话，那么这对服务器的性能要求是非常之高的。但实际上，用户并不关心获取数据的来源，他们只关注更好的服务和更快更流畅的体验，这时我们就可以根据每台机器的负载量，该机器离用户地理位置的距离来给用户分配一个合适的服务器IP，这就叫做<code>DNS负载均衡</code>，又称<code>DNS重定向</code>，开发中经常涉及到的<code>CDN</code>就是利用了这个原理。</p>
+<p>反向代理的原理和DNS负载均衡很像，都是为了解决负载均衡。</p>
+<h2 id="建立TCP连接"><a href="#建立TCP连接" class="headerlink" title="建立TCP连接"></a>建立TCP连接</h2><p>由于HTTP是一个无状态要求可靠传输的协议，所以我们需要建立TCP而不是UDP链接。<br>TCP在建立链接的时候,需要经过三次握手：</p>
+<ul>
+<li>client先发送一个（SYN=1,seq=client_seq_num）标志的数据包给接收方</li>
+<li>server接收后，回传一个（SYN=1,ack=client_seq+1,seq=server_seq_num）标志的数据包进行确认</li>
+<li>client再回传一个（SYN=0,ack=server_seq+1）标志的数据包来表示握手成功</li>
+</ul>
+<blockquote>
+<p>TCP对于由于各种问题而丢失的数据包会进行重传，这让用户能够接收到完整且正确的信息，这也是选用TCP而不是UDP的原因！</p>
+</blockquote>
+<h2 id="浏览器发送http请求"><a href="#浏览器发送http请求" class="headerlink" title="浏览器发送http请求"></a>浏览器发送http请求</h2><p>三次握手建立tcp连接完毕后，就是给服务器发送http请求了。<br>http请求报文包括三个部分：</p>
+<ul>
+<li>起始行</li>
+<li>首部</li>
+<li>主体</li>
+</ul>
+<h3 id="起始行"><a href="#起始行" class="headerlink" title="起始行"></a>起始行</h3><p>起始行中包括了请求方式,资源路径，http协议版本三部分<br>EXP： GET index.html HTTP/1.1</p>
+<blockquote>
+<p>常见的方法有：GET,POST,PUT,DELETE</p>
+</blockquote>
+<h3 id="首部"><a href="#首部" class="headerlink" title="首部"></a>首部</h3><p>首部在请求报文中又称请求报头，里面包含客户端自身的信息和向服务器发送的附加信息。</p>
+<p>常见的请求报头有: Accept, Accept-Charset, Accept-Encoding, Accept-Language, Content-Type, Authorization, Cookie, User-Agent等。<br>Accept用于指定客户端用于接受哪些类型的信息，Accept-Encoding与Accept类似，它用于指定接受的编码方式。Connection设置为Keep-alive用于告诉客户端本次HTTP请求结束之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP连接建立的时间。</p>
+<h3 id="主体"><a href="#主体" class="headerlink" title="主体"></a>主体</h3><p>主体在请求报文中又称请求正文，对于GET方法来说他是空的，对于POST,PUT等方法来说，里面是要向服务器发送的数据，请求包头中有些字段与它有关，例如当主体中的数据格式为json时，这是要设置content-type为application/json。</p>
+<h2 id="返回响应报文"><a href="#返回响应报文" class="headerlink" title="返回响应报文"></a>返回响应报文</h2><p>与请求报文类似，响应报文也由三部分组成：</p>
+<ul>
+<li>状态码</li>
+<li>响应报头</li>
+<li>响应正文</li>
+</ul>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><p>状态码都是3位的数字，百位上的数字代表了响应的类别，有5中可能的取值：</p>
+<ul>
+<li>1**：信息性状态码</li>
+<li>2**：成功状态码<ul>
+<li>200：OK 请求正常处理</li>
+<li>204：No Content请求处理成功，但没有资源可返回</li>
+<li>206：Partial Content对资源的某一部分的请求</li>
+</ul>
+</li>
+<li>3**：重定向状态码<br>-301：Moved Permanently 永久重定向<br>-302：Found 临时性重定向<br>-304：Not Modified 缓存中读取</li>
+<li>4**：客户端错误状态码<ul>
+<li>400：Bad Request 请求报文中存在语法错误</li>
+<li>401：Unauthorized需要有通过Http认证的认证信息</li>
+<li>403：Forbidden访问被拒绝</li>
+<li>404：Not Found无法找到请求资源</li>
+</ul>
+</li>
+<li>5**：服务器错误状态码<ul>
+<li>500：Internal Server Error 服务器端在执行时发生错误</li>
+<li>503：Service Unavailable 服务器处于超负载或者正在进行停机维护</li>
+</ul>
+</li>
+</ul>
+<h3 id="响应报头"><a href="#响应报头" class="headerlink" title="响应报头"></a>响应报头</h3><p>常见字段：server，connection</p>
+<h3 id="响应正文"><a href="#响应正文" class="headerlink" title="响应正文"></a>响应正文</h3><p>请求返回的文本信息（资源），如html，css，js，图片等文件就存放在里面。</p>
+<h2 id="浏览器解析HTML，获取其他静态资源"><a href="#浏览器解析HTML，获取其他静态资源" class="headerlink" title="浏览器解析HTML，获取其他静态资源"></a>浏览器解析HTML，获取其他静态资源</h2><p>浏览器对于页面的解析时至上而下的，通过解析html来构建DOM树，当解析到&lt;link&gt;标签或@import时，就会请求服务器获取css文件，在下载的同时浏览器还是会继续向下解析的，但<strong>当下载js文件和执行它时，解析器便会停止手头的工作，等待js的操作完成后再向下解析</strong>，这便是js的阻塞问题，也是为什么&lt;link&gt;标签可以放在&lt;head&gt;中，而引入的js文件最好放在&lt;/body&gt;前面的原因，这样可以避免js阻塞了html的解析而导致页面短时间内无法呈现在用户面前的尴尬情况。</p>
+<blockquote>
+<p>html5中提供了defer和async来实现js外联的无阻塞加载</p>
+</blockquote>
+<p>&lt;link&gt;和@imoprt的区别：</p>
+<ul>
+<li>link是XHTML标签，除了加载CSS外，还可以定义RSS等其他事务；@import属于CSS范畴，只能加载CSS</li>
+<li>link引用CSS时，在页面载入时同时加载；@import需要页面网页完全载入以后加载</li>
+<li>link是XHTML标签，无兼容问题；@import是在CSS2.1提出的，低版本的浏览器不支持</li>
+<li>ink支持使用Javascript控制DOM去改变样式；而@import不支持</li>
+</ul>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><h3 id="渲染树（render树）"><a href="#渲染树（render树）" class="headerlink" title="渲染树（render树）"></a>渲染树（render树）</h3><p>前面已经说过，解析html的时候会生成<strong>DOM树</strong>，而解析css则会生成<strong>CSSOM树</strong>，前者描述内容，后者描述应用与内容的样式规则。</p>
+<p>DOM树和CSSOM结合在一起会构成一棵渲染树，渲染树既包含了页面上所有的可视DOM节点，又包含了CSSOM中每个节点的样式信息。</p>
+<p>渲染树的构建步骤：</p>
+<ul>
+<li><p>从DOM树的根节点开始，遍历所有的可视节点，不可视节点有：</p>
+<ul>
+<li>脚本标签，元数据标签</li>
+<li>应用display：none的元素</li>
+</ul>
+</li>
+<li><p>对于可视节点，从CSSOM中找到对应的样式规则，附加在节点上</p>
+</li>
+<li>输出可视节点以及每个节点计算出来的样式</li>
+</ul>
+<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><p>通过渲染树，浏览器已经能知道可视内容的样式信息了，但是真正要渲染时，我们还需要获取<strong>节点的位置和尺寸</strong>，这是布局阶段要做的工作，也成为<strong>“回流”（reflow）</strong>.</p>
+<p>布局阶段的输出结果成为“盒模型”（box model），盒模型精确表达了窗口中元素的位置和大小，所有相对的度量单位都会被转化为屏幕上的绝对像素位置。</p>
+<p>当以上步骤都完成后，浏览器就能把节点绘制成屏幕上每个真实的像素点了，此阶段为<strong>“绘制”或者“重绘”</strong>（resterizing）</p>
+<p>其实从这里也能引出一个概念了：</p>
+<blockquote>
+<p><strong>回流必定导致重绘，重绘不一定导致回流</strong>^_^!</p>
+</blockquote>
+<p>页面渲染的过程中至少会发生一次reflow和repaint，reflow的开销相对与repaint要高得多。一般来说如果一个元素的尺寸发生了改变，会对后面的已渲染的页面造成影响，那么就需要重新计算布局，即回流，而如果只是改变了外观的话，那么只需要进行重绘即可。</p>
+<p>举个通用的例子来说明一下重绘与回流：</p>
+<ol>
+<li>用户输入网址（假设是个html页面，并且是第一次访问），浏览器向服务器发出请求，服务器返回html文件；</li>
+<li>浏览器开始载入html代码，发现&lt;head&gt;标签内有一个&lt;link&gt;标签引用外部CSS文件；</li>
+<li>浏览器又发出CSS文件的请求，服务器返回这个CSS文件；</li>
+<li>浏览器继续载入html中&lt;body&gt;部分的代码，并且CSS文件已经拿到手了，可以开始渲染页面了；</li>
+<li>浏览器在代码中发现一个&lt;img&gt;标签引用了一张图片，向服务器发出请求。此时浏览器不会等到图片下载完，而是继续渲染后面的代码；</li>
+<li>服务器返回图片文件，由于图片占用了一定面积，影响了后面段落的排布，因此浏览器需要回过头来重新渲染这部分代码；</li>
+<li>浏览器发现了一个包含一行JavaScript代码的&lt;script&gt;标签，赶快运行它；</li>
+<li>javascript脚本执行了这条语句，它命令浏览器隐藏掉代码中的某个&lt;div&gt; （style.display=”none”）。杯具啊，突然就少了这么一个元素，浏览器不得不重新渲染这部分代码；</li>
+<li>终于等到了&lt;/html&gt;的到来，浏览器泪流满面……</li>
+<li>等等，还没完，用户点了一下界面中的“换肤”按钮，Javascript让浏览器换了一下&lt;link&gt;标签的CSS路径；</li>
+<li>浏览器召集了在座的各位&lt;div&gt;&lt;span&gt;&lt;ul&gt;&lt;li&gt;们，“大伙儿收拾收拾行李，咱得重新来过……”，浏览器向服务器请求了新的CSS文件，重新渲染页面</li>
+</ol>
+<p>对于重绘回流的优化以及js阻塞的解决会在另一篇博客提及。</p>
+<h2 id="断开链接（四次挥手）"><a href="#断开链接（四次挥手）" class="headerlink" title="断开链接（四次挥手）"></a>断开链接（四次挥手）</h2><p>当浏览器获取到了所有想要的资源并且用户没有发起新的请求之前，为了不让tcp空耗着，我们会选择断开这个tcp链接，断开的主动方可以时服务器也可以是客户端。</p>
+<p>假设有client发起终端请求，则过程是这样的：</p>
+<ul>
+<li>client端发起FIN报文，告诉server端如果数据没发送完，可以不急着关闭socket，继续发送</li>
+<li>server端收到FIN报文后，回传一个确认包并让client等待（因为自己要确认是否已经发送完数据了），client进入<strong>FIN_WAIT</strong>状态</li>
+<li>server确认自己已经发送完所有数据了，可以真正关闭链接了，向client发送FIN</li>
+<li>client收到FIN后回传一个ACK并进入<strong>TIME_WAIT</strong>状态</li>
+<li>server接收到ACK后关闭链接</li>
+<li>client在2MSL（<strong>报文最大生存时间</strong>，4分钟）后如果没有收到server发过来的FIN包，证明server端已经关闭成功，那么自己也可以关闭了</li>
+</ul>
+<p>需要四次挥手的原因：</p>
+<blockquote>
+<p>当一方主动发起FIN请求是，可能另一方的数据还没发送完，故此只能返回一个ACK让他先等待，只有当自己确认已经发送完所有的数据后才会发起一个FIN来并当接收到一个回传的ACK时结束这个连接，俗称四次挥手。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/21/canvas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1486,7 +1779,7 @@
 <p>看到没有，原来你不止触发了一个点击事件，只要你在body或者html上绑定一个事件，你会发现，他们都会在div事件触发之后被触发。现代浏览器都支持事件冒泡，只是有少许差别。IE9、FF、chrome、Safari会将事件一直冒泡到window对象，不过我们不用太在意。</p>
 <p>下面在上面的代码基础上我们再做一些修改</p>
 <p><strong>EXP2</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        #ancestor&#123;width:250px;height:200px;background:orange;&#125;</div><div class="line">        #parent&#123;width:150px;height:100px;background:skyblue;&#125;</div><div class="line">        #child&#123;width:50px;height:50px;background:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">		var aObj = document.getElementById("ancestor");</div><div class="line">		var pObj = document.getElementById("parent");</div><div class="line">		var cObj = document.getElementById("child");</div><div class="line">		var clickFunc = function(e)&#123;</div><div class="line">			console.log("my id is "+this.id);</div><div class="line">		&#125;</div><div class="line">		aObj.onclick = clickFunc;</div><div class="line">		pObj.onclick = clickFunc;</div><div class="line">		cObj.onclick = clickFunc;</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.onclick = clickFunc;</div><div class="line">		pObj.onclick = clickFunc;</div><div class="line">		cObj.onclick = clickFunc;</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>但我们点击最小的区域块，即黄色的child，效果图如下：</p>
 <p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-1.png" alt="event1"></p>
 <p>我们只点击了child子元素，但是却也触发了parent和ancestor的点击事件!</p>
@@ -1500,7 +1793,7 @@
 <p>document事件首先接受到click事件，然后沿DOM树依次向下一直传递到到我们所点击的div元素，至此，捕获事件才算完成。</p>
 <p>我们对例二进行一下修改，来看看捕获的实际过程。</p>
 <p><strong>EXP3</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件捕获<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        #ancestor&#123;width:250px;height:200px;background:orange;&#125;</div><div class="line">        #parent&#123;width:150px;height:100px;background:skyblue;&#125;</div><div class="line">        #child&#123;width:50px;height:50px;background:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		pObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		cObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件捕获<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		pObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		cObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>我们依旧点击黄色的child，效果如下：</p>
 <p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-2.png" alt="event2"></p>
 <p>因为老版本浏览器不支持，所以并不建议使用它，除非特殊需要。</p>
@@ -1917,7 +2210,7 @@ func:用于监听的函数
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/css选择器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liby">
@@ -1939,8 +2232,8 @@ func:用于监听的函数
             
               
                 
-                <a class="post-title-link" href="/2017/06/03/css选择器/" itemprop="url">
-                  CSS选择器及优先级
+                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
+                  css高度坍塌及解决方法
                 </a>
               
             
@@ -1994,479 +2287,39 @@ func:用于监听的函数
       
         
           
-            <p>css选择器作为网页中我们用来选中样式添加样式的一样利器，掌握好它无疑是我们能够在开发中顺心顺手的前提。这里汇总了CSS和CSS3的选择器，这里有些选择器你可能不常用，但是过一眼还是很有必要的，大家共勉！</p>
-<h2 id="一、基本选择器"><a href="#一、基本选择器" class="headerlink" title="一、基本选择器"></a>一、基本选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>*</td>
-<td>类似于正则的*，匹配任何元素</td>
-</tr>
-<tr>
-<td>E</td>
-<td>标签选择器，匹配所有标签名为E的元素</td>
-</tr>
-<tr>
-<td>.className</td>
-<td>类选择器，匹配标签中含有class=”className”的属性</td>
-</tr>
-<tr>
-<td>#idName</td>
-<td>id选择器，匹配标签中含有id=”idName”的属性</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>class和id的区别即多和一的区别，希望大家自己查阅资料，。</p>
+            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
+<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
 </blockquote>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">a</span>&#123;<span class="attribute">color</span>:<span class="number">#000</span>;&#125;</div><div class="line"><span class="selector-class">.form-group</span>&#123;<span class="attribute">height</span>:<span class="number">150px</span>;&#125;</div><div class="line"><span class="selector-id">#nav</span>&#123;<span class="attribute">backgound</span>:<span class="built_in">rgba</span>(0,0,0,0.7);&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="二、组合选择器"><a href="#二、组合选择器" class="headerlink" title="二、组合选择器"></a>二、组合选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E1，E2</td>
-<td>多元素选择器，同时匹配所有标签名为E1和E2的元素，以逗号分割</td>
-</tr>
-<tr>
-<td>E1 E2</td>
-<td>后代元素选择器，匹配所有E1元素中的E2元素，以空格作为标识</td>
-</tr>
-<tr>
-<td>E1 &gt; E2</td>
-<td>子元素选择器，匹配所有E1元素子元素中E2</td>
-</tr>
-<tr>
-<td>E1 + E2</td>
-<td>邻居选择器，匹配所有与E元素同级且在紧邻其后的元素E2</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span>&#123;<span class="attribute">float</span>:left;&#125;</div><div class="line"><span class="selector-id">#nav</span> &gt; <span class="selector-tag">div</span>&#123;<span class="attribute">height</span>:<span class="number">40px</span>;&#125;</div><div class="line"><span class="selector-tag">p</span> + <span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="三、CSS2-1属性选择器"><a href="#三、CSS2-1属性选择器" class="headerlink" title="三、CSS2.1属性选择器"></a>三、CSS2.1属性选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E[attr]</td>
-<td>匹配所有具有attr属性的E元素，不考虑它的值（ps：E可以省略,如’[selected],下同’）</td>
-</tr>
-<tr>
-<td>E[attr=val]</td>
-<td>匹配所有属性attr值等于val的元素E</td>
-</tr>
-<tr>
-<td>E[attr~=val]</td>
-<td>匹配所有attr属性具有多个空格分割的值，其中一个值等于”val”的E元素</td>
-</tr>
-<tr>
-<td>E[attr</td>
-<td>=val]</td>
-<td>匹配所有attr属性具有多个连字号分割的值，其中一个值以”val”开头的E元素，主要用于lang的属性，比如”en”、”en-us”</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[title]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=button]</span>&#123;<span class="attribute">width</span>:<span class="number">60px</span>;&#125;</div><div class="line"><span class="selector-tag">td</span><span class="selector-attr">[headers~=coll]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[lang|=en]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="四、css2-1中的伪类"><a href="#四、css2-1中的伪类" class="headerlink" title="四、css2.1中的伪类"></a>四、css2.1中的伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E：first-child</td>
-<td>匹配父元素E的第一个子元素</td>
-</tr>
-<tr>
-<td>E：link</td>
-<td>匹配所有未被点击链接的E元素</td>
-</tr>
-<tr>
-<td>E：visited</td>
-<td>匹配所有已被点击链接的E元素</td>
-</tr>
-<tr>
-<td>E：active</td>
-<td>匹配鼠标已经按下还没释放的E元素</td>
-</tr>
-<tr>
-<td>E：hover</td>
-<td>匹配鼠标悬停的E元素</td>
-</tr>
-<tr>
-<td>E：focus</td>
-<td>匹配获得当前焦点的E元素</td>
-</tr>
-<tr>
-<td>E:lang(c)</td>
-<td>匹配lang属性等于c的E元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ul:first-child&#123;background：#000;&#125;</div><div class="line">/*hover，link，active，vistied主要匹配的状态不同，感兴趣的可以自行百度*/</div><div class="line">a:hover&#123;color:orange;&#125;</div><div class="line">input[type=text]:focu[color:#000;]</div><div class="line">q:lang(sv)&#123;quotes:"\201D" "\201D" "\2019" "\2019"&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="五、CSS2-1中的伪元素"><a href="#五、CSS2-1中的伪元素" class="headerlink" title="五、CSS2.1中的伪元素"></a>五、CSS2.1中的伪元素</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E：first-line</td>
-<td>　匹配E元素的第一行</td>
-</tr>
-<tr>
-<td>E：first-letter</td>
-<td>匹配E元素的第一个字母</td>
-</tr>
-<tr>
-<td>E：before</td>
-<td>在E元素之前插入生成的内容</td>
-</tr>
-<tr>
-<td>E：after</td>
-<td>在E元素之后插入生成的内容</td>
-</tr>
-</tbody>
-</table>
+<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
+<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
+<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
 <blockquote>
-<p>下一篇博客会说到三角形的生成以及before和after的应用</p>
+<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
 </blockquote>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cbb</span><span class="selector-pseudo">:before</span> &#123; <span class="attribute">content</span>:<span class="string">""</span>; <span class="attribute">display</span>:block; <span class="attribute">height</span>:<span class="number">17px</span>; <span class="attribute">width</span>:<span class="number">18px</span>; <span class="attribute">background</span>:<span class="built_in">url</span>(top.png) no-repeat <span class="number">0</span> <span class="number">0</span>; <span class="attribute">margin</span>:<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">18px</span>; &#125;</div><div class="line"></div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span><span class="selector-pseudo">:after</span> &#123; <span class="attribute">content</span>: <span class="string">" ("</span> <span class="built_in">attr</span>(href) <span class="string">") "</span>; &#125;</div></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="六、CSS3的同级元素通用选择器"><a href="#六、CSS3的同级元素通用选择器" class="headerlink" title="六、CSS3的同级元素通用选择器"></a>六、CSS3的同级元素通用选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E1~E2</td>
-<td>匹配E1元素之后的同级E2元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> ~ <span class="selector-tag">div</span>&#123;<span class="attribute">background</span>:<span class="number">#fff</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="七、CSS3属性选择器"><a href="#七、CSS3属性选择器" class="headerlink" title="七、CSS3属性选择器"></a>七、CSS3属性选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E[attr^=”val”]</td>
-<td>匹配属性attr的值以“val”开头的元素</td>
-</tr>
-<tr>
-<td>E[attr$=”val”]</td>
-<td>匹配属性attr的值以”val“结尾的元素</td>
-</tr>
-<tr>
-<td>E[attr*=”val”]</td>
-<td>匹配属性attr值中包含“val”的元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span><span class="selector-attr">[id^="nav"]</span>&#123;<span class="attribute">background</span>:<span class="number">#ff0</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="八、CSS3中与用户界面有关的伪类"><a href="#八、CSS3中与用户界面有关的伪类" class="headerlink" title="八、CSS3中与用户界面有关的伪类"></a>八、CSS3中与用户界面有关的伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:enabled</td>
-<td>匹配表单中激活的元素</td>
-</tr>
-<tr>
-<td>E：disabled</td>
-<td>匹配表单中被禁用的元素</td>
-</tr>
-<tr>
-<td>E:checked</td>
-<td>匹配表单中被选中的radio或checkbox元素</td>
-</tr>
-<tr>
-<td>E::selection</td>
-<td>匹配用户当前选择的元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type="text"]</span><span class="selector-pseudo">:disabled</span>&#123;<span class="attribute">background</span>:<span class="number">#ddd</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="九、CSS3中的结构性伪类"><a href="#九、CSS3中的结构性伪类" class="headerlink" title="九、CSS3中的结构性伪类"></a>九、CSS3中的结构性伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:root</td>
-<td>匹配文档的根元素，对于HTML文档，就是HTML元素</td>
-</tr>
-<tr>
-<td>E:nth-child(n)</td>
-<td>匹配其父元素的第n（起始为1）个子元素</td>
-</tr>
-<tr>
-<td>E:nth-last-child(n)</td>
-<td>匹配其父元素的倒数第n（起始为1）个子元素</td>
-</tr>
-<tr>
-<td>E：nth-of-type(n)</td>
-<td>与nth—child作用类似，但是仅匹配使用同种标签的元素</td>
-</tr>
-<tr>
-<td>E:nth-last-of-type(n)</td>
-<td>与nth-last-child作用类似，但是仅匹配使用同种标签的元素</td>
-</tr>
-<tr>
-<td>E:last-child</td>
-<td>匹配父元素的最后一个子元素，等同于nth-last-child(1)</td>
-</tr>
-<tr>
-<td>E:first-of-type</td>
-<td>匹配父元素下使用同种标签的第一个子元素，等同于nth-of-type(1)</td>
-</tr>
-<tr>
-<td>E:last-of-type</td>
-<td>匹配父元素下使用同种标签的最后一个子元素，等同于nth-last-of-type(1)</td>
-</tr>
-<tr>
-<td>E:only-child</td>
-<td>匹配父元素下仅有的一个子元素，等同于:first-child:last-child 或 :nth-child(1):nth-last-child(1)</td>
-</tr>
-<tr>
-<td>E:only-of-type</td>
-<td>匹配父元素下使用同种标签的为一个一个子元素，等同于:first-of-type:last-of-type 或 :nth-of-type(1):nth-last-of-type(1)</td>
-</tr>
-<tr>
-<td>E:empty</td>
-<td>匹配一个不包含任何子元素的元素，ps：文本节点也被看做子元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"></div><div class="line"><span class="comment">/*匹配p元素下的奇数位子元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(odd)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;  </div><div class="line">  </div><div class="line"><span class="comment">/*匹配p元素下的偶数数位子元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(even)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"></div><div class="line"><span class="comment">/*这种用法要了解,灵活匹配中间的元素*/</span></div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(3n+3)</span>&#123;<span class="attribute">background</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="十、CSS3的反选伪类"><a href="#十、CSS3的反选伪类" class="headerlink" title="十、CSS3的反选伪类"></a>十、CSS3的反选伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:not(s)</td>
-<td>　匹配不符合当前选择器的任何元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*匹配所有不包含class1的元素*/</span></div><div class="line"><span class="selector-pseudo">:not(.class1)</span></div><div class="line"></div><div class="line"><span class="comment">/*匹配所有含有子元素的p元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:not(</span><span class="selector-pseudo">:empty)</span></div></pre></td></tr></table></figure></p>
-<h2 id="十一、CSS3中的target伪类"><a href="#十一、CSS3中的target伪类" class="headerlink" title="十一、CSS3中的target伪类"></a>十一、CSS3中的target伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:target</td>
-<td>　　匹配文档中特定”id”点击后的效果</td>
-</tr>
-</tbody>
-</table>
-<p>更多信息请参照<a href="http://www.w3school.com.cn/css/css_pseudo_classes.asp" target="_blank" rel="external">W3C</a>进行阅读,关于伪类的知识点就介绍到这里了！</p>
-<hr>
-<h2 id="选择器优先级"><a href="#选择器优先级" class="headerlink" title="选择器优先级"></a>选择器优先级</h2><p>页面中我们可能对一个元素应用了多个样式，那它到底会应用那个样式呢，这涉及到了优先级，下面就补充下关于选择器的优先级问题。</p>
-<p>选择器的特殊性分为<strong>4个权重值</strong>，<strong>a b c d</strong>，值分别为1000,100,10,1,从左到右，越左边的越优先。</p>
-<ul>
-<li>HTML内样式，那么特殊性最优先，权重为1000</li>
-<li>id选择器的特殊性是b，权重为100</li>
-<li>类选择器、伪类选择器、属性选择器为c，权重为10</li>
-<li>标签选择器、伪元素选择器为d，权重为1</li>
+<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
+<li>元素的垂直外边距不会和子元素重叠</li>
+<li>开启BFC的元素不会被浮动元素所覆盖</li>
+<li>开启BFC的元素可以包含浮动元素</li>
 </ul>
-<p>ps:</p>
-<ul>
-<li>比较的过程就是将权重相加，大者优先级高</li>
-<li>结果相同的情况下，后定义的样式会覆盖前面的</li>
-<li>样式中含有！important，则该样式或者该属性优先级最高，无视其他样式，即使是<strong>内联样式</strong>。</li>
+<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
+<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
+<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
+<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
+<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
 </ul>
-<h3 id="important特殊性"><a href="#important特殊性" class="headerlink" title="!important特殊性"></a>!important特殊性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#id</span> &#123; <span class="attribute">color</span>: red &#125;   </div><div class="line"><span class="selector-class">.class</span> &#123; <span class="attribute">color</span>: yellow <span class="meta">!important</span> &#125;</div></pre></td></tr></table></figure>
-<p>第二个样式优先于第一个样式，即使id选择器优先级高于类选择器<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-tag">div</span> &#123;   </div><div class="line">  <span class="attribute">color</span>: yellow <span class="meta">!important</span>;     </div><div class="line">  <span class="attribute">color</span>: red;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种情况带!important的属性优先级高，但是在IE6这样会显示为红色，是因为IE6的一点小bug，通过书写格式可以避免，可以参考<a href="http://www.cnblogs.com/yudy/archive/2013/05/27/3102825.html" target="_blank" rel="external">这篇博文</a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
-                  CSS属性之box-sizing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
 <blockquote>
-<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
+<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
 </blockquote>
-<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
-<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
-<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
-<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
-<blockquote>
-<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
-<p><strong>box model</strong></p>
-<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
+<p>可选值：</p>
+<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
 
 <blockquote>
-<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
+<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
 </blockquote>
-</li>
-</ul>
-<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
-<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
 
           
         
@@ -2550,7 +2403,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2563,7 +2416,7 @@ func:用于监听的函数
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -1,0 +1,934 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="前端基础,网络基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="当我们在浏览器地址栏输入像’www.google.com’这样的网址时，按下Enter键后一段时间后就能看到网页呈现在我们面前，其实中间发生了很多事情，大致的流程是这样的：
+
+DNS域名解析
+建立TCP连接（三次握手）
+发起HTTP请求
+获取响应结果
+浏览器解析HTML，获取其他静态资源
+浏览器页面渲染
+断开链接（四次挥手）
+
+DNS域名解析DNS解析过程其实就是查询域名与IP映射的过程，在网络上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器请求资源的过程发生了什么">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/浏览器请求资源的过程/index.html">
+<meta property="og:site_name" content="Liby">
+<meta property="og:description" content="当我们在浏览器地址栏输入像’www.google.com’这样的网址时，按下Enter键后一段时间后就能看到网页呈现在我们面前，其实中间发生了很多事情，大致的流程是这样的：
+
+DNS域名解析
+建立TCP连接（三次握手）
+发起HTTP请求
+获取响应结果
+浏览器解析HTML，获取其他静态资源
+浏览器页面渲染
+断开链接（四次挥手）
+
+DNS域名解析DNS解析过程其实就是查询域名与IP映射的过程，在网络上">
+<meta property="og:updated_time" content="2017-08-01T07:22:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浏览器请求资源的过程发生了什么">
+<meta name="twitter:description" content="当我们在浏览器地址栏输入像’www.google.com’这样的网址时，按下Enter键后一段时间后就能看到网页呈现在我们面前，其实中间发生了很多事情，大致的流程是这样的：
+
+DNS域名解析
+建立TCP连接（三次握手）
+发起HTTP请求
+获取响应结果
+浏览器解析HTML，获取其他静态资源
+浏览器页面渲染
+断开链接（四次挥手）
+
+DNS域名解析DNS解析过程其实就是查询域名与IP映射的过程，在网络上">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/30/浏览器请求资源的过程/"/>
+
+
+
+
+
+  <title> 浏览器请求资源的过程发生了什么 | Liby </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liby</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/浏览器请求资源的过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                浏览器请求资源的过程发生了什么
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-30T19:03:20+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>当我们在浏览器地址栏输入像’www.google.com’这样的网址时，按下Enter键后一段时间后就能看到网页呈现在我们面前，其实中间发生了很多事情，大致的流程是这样的：</p>
+<ul>
+<li>DNS域名解析</li>
+<li>建立TCP连接（三次握手）</li>
+<li>发起HTTP请求</li>
+<li>获取响应结果</li>
+<li>浏览器解析HTML，获取其他静态资源</li>
+<li>浏览器页面渲染</li>
+<li>断开链接（四次挥手）</li>
+</ul>
+<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><p>DNS解析过程其实就是查询域名与IP映射的过程，在网络上，IP才是计算机的唯一（通讯）标识，之所以会出现域名，是因为它对于用户来说方便记忆并且有比IP更高的可用性。既然底层的通信是通过ip来进行的，那么我们输入url后，势必就需要一个中间人来帮我们进行<strong>域名</strong>到<strong>ip</strong>之间的转换，这样我们才可能进行后续的步骤，这个中间人就是DNS解析。</p>
+<h3 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h3><p>在分析解析过程之前，我们需要域名的组成方式：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>说明</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>根域</td>
+<td>位于域名的末尾,用句号(.)表示,表明最高级别的层次结构</td>
+<td>.</td>
+</tr>
+<tr>
+<td>顶级域</td>
+<td>用来指示某个国家/地区或组织使用的名称的类型名称</td>
+<td>.com</td>
+</tr>
+<tr>
+<td>二级域</td>
+<td>个人或组织在Internet上使用的注册名称</td>
+<td>google.com</td>
+</tr>
+<tr>
+<td>子域</td>
+<td>已注册的二级域名的派生域名，即网站名</td>
+<td>www.google.com</td>
+</tr>
+</tbody>
+</table>
+<h4 id="域名服务器分类"><a href="#域名服务器分类" class="headerlink" title="域名服务器分类"></a>域名服务器分类</h4><p>这里有几种不同的域名服务器分类：</p>
+<ul>
+<li>根域名服务器：管理顶级域名，会告诉本地服务器顶级域名服务器的ip</li>
+<li>顶级域名服务器：管理二级域名，与根服务器类似</li>
+<li>权限域名服务器：负责一个区的域名服务器</li>
+<li>本地域名服务器：主机发出的dns请求会先被发送到本地域名服务器</li>
+</ul>
+<h4 id="查询方式"><a href="#查询方式" class="headerlink" title="查询方式"></a>查询方式</h4><p>1 主机向本地域名服务器的查询一般都是<code>递归式查询</code>。递归查询：主机向本地服务器询问要查询域名对应的ip时，如果本地服务器不知道，便代替用户向根域名服务器发起请求。</p>
+<p>2 本地域名服务器向根域名服务器的查询是<code>迭代查询</code>。迭代查询：当根服务器收到本地服务器的请求时，要么给出所要查询的ip地址，要么告诉本地服务器向下一级的域名服务器去查询。本地域名服务器再向顶级域名服务器发起请求，结果类似，查询不到的情况下继续向权限服务器发起请求，最终将结果返回给主机</p>
+<p>综上所述：域名的解析过程类似下面：</p>
+<blockquote>
+<p><strong>.</strong>-&gt;<strong>.com</strong>-&gt;<strong>google.com</strong>-&gt;<strong>www.google.com</strong></p>
+</blockquote>
+<h5 id="DNS负载均衡"><a href="#DNS负载均衡" class="headerlink" title="DNS负载均衡"></a>DNS负载均衡</h5><p>现实生活中，淘宝双十一每分钟的请求量是无比巨大的，如果用户请求的都是同一台服务器的话，那么这对服务器的性能要求是非常之高的。但实际上，用户并不关心获取数据的来源，他们只关注更好的服务和更快更流畅的体验，这时我们就可以根据每台机器的负载量，该机器离用户地理位置的距离来给用户分配一个合适的服务器IP，这就叫做<code>DNS负载均衡</code>，又称<code>DNS重定向</code>，开发中经常涉及到的<code>CDN</code>就是利用了这个原理。</p>
+<p>反向代理的原理和DNS负载均衡很像，都是为了解决负载均衡。</p>
+<h2 id="建立TCP连接"><a href="#建立TCP连接" class="headerlink" title="建立TCP连接"></a>建立TCP连接</h2><p>由于HTTP是一个无状态要求可靠传输的协议，所以我们需要建立TCP而不是UDP链接。<br>TCP在建立链接的时候,需要经过三次握手：</p>
+<ul>
+<li>client先发送一个（SYN=1,seq=client_seq_num）标志的数据包给接收方</li>
+<li>server接收后，回传一个（SYN=1,ack=client_seq+1,seq=server_seq_num）标志的数据包进行确认</li>
+<li>client再回传一个（SYN=0,ack=server_seq+1）标志的数据包来表示握手成功</li>
+</ul>
+<blockquote>
+<p>TCP对于由于各种问题而丢失的数据包会进行重传，这让用户能够接收到完整且正确的信息，这也是选用TCP而不是UDP的原因！</p>
+</blockquote>
+<h2 id="浏览器发送http请求"><a href="#浏览器发送http请求" class="headerlink" title="浏览器发送http请求"></a>浏览器发送http请求</h2><p>三次握手建立tcp连接完毕后，就是给服务器发送http请求了。<br>http请求报文包括三个部分：</p>
+<ul>
+<li>起始行</li>
+<li>首部</li>
+<li>主体</li>
+</ul>
+<h3 id="起始行"><a href="#起始行" class="headerlink" title="起始行"></a>起始行</h3><p>起始行中包括了请求方式,资源路径，http协议版本三部分<br>EXP： GET index.html HTTP/1.1</p>
+<blockquote>
+<p>常见的方法有：GET,POST,PUT,DELETE</p>
+</blockquote>
+<h3 id="首部"><a href="#首部" class="headerlink" title="首部"></a>首部</h3><p>首部在请求报文中又称请求报头，里面包含客户端自身的信息和向服务器发送的附加信息。</p>
+<p>常见的请求报头有: Accept, Accept-Charset, Accept-Encoding, Accept-Language, Content-Type, Authorization, Cookie, User-Agent等。<br>Accept用于指定客户端用于接受哪些类型的信息，Accept-Encoding与Accept类似，它用于指定接受的编码方式。Connection设置为Keep-alive用于告诉客户端本次HTTP请求结束之后并不需要关闭TCP连接，这样可以使下次HTTP请求使用相同的TCP通道，节省TCP连接建立的时间。</p>
+<h3 id="主体"><a href="#主体" class="headerlink" title="主体"></a>主体</h3><p>主体在请求报文中又称请求正文，对于GET方法来说他是空的，对于POST,PUT等方法来说，里面是要向服务器发送的数据，请求包头中有些字段与它有关，例如当主体中的数据格式为json时，这是要设置content-type为application/json。</p>
+<h2 id="返回响应报文"><a href="#返回响应报文" class="headerlink" title="返回响应报文"></a>返回响应报文</h2><p>与请求报文类似，响应报文也由三部分组成：</p>
+<ul>
+<li>状态码</li>
+<li>响应报头</li>
+<li>响应正文</li>
+</ul>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><p>状态码都是3位的数字，百位上的数字代表了响应的类别，有5中可能的取值：</p>
+<ul>
+<li>1**：信息性状态码</li>
+<li>2**：成功状态码<ul>
+<li>200：OK 请求正常处理</li>
+<li>204：No Content请求处理成功，但没有资源可返回</li>
+<li>206：Partial Content对资源的某一部分的请求</li>
+</ul>
+</li>
+<li>3**：重定向状态码<br>-301：Moved Permanently 永久重定向<br>-302：Found 临时性重定向<br>-304：Not Modified 缓存中读取</li>
+<li>4**：客户端错误状态码<ul>
+<li>400：Bad Request 请求报文中存在语法错误</li>
+<li>401：Unauthorized需要有通过Http认证的认证信息</li>
+<li>403：Forbidden访问被拒绝</li>
+<li>404：Not Found无法找到请求资源</li>
+</ul>
+</li>
+<li>5**：服务器错误状态码<ul>
+<li>500：Internal Server Error 服务器端在执行时发生错误</li>
+<li>503：Service Unavailable 服务器处于超负载或者正在进行停机维护</li>
+</ul>
+</li>
+</ul>
+<h3 id="响应报头"><a href="#响应报头" class="headerlink" title="响应报头"></a>响应报头</h3><p>常见字段：server，connection</p>
+<h3 id="响应正文"><a href="#响应正文" class="headerlink" title="响应正文"></a>响应正文</h3><p>请求返回的文本信息（资源），如html，css，js，图片等文件就存放在里面。</p>
+<h2 id="浏览器解析HTML，获取其他静态资源"><a href="#浏览器解析HTML，获取其他静态资源" class="headerlink" title="浏览器解析HTML，获取其他静态资源"></a>浏览器解析HTML，获取其他静态资源</h2><p>浏览器对于页面的解析时至上而下的，通过解析html来构建DOM树，当解析到&lt;link&gt;标签或@import时，就会请求服务器获取css文件，在下载的同时浏览器还是会继续向下解析的，但<strong>当下载js文件和执行它时，解析器便会停止手头的工作，等待js的操作完成后再向下解析</strong>，这便是js的阻塞问题，也是为什么&lt;link&gt;标签可以放在&lt;head&gt;中，而引入的js文件最好放在&lt;/body&gt;前面的原因，这样可以避免js阻塞了html的解析而导致页面短时间内无法呈现在用户面前的尴尬情况。</p>
+<blockquote>
+<p>html5中提供了defer和async来实现js外联的无阻塞加载</p>
+</blockquote>
+<p>&lt;link&gt;和@imoprt的区别：</p>
+<ul>
+<li>link是XHTML标签，除了加载CSS外，还可以定义RSS等其他事务；@import属于CSS范畴，只能加载CSS</li>
+<li>link引用CSS时，在页面载入时同时加载；@import需要页面网页完全载入以后加载</li>
+<li>link是XHTML标签，无兼容问题；@import是在CSS2.1提出的，低版本的浏览器不支持</li>
+<li>ink支持使用Javascript控制DOM去改变样式；而@import不支持</li>
+</ul>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><h3 id="渲染树（render树）"><a href="#渲染树（render树）" class="headerlink" title="渲染树（render树）"></a>渲染树（render树）</h3><p>前面已经说过，解析html的时候会生成<strong>DOM树</strong>，而解析css则会生成<strong>CSSOM树</strong>，前者描述内容，后者描述应用与内容的样式规则。</p>
+<p>DOM树和CSSOM结合在一起会构成一棵渲染树，渲染树既包含了页面上所有的可视DOM节点，又包含了CSSOM中每个节点的样式信息。</p>
+<p>渲染树的构建步骤：</p>
+<ul>
+<li><p>从DOM树的根节点开始，遍历所有的可视节点，不可视节点有：</p>
+<ul>
+<li>脚本标签，元数据标签</li>
+<li>应用display：none的元素</li>
+</ul>
+</li>
+<li><p>对于可视节点，从CSSOM中找到对应的样式规则，附加在节点上</p>
+</li>
+<li>输出可视节点以及每个节点计算出来的样式</li>
+</ul>
+<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><p>通过渲染树，浏览器已经能知道可视内容的样式信息了，但是真正要渲染时，我们还需要获取<strong>节点的位置和尺寸</strong>，这是布局阶段要做的工作，也成为<strong>“回流”（reflow）</strong>.</p>
+<p>布局阶段的输出结果成为“盒模型”（box model），盒模型精确表达了窗口中元素的位置和大小，所有相对的度量单位都会被转化为屏幕上的绝对像素位置。</p>
+<p>当以上步骤都完成后，浏览器就能把节点绘制成屏幕上每个真实的像素点了，此阶段为<strong>“绘制”或者“重绘”</strong>（resterizing）</p>
+<p>其实从这里也能引出一个概念了：</p>
+<blockquote>
+<p><strong>回流必定导致重绘，重绘不一定导致回流</strong>^_^!</p>
+</blockquote>
+<p>页面渲染的过程中至少会发生一次reflow和repaint，reflow的开销相对与repaint要高得多。一般来说如果一个元素的尺寸发生了改变，会对后面的已渲染的页面造成影响，那么就需要重新计算布局，即回流，而如果只是改变了外观的话，那么只需要进行重绘即可。</p>
+<p>举个通用的例子来说明一下重绘与回流：</p>
+<ol>
+<li>用户输入网址（假设是个html页面，并且是第一次访问），浏览器向服务器发出请求，服务器返回html文件；</li>
+<li>浏览器开始载入html代码，发现&lt;head&gt;标签内有一个&lt;link&gt;标签引用外部CSS文件；</li>
+<li>浏览器又发出CSS文件的请求，服务器返回这个CSS文件；</li>
+<li>浏览器继续载入html中&lt;body&gt;部分的代码，并且CSS文件已经拿到手了，可以开始渲染页面了；</li>
+<li>浏览器在代码中发现一个&lt;img&gt;标签引用了一张图片，向服务器发出请求。此时浏览器不会等到图片下载完，而是继续渲染后面的代码；</li>
+<li>服务器返回图片文件，由于图片占用了一定面积，影响了后面段落的排布，因此浏览器需要回过头来重新渲染这部分代码；</li>
+<li>浏览器发现了一个包含一行JavaScript代码的&lt;script&gt;标签，赶快运行它；</li>
+<li>javascript脚本执行了这条语句，它命令浏览器隐藏掉代码中的某个&lt;div&gt; （style.display=”none”）。杯具啊，突然就少了这么一个元素，浏览器不得不重新渲染这部分代码；</li>
+<li>终于等到了&lt;/html&gt;的到来，浏览器泪流满面……</li>
+<li>等等，还没完，用户点了一下界面中的“换肤”按钮，Javascript让浏览器换了一下&lt;link&gt;标签的CSS路径；</li>
+<li>浏览器召集了在座的各位&lt;div&gt;&lt;span&gt;&lt;ul&gt;&lt;li&gt;们，“大伙儿收拾收拾行李，咱得重新来过……”，浏览器向服务器请求了新的CSS文件，重新渲染页面</li>
+</ol>
+<p>对于重绘回流的优化以及js阻塞的解决会在另一篇博客提及。</p>
+<h2 id="断开链接（四次挥手）"><a href="#断开链接（四次挥手）" class="headerlink" title="断开链接（四次挥手）"></a>断开链接（四次挥手）</h2><p>当浏览器获取到了所有想要的资源并且用户没有发起新的请求之前，为了不让tcp空耗着，我们会选择断开这个tcp链接，断开的主动方可以时服务器也可以是客户端。</p>
+<p>假设有client发起终端请求，则过程是这样的：</p>
+<ul>
+<li>client端发起FIN报文，告诉server端如果数据没发送完，可以不急着关闭socket，继续发送</li>
+<li>server端收到FIN报文后，回传一个确认包并让client等待（因为自己要确认是否已经发送完数据了），client进入<strong>FIN_WAIT</strong>状态</li>
+<li>server确认自己已经发送完所有数据了，可以真正关闭链接了，向client发送FIN</li>
+<li>client收到FIN后回传一个ACK并进入<strong>TIME_WAIT</strong>状态</li>
+<li>server接收到ACK后关闭链接</li>
+<li>client在2MSL（<strong>报文最大生存时间</strong>，4分钟）后如果没有收到server发过来的FIN包，证明server端已经关闭成功，那么自己也可以关闭了</li>
+</ul>
+<p>需要四次挥手的原因：</p>
+<blockquote>
+<p>当一方主动发起FIN请求是，可能另一方的数据还没发送完，故此只能返回一个ACK让他先等待，只有当自己确认已经发送完所有的数据后才会发起一个FIN来并当接收到一个回传的ACK时结束这个连接，俗称四次挥手。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端基础/" rel="tag"># 前端基础</a>
+          
+            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/21/canvas/" rel="next" title="H5之canvas标签（一）">
+                <i class="fa fa-chevron-left"></i> H5之canvas标签（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
+               alt="Liby" />
+          <p class="site-author-name" itemprop="name">Liby</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS域名解析"><span class="nav-number">1.</span> <span class="nav-text">DNS域名解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#域名解析过程"><span class="nav-number">1.1.</span> <span class="nav-text">域名解析过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#域名服务器分类"><span class="nav-number">1.1.1.</span> <span class="nav-text">域名服务器分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询方式"><span class="nav-number">1.1.2.</span> <span class="nav-text">查询方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DNS负载均衡"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">DNS负载均衡</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立TCP连接"><span class="nav-number">2.</span> <span class="nav-text">建立TCP连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器发送http请求"><span class="nav-number">3.</span> <span class="nav-text">浏览器发送http请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#起始行"><span class="nav-number">3.1.</span> <span class="nav-text">起始行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首部"><span class="nav-number">3.2.</span> <span class="nav-text">首部</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主体"><span class="nav-number">3.3.</span> <span class="nav-text">主体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回响应报文"><span class="nav-number">4.</span> <span class="nav-text">返回响应报文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#状态码"><span class="nav-number">4.1.</span> <span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应报头"><span class="nav-number">4.2.</span> <span class="nav-text">响应报头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应正文"><span class="nav-number">4.3.</span> <span class="nav-text">响应正文</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器解析HTML，获取其他静态资源"><span class="nav-number">5.</span> <span class="nav-text">浏览器解析HTML，获取其他静态资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器渲染页面"><span class="nav-number">6.</span> <span class="nav-text">浏览器渲染页面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#渲染树（render树）"><span class="nav-number">6.1.</span> <span class="nav-text">渲染树（render树）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布局"><span class="nav-number">6.2.</span> <span class="nav-text">布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#断开链接（四次挥手）"><span class="nav-number">7.</span> <span class="nav-text">断开链接（四次挥手）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
