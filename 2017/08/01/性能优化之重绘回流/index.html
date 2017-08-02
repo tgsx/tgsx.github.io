@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JS," />
+  <meta name="keywords" content="前端基础,性能优化," />
 
 
 
@@ -87,28 +87,28 @@
 
 
 
-<meta name="description" content="在编写js代码时，我们可能需要给一组对象绑定同一个事件，当我们兴高采烈地用for循环绑定完事件后以为往事大吉的时候，会发生一些很神奇的事情，下面先举个例子：
-1234//用for循环打印出i，每次叠加1for(var i=0;i&amp;lt;4;i++)&amp;#123;	console.log(i)&amp;#125;
-打印出来你会发现很正常:0,1,2,3,
-但是请看下面的例子：
-12345678910111">
+<meta name="description" content="上一篇博客在介绍浏览器请求资源的过程中提及了重绘和回流，也对重绘回流的概念进行了介绍。根据概念，至少会有一次回流和重绘发生在第一次页面加载时，且回流一定会导致重绘，重绘不一定引起回流.
+要进行性能优化，我们就必须搞清楚什么情况会导致回流和重绘，其中回流是重点，因为它的开销会比重绘高出很多。
+##回流何时发生当页面布局和集合属性发生变化时就需要回流，常见的有以下情况：
+
+添加或者删除可见DOM元素">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js循环绑定事件的问题">
-<meta property="og:url" content="http://yoursite.com/2017/04/10/js循环绑定事件的问题/index.html">
+<meta property="og:title" content="性能优化之重绘回流">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/性能优化之重绘回流/index.html">
 <meta property="og:site_name" content="Liby">
-<meta property="og:description" content="在编写js代码时，我们可能需要给一组对象绑定同一个事件，当我们兴高采烈地用for循环绑定完事件后以为往事大吉的时候，会发生一些很神奇的事情，下面先举个例子：
-1234//用for循环打印出i，每次叠加1for(var i=0;i&amp;lt;4;i++)&amp;#123;	console.log(i)&amp;#125;
-打印出来你会发现很正常:0,1,2,3,
-但是请看下面的例子：
-12345678910111">
-<meta property="og:updated_time" content="2017-06-19T14:30:33.000Z">
+<meta property="og:description" content="上一篇博客在介绍浏览器请求资源的过程中提及了重绘和回流，也对重绘回流的概念进行了介绍。根据概念，至少会有一次回流和重绘发生在第一次页面加载时，且回流一定会导致重绘，重绘不一定引起回流.
+要进行性能优化，我们就必须搞清楚什么情况会导致回流和重绘，其中回流是重点，因为它的开销会比重绘高出很多。
+##回流何时发生当页面布局和集合属性发生变化时就需要回流，常见的有以下情况：
+
+添加或者删除可见DOM元素">
+<meta property="og:updated_time" content="2017-08-02T15:57:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="js循环绑定事件的问题">
-<meta name="twitter:description" content="在编写js代码时，我们可能需要给一组对象绑定同一个事件，当我们兴高采烈地用for循环绑定完事件后以为往事大吉的时候，会发生一些很神奇的事情，下面先举个例子：
-1234//用for循环打印出i，每次叠加1for(var i=0;i&amp;lt;4;i++)&amp;#123;	console.log(i)&amp;#125;
-打印出来你会发现很正常:0,1,2,3,
-但是请看下面的例子：
-12345678910111">
+<meta name="twitter:title" content="性能优化之重绘回流">
+<meta name="twitter:description" content="上一篇博客在介绍浏览器请求资源的过程中提及了重绘和回流，也对重绘回流的概念进行了介绍。根据概念，至少会有一次回流和重绘发生在第一次页面加载时，且回流一定会导致重绘，重绘不一定引起回流.
+要进行性能优化，我们就必须搞清楚什么情况会导致回流和重绘，其中回流是重点，因为它的开销会比重绘高出很多。
+##回流何时发生当页面布局和集合属性发生变化时就需要回流，常见的有以下情况：
+
+添加或者删除可见DOM元素">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/10/js循环绑定事件的问题/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/01/性能优化之重绘回流/"/>
 
 
 
 
 
-  <title> js循环绑定事件的问题 | Liby </title>
+  <title> 性能优化之重绘回流 | Liby </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -281,7 +281,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/js循环绑定事件的问题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/性能优化之重绘回流/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liby">
@@ -302,7 +302,7 @@
             
             
               
-                js循环绑定事件的问题
+                性能优化之重绘回流
               
             
           </h1>
@@ -317,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:56:05+08:00">
-                2017-04-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T20:03:20+08:00">
+                2017-08-01
               </time>
             
 
@@ -353,20 +353,44 @@
       
 
       
-        <p>  在编写js代码时，我们可能需要给一组对象绑定同一个事件，当我们兴高采烈地用for循环绑定完事件后以为往事大吉的时候，会发生一些很神奇的事情，下面先举个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//用for循环打印出i，每次叠加1</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</div><div class="line">	<span class="built_in">console</span>.log(i)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>打印出来你会发现很正常:0,1,2,3,</p>
-<p>但是请看下面的例子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> oLis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">			oLis[i].onclick  = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				alert(i)</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这里的结果就比较诡异了，无一例外点击弹出的结果都是6,其实是因为我们的函数时动态绑定的，在我们页面加载完后js已经把for循环执行完了，此时i等于6，所以当我们触发事件后得到的都是同一结果。</p>
-<hr>
-<p>那么，有什么办法可以解决吗？答案是有，而且不止一种！</p>
-<h2 id="即时函数"><a href="#即时函数" class="headerlink" title="即时函数"></a>即时函数</h2><p>我们可以通过在外层用一个即时函数包裹住内部函数，这样循环一次就会生成一个<em>作用域</em>，参数由即时函数的尾部传入，如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	 <span class="keyword">var</span> oLis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>);</div><div class="line"> 	 <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">	     (<span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123;</div><div class="line">		 	oLis[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				alert(i)</div><div class="line">			&#125;</div><div class="line">		 &#125;)(i)</div><div class="line">			 </div><div class="line"> 	 &#125;    </div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>运行以上代码，你会发现已经可以实现功能了^_^!</p>
-<h2 id="给元素绑定属性"><a href="#给元素绑定属性" class="headerlink" title="给元素绑定属性"></a>给元素绑定属性</h2><p>第二种方法同样简单，只需把循环的i赋值给元素作为它的<em>私有属性</em>就ok了，代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="keyword">var</span> oLis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>);</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">		oLis[i].i = i;</div><div class="line">	 	oLis[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	 		alert(<span class="keyword">this</span>.i)</div><div class="line">	 	&#125;</div><div class="line">	 	&#125;)(i)</div><div class="line"></div><div class="line">	&#125;                                                                                   </div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>这样写同样可以实现循环绑定动态事件，此外还有解决问题的其他方法，大家可以自行探索，关于js实现循环绑定动态事件的分享就到这里了！</p>
-
+        <p>上一篇博客在介绍浏览器请求资源的过程中提及了<strong>重绘和回流</strong>，也对重绘回流的概念进行了介绍。根据概念，<code>至少会有一次回流和重绘发生在第一次页面加载时，且回流一定会导致重绘，重绘不一定引起回流</code>.</p>
+<p>要进行性能优化，我们就必须搞清楚什么情况会导致回流和重绘，其中回流是重点，因为它的开销会比重绘高出很多。</p>
+<p>##回流何时发生<br>当页面布局和集合属性发生变化时就需要回流，常见的有以下情况：</p>
+<ul>
+<li>添加或者删除可见DOM元素</li>
+<li>元素位置改变</li>
+<li>元素尺寸改变</li>
+<li>文本改变</li>
+<li>图片（没有固定高度）加载src</li>
+<li>页面初始化渲染</li>
+<li>浏览器窗口尺寸改变（resize）</li>
+<li>操作class属性</li>
+<li>脚本操作DOM</li>
+<li>计算offsetWidth和offsetHeight属性</li>
+<li>设置style属性的值</li>
+</ul>
+<p>##浏览器队列<br>当我们在js中操作dom的一些样式是，通常都会引起页面的重绘和回流，如果每次一引起回流重绘浏览器就重新去渲染的话，这样会耗费大量的时间。所以很多浏览器会维护1个队列，里面存放着回流和重绘的操作，等队列满了或者到了一定的时间间隔，浏览器就会flush队列，进行一个批处理，所有的重绘回流就变成了一次。</p>
+<p>但有时我们的代码会引起浏览器提前flush队列，比如，当我们向浏览器请求以下style信息时，就会提前让浏览器flush队列：</p>
+<ul>
+<li>offsetTop,offsetLeft,offsetWidth,offsetHeight</li>
+<li>scrollTop/Left/Width/Height</li>
+<li>clientTop/Left/Width/Height</li>
+<li>width,height</li>
+<li>请求了getComputedStyle()或者IE的currentStyle</li>
+</ul>
+<blockquote>
+<p>原因：<br>请求以上这些值时，浏览器需要清空队列，计算出最新的元素尺寸和位置样式信息（重绘回流），因为浏览器认为队列中的某些操作会造成我们获取的值并不是最精确的！</p>
+</blockquote>
+<p>##优化方法<br>在没有维护队列的浏览器中，减少重绘回流就需要我们<code>合并样式的修改</code>，尽量<code>一次渲染到位</code>，而有优化策略的浏览器，我们就要好好的利用这一点，<code>减少会提前flush队列的操作</code>。</p>
+<p>1.将多个样式修改放到一个class中或者通过classText一次性修改：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">1</span>;</div><div class="line">el.style.left = left + <span class="string">'px'</span>;</div><div class="line">el.style.top = top + <span class="string">'px'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.className += <span class="string">'className1'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.style.cssText += <span class="string">'left:'</span>+ left + <span class="string">'px;top:'</span> + top + <span class="string">'px;'</span></div></pre></td></tr></table></figure></p>
+<p>2.避免访问会引起flush队列的属性，如要访问，利用缓存<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">el.style.left = el.offsetLeft + <span class="number">5</span> + <span class="string">'px'</span>;</div><div class="line">el.style.top = el.offsetTop + <span class="number">5</span> + <span class="string">'px'</span>; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">var</span> left = el.offsetLeft,top=el.offsetTop;</div><div class="line">s = el.style;</div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">    left += <span class="number">10</span>;</div><div class="line">    top +=<span class="number">10</span>;</div><div class="line">    s.left = left + <span class="string">'px'</span>;</div><div class="line">    s.top = top + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.动画效果应用到脱离文档流的元素上<br>元素脱离了文档流之后，不会影响其他元素的布局，所以只会导致重绘，可以减少开销</p>
+<p>4.避免使用css表达式</p>
+<p>5.让要操作的元素进行”离线处理”，处理完后一起更新</p>
+<pre><code>a) 使用DocumentFragment进行缓存操作,引发一次回流和重绘；
+b) 使用display:none技术，只引发两次回流和重绘；
+c) 使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘；
+</code></pre>
       
     </div>
 
@@ -395,7 +419,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JS/" rel="tag"># JS</a>
+            <a href="/tags/前端基础/" rel="tag"># 前端基础</a>
+          
+            <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
           
         </div>
       
@@ -408,8 +434,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/22/python-Tkinter-1/" rel="next" title="python-Tkinter(1)">
-                <i class="fa fa-chevron-left"></i> python-Tkinter(1)
+              <a href="/2017/07/30/浏览器请求资源的过程/" rel="next" title="浏览器请求资源的过程发生了什么">
+                <i class="fa fa-chevron-left"></i> 浏览器请求资源的过程发生了什么
               </a>
             
           </div>
@@ -418,8 +444,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/10/三栏布局之中间栏自适应宽度的几种方法/" rel="prev" title="两栏布局之右边栏自适应宽度的几种方法">
-                两栏布局之右边栏自适应宽度的几种方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/02/事件委托的优缺点/" rel="prev" title="事件委托的优缺点">
+                事件委托的优缺点 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -467,17 +493,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
@@ -573,22 +590,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#即时函数"><span class="nav-number">1.</span> <span class="nav-text">即时函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给元素绑定属性"><span class="nav-number">2.</span> <span class="nav-text">给元素绑定属性</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

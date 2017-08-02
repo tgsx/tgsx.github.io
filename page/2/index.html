@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/css-trangle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liby">
@@ -289,8 +289,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
-                  CSS属性之box-sizing
+                <a class="post-title-link" href="/2017/06/10/css-trangle/" itemprop="url">
+                  CSS实现三角形及before和after伪类的使用
                 </a>
               
             
@@ -306,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T14:13:02+08:00">
+                2017-06-10
               </time>
             
 
@@ -344,35 +344,37 @@
       
         
           
-            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
+            <p>网页中，html为骨架，而css则是为我们的网页进行润色，丰富色彩，css的作用随着CSS3的发展而显得日益客观，几行简单的代码就能实现酷炫的效果，今天就来讲讲怎么通过纯CSS制作三角<br>，并且介绍三角形和after和before的结合使用。</p>
+<h3 id="border属性"><a href="#border属性" class="headerlink" title="border属性"></a>border属性</h3><p>在开始介绍做法之前，先来看看两个例子，他们会让我们对css如何实现三角形有更加直观的了解。</p>
+<p>CSS:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">30px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">30px</span>;</div><div class="line">    <span class="attribute">border-width</span>:<span class="number">20px</span>;</div><div class="line">    <span class="attribute">border-style</span>:solid;</div><div class="line">    <span class="attribute">border-color</span>:<span class="number">#ff9966</span> <span class="number">#cc66ff</span> <span class="number">#33ff66</span> <span class="number">#00ccff</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/13-1.png" alt="exp1"></p>
+<p>这是在有宽高的情况下的效果图，如果我们把宽高去掉，会发生什么变化呢？</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/13-2.png" alt="exp2"></p>
+<p>很明显，四个边框变成了四个三角形，现在我们只需要把不需要的三角形设置为透明，就能得到我们唯一想要的三角形了。</p>
+<h3 id="上三角"><a href="#上三角" class="headerlink" title="上三角"></a>上三角</h3><p>ps：IE6下吧边框设置成transparent时会出现黑影，并不会透明，把border-style设置成dashed就ok了。</p>
+<p>这里有几种写法</p>
+<p>CSS（1）:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border-width</span>:<span class="number">20px</span>;</div><div class="line">    <span class="attribute">border-style</span>:dashed dashed solid dashed ;</div><div class="line">    <span class="attribute">border-color</span>:transparent transparent <span class="number">#33ff66</span> transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>CSS（2）:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom-color</span>:<span class="number">#3f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>CSS（3）:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border-left</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>:<span class="number">20px</span> solid <span class="number">#3f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>效果图</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/13-3.png" alt="exp3"></p>
 <blockquote>
-<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
+<p>其他的三角形（下、左、右）只需要将其他三个方向的颜色置为透明即可。</p>
 </blockquote>
-<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
-<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
-<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
-<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
-<blockquote>
-<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
-</blockquote>
-</li>
+<h3 id="如何使三角形紧贴在元素上？"><a href="#如何使三角形紧贴在元素上？" class="headerlink" title="如何使三角形紧贴在元素上？"></a>如何使三角形紧贴在元素上？</h3><ul>
+<li>方法一：定义一个标签，画出一个三角形，在进行定位</li>
+<li>方法二：用before和after伪元素画出三角形</li>
 </ul>
-<ul>
-<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
-<p><strong>box model</strong></p>
-<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
-
+<p>我们用第二种方法来做个例子：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</div><div class="line">    <span class="attribute">position</span>:relative;</div><div class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#c2e1f5</span></div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:before</span>,<span class="selector-class">.triangle</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">display</span>:block;</div><div class="line">	<span class="attribute">content</span>:<span class="string">""</span>;</div><div class="line">	<span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">	<span class="attribute">border-left</span>:<span class="number">15px</span> solid transparent;</div><div class="line">	<span class="attribute">border-right</span>:<span class="number">15px</span> solid transparent;</div><div class="line">	<span class="attribute">position</span>:absolute;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:before</span>&#123;</div><div class="line">			</div><div class="line">	<span class="attribute">border-top</span>:<span class="number">15px</span> solid <span class="number">#c2e1f5</span>;</div><div class="line">	<span class="attribute">top</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">60%</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">border-top</span>:<span class="number">15px</span> solid <span class="number">#fff</span>;</div><div class="line">	<span class="attribute">top</span>:<span class="number">99%</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">60%</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <blockquote>
-<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
+<p>思路：我们用before和after分别画出一个三角形，前者为边框色，后者为背景色，后者会覆盖在前者之上，我们需要使两者相差1px，露出边框色。</p>
 </blockquote>
-</li>
-</ul>
-<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
-<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>三角形和after及before伪元素的结合就介绍到这里了，是不是挺简单的呢！这样我们就不用再用图片去实现，节省了一次请求哦！</p>
 
           
         
@@ -817,6 +819,308 @@
 <h3 id="important特殊性"><a href="#important特殊性" class="headerlink" title="!important特殊性"></a>!important特殊性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#id</span> &#123; <span class="attribute">color</span>: red &#125;   </div><div class="line"><span class="selector-class">.class</span> &#123; <span class="attribute">color</span>: yellow <span class="meta">!important</span> &#125;</div></pre></td></tr></table></figure>
 <p>第二个样式优先于第一个样式，即使id选择器优先级高于类选择器<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-tag">div</span> &#123;   </div><div class="line">  <span class="attribute">color</span>: yellow <span class="meta">!important</span>;     </div><div class="line">  <span class="attribute">color</span>: red;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这种情况带!important的属性优先级高，但是在IE6这样会显示为红色，是因为IE6的一点小bug，通过书写格式可以避免，可以参考<a href="http://www.cnblogs.com/yudy/archive/2013/05/27/3102825.html" target="_blank" rel="external">这篇博文</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
+                  CSS属性之box-sizing
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
+<blockquote>
+<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
+</blockquote>
+<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
+<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
+<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
+<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
+<blockquote>
+<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
+<p><strong>box model</strong></p>
+<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
+
+<blockquote>
+<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
+<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
+                  css高度坍塌及解决方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
+<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
+</blockquote>
+<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
+<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
+<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
+<blockquote>
+<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
+</blockquote>
+<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
+<li>元素的垂直外边距不会和子元素重叠</li>
+<li>开启BFC的元素不会被浮动元素所覆盖</li>
+<li>开启BFC的元素可以包含浮动元素</li>
+</ul>
+<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
+<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
+<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
+<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
+<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
+</ul>
+<blockquote>
+<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
+</blockquote>
+<p>可选值：</p>
+<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
+
+<blockquote>
+<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
 
           
         
@@ -1485,7 +1789,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1498,7 +1802,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

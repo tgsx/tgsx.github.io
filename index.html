@@ -267,6 +267,302 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/02/事件委托的优缺点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/02/事件委托的优缺点/" itemprop="url">
+                  事件委托的优缺点
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-02T23:26:30+08:00">
+                2017-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前面有篇博客已经大致介绍了JS的事件流机制，包含了捕获/冒泡/事件委托，接下来就委托的优缺点进行分析记录。</p>
+<p>##事件委托（代理）出现背景<br>一般情况下，我们如果想给元素绑定事件处理函数的话，都会采用DOM0级或者DOM2级提供的方法，如onclick或者addEventListener等。但是当我们在一个ul下面有很多个li元素，我们如果还用老方法一个个的进行绑定注册，这样不仅会增加我们的代码量,而且当我们要移除某个li元素时还得一个个地去解除元素和事件处理函数的绑定（关乎内存）,正是这些问题的出现，才有了基于<strong>冒泡机制</strong>的<code>事件委托</code>（代理）。</p>
+<blockquote>
+<p>在js中，当我们移除某个元素但没有将元素和监听函数进行解绑时，事件处理函数依旧会留在内存中，无法被当成垃圾回收。</p>
+</blockquote>
+<p>##优缺点总结<br><strong>优点</strong>：</p>
+<p>1.减少事件注册，节省内存，如：</p>
+<ul>
+<li>table可以代理所有td的click事件</li>
+<li>ul代理所有li的click事件</li>
+</ul>
+<p>2.减少了dom节点更新的操作，处理逻辑只需在委托元素上进行，如：</p>
+<ul>
+<li>新添加的li不用绑定事件</li>
+<li>删除li时，不需要进行元素与处理函数的解绑</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<p>1.事件委托基于冒泡，对于onfoucs和onblur等事件不支持<br>2.层级过多，冒泡过程中，可能会被某层阻止掉（建议就近委托）</p>
+<p>总之一切都是基于冒泡的，只要事件不支持冒泡或者中途有event.stopPropagation（）等，那么委托就会失败，所以并不适用于直接在document上进行委托。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/性能优化之重绘回流/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/01/性能优化之重绘回流/" itemprop="url">
+                  性能优化之重绘回流
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T20:03:20+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>上一篇博客在介绍浏览器请求资源的过程中提及了<strong>重绘和回流</strong>，也对重绘回流的概念进行了介绍。根据概念，<code>至少会有一次回流和重绘发生在第一次页面加载时，且回流一定会导致重绘，重绘不一定引起回流</code>.</p>
+<p>要进行性能优化，我们就必须搞清楚什么情况会导致回流和重绘，其中回流是重点，因为它的开销会比重绘高出很多。</p>
+<p>##回流何时发生<br>当页面布局和集合属性发生变化时就需要回流，常见的有以下情况：</p>
+<ul>
+<li>添加或者删除可见DOM元素</li>
+<li>元素位置改变</li>
+<li>元素尺寸改变</li>
+<li>文本改变</li>
+<li>图片（没有固定高度）加载src</li>
+<li>页面初始化渲染</li>
+<li>浏览器窗口尺寸改变（resize）</li>
+<li>操作class属性</li>
+<li>脚本操作DOM</li>
+<li>计算offsetWidth和offsetHeight属性</li>
+<li>设置style属性的值</li>
+</ul>
+<p>##浏览器队列<br>当我们在js中操作dom的一些样式是，通常都会引起页面的重绘和回流，如果每次一引起回流重绘浏览器就重新去渲染的话，这样会耗费大量的时间。所以很多浏览器会维护1个队列，里面存放着回流和重绘的操作，等队列满了或者到了一定的时间间隔，浏览器就会flush队列，进行一个批处理，所有的重绘回流就变成了一次。</p>
+<p>但有时我们的代码会引起浏览器提前flush队列，比如，当我们向浏览器请求以下style信息时，就会提前让浏览器flush队列：</p>
+<ul>
+<li>offsetTop,offsetLeft,offsetWidth,offsetHeight</li>
+<li>scrollTop/Left/Width/Height</li>
+<li>clientTop/Left/Width/Height</li>
+<li>width,height</li>
+<li>请求了getComputedStyle()或者IE的currentStyle</li>
+</ul>
+<blockquote>
+<p>原因：<br>请求以上这些值时，浏览器需要清空队列，计算出最新的元素尺寸和位置样式信息（重绘回流），因为浏览器认为队列中的某些操作会造成我们获取的值并不是最精确的！</p>
+</blockquote>
+<p>##优化方法<br>在没有维护队列的浏览器中，减少重绘回流就需要我们<code>合并样式的修改</code>，尽量<code>一次渲染到位</code>，而有优化策略的浏览器，我们就要好好的利用这一点，<code>减少会提前flush队列的操作</code>。</p>
+<p>1.将多个样式修改放到一个class中或者通过classText一次性修改：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">1</span>;</div><div class="line">el.style.left = left + <span class="string">'px'</span>;</div><div class="line">el.style.top = top + <span class="string">'px'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.className += <span class="string">'className1'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.style.cssText += <span class="string">'left:'</span>+ left + <span class="string">'px;top:'</span> + top + <span class="string">'px;'</span></div></pre></td></tr></table></figure></p>
+<p>2.避免访问会引起flush队列的属性，如要访问，利用缓存<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">el.style.left = el.offsetLeft + <span class="number">5</span> + <span class="string">'px'</span>;</div><div class="line">el.style.top = el.offsetTop + <span class="number">5</span> + <span class="string">'px'</span>; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">var</span> left = el.offsetLeft,top=el.offsetTop;</div><div class="line">s = el.style;</div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">    left += <span class="number">10</span>;</div><div class="line">    top +=<span class="number">10</span>;</div><div class="line">    s.left = left + <span class="string">'px'</span>;</div><div class="line">    s.top = top + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.动画效果应用到脱离文档流的元素上<br>元素脱离了文档流之后，不会影响其他元素的布局，所以只会导致重绘，可以减少开销</p>
+<p>4.避免使用css表达式</p>
+<p>5.让要操作的元素进行”离线处理”，处理完后一起更新</p>
+<pre><code>a) 使用DocumentFragment进行缓存操作,引发一次回流和重绘；
+b) 使用display:none技术，只引发两次回流和重绘；
+c) 使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘；
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/浏览器请求资源的过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2050,310 +2346,6 @@ func:用于监听的函数
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/css-trangle/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/10/css-trangle/" itemprop="url">
-                  CSS实现三角形及before和after伪类的使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T14:13:02+08:00">
-                2017-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>网页中，html为骨架，而css则是为我们的网页进行润色，丰富色彩，css的作用随着CSS3的发展而显得日益客观，几行简单的代码就能实现酷炫的效果，今天就来讲讲怎么通过纯CSS制作三角<br>，并且介绍三角形和after和before的结合使用。</p>
-<h3 id="border属性"><a href="#border属性" class="headerlink" title="border属性"></a>border属性</h3><p>在开始介绍做法之前，先来看看两个例子，他们会让我们对css如何实现三角形有更加直观的了解。</p>
-<p>CSS:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">30px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">30px</span>;</div><div class="line">    <span class="attribute">border-width</span>:<span class="number">20px</span>;</div><div class="line">    <span class="attribute">border-style</span>:solid;</div><div class="line">    <span class="attribute">border-color</span>:<span class="number">#ff9966</span> <span class="number">#cc66ff</span> <span class="number">#33ff66</span> <span class="number">#00ccff</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>效果图：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/13-1.png" alt="exp1"></p>
-<p>这是在有宽高的情况下的效果图，如果我们把宽高去掉，会发生什么变化呢？</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/13-2.png" alt="exp2"></p>
-<p>很明显，四个边框变成了四个三角形，现在我们只需要把不需要的三角形设置为透明，就能得到我们唯一想要的三角形了。</p>
-<h3 id="上三角"><a href="#上三角" class="headerlink" title="上三角"></a>上三角</h3><p>ps：IE6下吧边框设置成transparent时会出现黑影，并不会透明，把border-style设置成dashed就ok了。</p>
-<p>这里有几种写法</p>
-<p>CSS（1）:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border-width</span>:<span class="number">20px</span>;</div><div class="line">    <span class="attribute">border-style</span>:dashed dashed solid dashed ;</div><div class="line">    <span class="attribute">border-color</span>:transparent transparent <span class="number">#33ff66</span> transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>CSS（2）:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom-color</span>:<span class="number">#3f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>CSS（3）:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border-left</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>:<span class="number">20px</span> solid <span class="number">#3f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>效果图</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/13-3.png" alt="exp3"></p>
-<blockquote>
-<p>其他的三角形（下、左、右）只需要将其他三个方向的颜色置为透明即可。</p>
-</blockquote>
-<h3 id="如何使三角形紧贴在元素上？"><a href="#如何使三角形紧贴在元素上？" class="headerlink" title="如何使三角形紧贴在元素上？"></a>如何使三角形紧贴在元素上？</h3><ul>
-<li>方法一：定义一个标签，画出一个三角形，在进行定位</li>
-<li>方法二：用before和after伪元素画出三角形</li>
-</ul>
-<p>我们用第二种方法来做个例子：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</div><div class="line">    <span class="attribute">position</span>:relative;</div><div class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#c2e1f5</span></div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:before</span>,<span class="selector-class">.triangle</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">display</span>:block;</div><div class="line">	<span class="attribute">content</span>:<span class="string">""</span>;</div><div class="line">	<span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">	<span class="attribute">border-left</span>:<span class="number">15px</span> solid transparent;</div><div class="line">	<span class="attribute">border-right</span>:<span class="number">15px</span> solid transparent;</div><div class="line">	<span class="attribute">position</span>:absolute;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:before</span>&#123;</div><div class="line">			</div><div class="line">	<span class="attribute">border-top</span>:<span class="number">15px</span> solid <span class="number">#c2e1f5</span>;</div><div class="line">	<span class="attribute">top</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">60%</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">border-top</span>:<span class="number">15px</span> solid <span class="number">#fff</span>;</div><div class="line">	<span class="attribute">top</span>:<span class="number">99%</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">60%</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>思路：我们用before和after分别画出一个三角形，前者为边框色，后者为背景色，后者会覆盖在前者之上，我们需要使两者相差1px，露出边框色。</p>
-</blockquote>
-<p>三角形和after及before伪元素的结合就介绍到这里了，是不是挺简单的呢！这样我们就不用再用图片去实现，节省了一次请求哦！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
-                  css高度坍塌及解决方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
-<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
-</blockquote>
-<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
-<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
-<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
-<blockquote>
-<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
-</blockquote>
-<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
-<li>元素的垂直外边距不会和子元素重叠</li>
-<li>开启BFC的元素不会被浮动元素所覆盖</li>
-<li>开启BFC的元素可以包含浮动元素</li>
-</ul>
-<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
-<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
-<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
-<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
-<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
-</ul>
-<blockquote>
-<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
-</blockquote>
-<p>可选值：</p>
-<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
-
-<blockquote>
-<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2403,7 +2395,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2416,7 +2408,7 @@ func:用于监听的函数
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
