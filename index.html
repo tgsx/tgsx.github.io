@@ -290,7 +290,7 @@
               
                 
                 <a class="post-title-link" href="/2017/08/02/事件委托的优缺点/" itemprop="url">
-                  �¼�ί�е���ȱ��
+                  事件委托的优缺点
                 </a>
               
             
@@ -344,25 +344,25 @@
       
         
           
-            <p>ǰ����ƪ�����Ѿ����½�����JS���¼������ƣ������˲���/ð��/�¼�ί�У���������ί�е���ȱ�����з�����¼��</p>
-<h2 id="�¼�ί�У����������ֱ���"><a href="#�¼�ί�У����������ֱ���" class="headerlink" title="�¼�ί�У����������ֱ���"></a>�¼�ί�У����������ֱ���</h2><p>һ�������£�������������Ԫ�ذ����¼����������Ļ�����������DOM0������DOM2���ṩ�ķ�������onclick����addEventListener�ȡ����ǵ�������һ��ul�����кܶ���liԪ�أ��������������Ϸ���һ�����Ľ��а���ע�ᣬ�����������������ǵĴ�����,���ҵ�����Ҫ�Ƴ�ĳ��liԪ��ʱ����һ������ȥ����Ԫ�غ��¼����������İ󶨣��غ��ڴ棩,������Щ�����ĳ��֣������˻���<strong>ð�ݻ���</strong>��<code>�¼�ί��</code>����������</p>
+            <p>前面有篇博客已经大致介绍了JS的事件流机制，包含了捕获/冒泡/事件委托，接下来就委托的优缺点进行分析记录。</p>
+<h2 id="事件委托（代理）出现背景"><a href="#事件委托（代理）出现背景" class="headerlink" title="事件委托（代理）出现背景"></a>事件委托（代理）出现背景</h2><p>一般情况下，我们如果想给元素绑定事件处理函数的话，都会采用DOM0级或者DOM2级提供的方法，如onclick或者addEventListener等。但是当我们在一个ul下面有很多个li元素，我们如果还用老方法一个个的进行绑定注册，这样不仅会增加我们的代码量,而且当我们要移除某个li元素时还得一个个地去解除元素和事件处理函数的绑定（关乎内存）,正是这些问题的出现，才有了基于<strong>冒泡机制</strong>的<code>事件委托</code>（代理）。</p>
 <blockquote>
-<p>��js�У��������Ƴ�ĳ��Ԫ�ص�û�н�Ԫ�غͼ����������н���ʱ���¼������������ɻ������ڴ��У��޷��������������ա�</p>
+<p>在js中，当我们移除某个元素但没有将元素和监听函数进行解绑时，事件处理函数依旧会留在内存中，无法被当成垃圾回收。</p>
 </blockquote>
-<h2 id="��o���ܽ�"><a href="#��o���ܽ�" class="headerlink" title="��ȱ���ܽ�"></a>��ȱ���ܽ�</h2><p><strong>�ŵ�</strong>��</p>
-<p>1.�����¼�ע�ᣬ��ʡ�ڴ棬�磺</p>
+<h2 id="优缺点总结"><a href="#优缺点总结" class="headerlink" title="优缺点总结"></a>优缺点总结</h2><p><strong>优点</strong>：</p>
+<p>1.减少事件注册，节省内存，如：</p>
 <ul>
-<li>table���Դ�������td��click�¼�</li>
-<li>ul��������li��click�¼�</li>
+<li>table可以代理所有td的click事件</li>
+<li>ul代理所有li的click事件</li>
 </ul>
-<p>2.������dom�ڵ����µĲ��󣬴����߼�ֻ����ί��Ԫ���Ͻ��У��磺</p>
+<p>2.减少了dom节点更新的操作，处理逻辑只需在委托元素上进行，如：</p>
 <ul>
-<li>�����ӵ�li���ð����¼�</li>
-<li>ɾ��liʱ������Ҫ����Ԫ���봦�������Ľ���</li>
+<li>新添加的li不用绑定事件</li>
+<li>删除li时，不需要进行元素与处理函数的解绑</li>
 </ul>
-<p><strong>ȱ��</strong>��</p>
-<p>1.�¼�ί�л���ð�ݣ�����onfoucs��onblur���¼���֧��<br>2.�㼶���࣬ð�ݹ����У����ܻᱻĳ����ֹ�𣨽����ͽ�ί�У�</p>
-<p>��֮һ�ж��ǻ���ð�ݵģ�ֻҪ�¼���֧��ð�ݻ�����;��event.stopPropagation�����ȣ���ôί�оͻ�ʧ�ܣ����Բ���������ֱ����document�Ͻ���ί�С�</p>
+<p><strong>缺点</strong>：</p>
+<p>1.事件委托基于冒泡，对于onfoucs和onblur等事件不支持<br>2.层级过多，冒泡过程中，可能会被某层阻止掉（建议就近委托）</p>
+<p>总之一切都是基于冒泡的，只要事件不支持冒泡或者中途有event.stopPropagation（）等，那么委托就会失败，所以并不适用于直接在document上进行委托。</p>
 
           
         
@@ -429,7 +429,7 @@
               
                 
                 <a class="post-title-link" href="/2017/08/01/性能优化之重绘回流/" itemprop="url">
-                  �����Ż�֮�ػ�����
+                  性能优化之重绘回流
                 </a>
               
             
@@ -483,43 +483,43 @@
       
         
           
-            <p>��һƪ�����ڽ���������������Դ�Ĺ������ἰ��<strong>�ػ��ͻ���</strong>��Ҳ���ػ������ĸ��������˽��ܡ����ݸ��<code>���ٻ���һ�λ������ػ淢���ڵ�һ��ҳ������ʱ���һ���һ���ᵼ���ػ棬�ػ治һ����������</code>.</p>
-<p>Ҫ���������Ż������Ǿͱ���������ʲô�����ᵼ�»������ػ棬���л������ص㣬��Ϊ���Ŀ��������ػ��߳��ܶࡣ</p>
-<h2 id="������ʱ����"><a href="#������ʱ����" class="headerlink" title="������ʱ����"></a>������ʱ����</h2><p>��ҳ�沼�ֺͼ������Է����仯ʱ����Ҫ���󣬳�����������������</p>
+            <p>上一篇博客在介绍浏览器请求资源的过程中提及了<strong>重绘和回流</strong>，也对重绘回流的概念进行了介绍。根据概念，<code>至少会有一次回流和重绘发生在第一次页面加载时，且回流一定会导致重绘，重绘不一定引起回流</code>.</p>
+<p>要进行性能优化，我们就必须搞清楚什么情况会导致回流和重绘，其中回流是重点，因为它的开销会比重绘高出很多。</p>
+<h2 id="回流何时发生"><a href="#回流何时发生" class="headerlink" title="回流何时发生"></a>回流何时发生</h2><p>当页面布局和集合属性发生变化时就需要回流，常见的有以下情况：</p>
 <ul>
-<li>���ӻ���ɾ���ɼ�DOMԪ��</li>
-<li>Ԫ��λ�øı�</li>
-<li>Ԫ�سߴ��ı�</li>
-<li>�ı��ı�</li>
-<li>ͼƬ��û�й̶��߶ȣ�����src</li>
-<li>ҳ����ʼ����Ⱦ</li>
-<li>�����󴰿ڳߴ��ı䣨resize��</li>
-<li>����class����</li>
-<li>�ű�����DOM</li>
-<li>����offsetWidth��offsetHeight����</li>
-<li>����style���Ե�ֵ</li>
+<li>添加或者删除可见DOM元素</li>
+<li>元素位置改变</li>
+<li>元素尺寸改变</li>
+<li>文本改变</li>
+<li>图片（没有固定高度）加载src</li>
+<li>页面初始化渲染</li>
+<li>浏览器窗口尺寸改变（resize）</li>
+<li>操作class属性</li>
+<li>脚本操作DOM</li>
+<li>计算offsetWidth和offsetHeight属性</li>
+<li>设置style属性的值</li>
 </ul>
-<h2 id="����������"><a href="#����������" class="headerlink" title="����������"></a>����������</h2><p>��������js�в���dom��һЩ��ʽ�ǣ�ͨ����������ҳ�����ػ��ͻ���������ÿ��һ���������ػ�������������ȥ��Ⱦ�Ļ����������ķѴ�����ʱ�䡣���Ժܶ���������ά��1�����У����������Ż������ػ��Ĳ��󣬵ȶ������˻��ߵ���һ����ʱ���������������ͻ�flush���У�����һ�������������е��ػ������ͱ�����һ�Ρ�</p>
-<p>����ʱ���ǵĴ�����������������ǰflush���У����磬����������������������style��Ϣʱ���ͻ���ǰ��������flush���У�</p>
+<h2 id="浏览器队列"><a href="#浏览器队列" class="headerlink" title="浏览器队列"></a>浏览器队列</h2><p>当我们在js中操作dom的一些样式是，通常都会引起页面的重绘和回流，如果每次一引起回流重绘浏览器就重新去渲染的话，这样会耗费大量的时间。所以很多浏览器会维护1个队列，里面存放着回流和重绘的操作，等队列满了或者到了一定的时间间隔，浏览器就会flush队列，进行一个批处理，所有的重绘回流就变成了一次。</p>
+<p>但有时我们的代码会引起浏览器提前flush队列，比如，当我们向浏览器请求以下style信息时，就会提前让浏览器flush队列：</p>
 <ul>
 <li>offsetTop,offsetLeft,offsetWidth,offsetHeight</li>
 <li>scrollTop/Left/Width/Height</li>
 <li>clientTop/Left/Width/Height</li>
 <li>width,height</li>
-<li>������getComputedStyle()����IE��currentStyle</li>
+<li>请求了getComputedStyle()或者IE的currentStyle</li>
 </ul>
 <blockquote>
-<p>ԭ����<br>����������Щֵʱ����������Ҫ���ն��У����������µ�Ԫ�سߴ���λ����ʽ��Ϣ���ػ����󣩣���Ϊ��������Ϊ�����е�ĳЩ�������������ǻ�ȡ��ֵ�������ȷ�ģ�</p>
+<p>原因：<br>请求以上这些值时，浏览器需要清空队列，计算出最新的元素尺寸和位置样式信息（重绘回流），因为浏览器认为队列中的某些操作会造成我们获取的值并不是最精确的！</p>
 </blockquote>
-<h2 id="�Z�����"><a href="#�Z�����" class="headerlink" title="�Ż�����"></a>�Ż�����</h2><p>��û��ά�����е��������У������ػ���������Ҫ����<code>�ϲ���ʽ���޸�</code>������<code>һ����Ⱦ��λ</code>�������Ż����Ե������������Ǿ�Ҫ�úõ�������һ�㣬<code>���ٻ���ǰflush���еĲ���</code>��</p>
-<p>1.��������ʽ�޸ķŵ�һ��class�л���ͨ��classTextһ�����޸ģ�<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">1</span>;</div><div class="line">el.style.left = left + <span class="string">'px'</span>;</div><div class="line">el.style.top = top + <span class="string">'px'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.className += <span class="string">'className1'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.style.cssText += <span class="string">'left:'</span>+ left + <span class="string">'px;top:'</span> + top + <span class="string">'px;'</span></div></pre></td></tr></table></figure></p>
-<p>2.�������ʻ�����flush���е����ԣ���Ҫ���ʣ����û���<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">el.style.left = el.offsetLeft + <span class="number">5</span> + <span class="string">'px'</span>;</div><div class="line">el.style.top = el.offsetTop + <span class="number">5</span> + <span class="string">'px'</span>; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">var</span> left = el.offsetLeft,top=el.offsetTop;</div><div class="line">s = el.style;</div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">    left += <span class="number">10</span>;</div><div class="line">    top +=<span class="number">10</span>;</div><div class="line">    s.left = left + <span class="string">'px'</span>;</div><div class="line">    s.top = top + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>3.����Ч��Ӧ�õ������ĵ�����Ԫ����<br>Ԫ���������ĵ���֮�󣬲���Ӱ������Ԫ�صĲ��֣�����ֻ�ᵼ���ػ棬���Լ��ٿ���</p>
-<p>4.����ʹ��css����ʽ</p>
-<p>5.��Ҫ������Ԫ�ؽ��С����ߴ���������������һ������</p>
-<pre><code>a) ʹ��DocumentFragment���л�������,����һ�λ������ػ棻
-b) ʹ��display:none������ֻ�������λ������ػ棻
-c) ʹ��cloneNode(true or false) �� replaceChild ����������һ�λ������ػ棻
+<h2 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h2><p>在没有维护队列的浏览器中，减少重绘回流就需要我们<code>合并样式的修改</code>，尽量<code>一次渲染到位</code>，而有优化策略的浏览器，我们就要好好的利用这一点，<code>减少会提前flush队列的操作</code>。</p>
+<p>1.将多个样式修改放到一个class中或者通过classText一次性修改：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">1</span>;</div><div class="line">el.style.left = left + <span class="string">'px'</span>;</div><div class="line">el.style.top = top + <span class="string">'px'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.className += <span class="string">'className1'</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line">el.style.cssText += <span class="string">'left:'</span>+ left + <span class="string">'px;top:'</span> + top + <span class="string">'px;'</span></div></pre></td></tr></table></figure></p>
+<p>2.避免访问会引起flush队列的属性，如要访问，利用缓存<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">el.style.left = el.offsetLeft + <span class="number">5</span> + <span class="string">'px'</span>;</div><div class="line">el.style.top = el.offsetTop + <span class="number">5</span> + <span class="string">'px'</span>; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">var</span> left = el.offsetLeft,top=el.offsetTop;</div><div class="line">s = el.style;</div><div class="line"><span class="keyword">for</span>()&#123;</div><div class="line">    left += <span class="number">10</span>;</div><div class="line">    top +=<span class="number">10</span>;</div><div class="line">    s.left = left + <span class="string">'px'</span>;</div><div class="line">    s.top = top + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.动画效果应用到脱离文档流的元素上<br>元素脱离了文档流之后，不会影响其他元素的布局，所以只会导致重绘，可以减少开销</p>
+<p>4.避免使用css表达式</p>
+<p>5.让要操作的元素进行”离线处理”，处理完后一起更新</p>
+<pre><code>a) 使用DocumentFragment进行缓存操作,引发一次回流和重绘；
+b) 使用display:none技术，只引发两次回流和重绘；
+c) 使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘；
 </code></pre>
           
         

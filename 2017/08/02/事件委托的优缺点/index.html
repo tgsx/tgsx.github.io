@@ -87,19 +87,19 @@
 
 
 
-<meta name="description" content="ǰ����ƪ�����Ѿ����½�����JS���¼������ƣ������˲���/ð��/�¼�ί�У���������ί�е���ȱ�����з�����¼��
-�¼�ί�У����������ֱ���һ�������£�������������Ԫ�ذ����¼����������Ļ�����������DOM0������DOM2���ṩ�ķ�������onclick����addEven">
+<meta name="description" content="前面有篇博客已经大致介绍了JS的事件流机制，包含了捕获/冒泡/事件委托，接下来就委托的优缺点进行分析记录。
+事件委托（代理）出现背景一般情况下，我们如果想给元素绑定事件处理函数的话，都会采用DOM0级或者DOM2级提供的方法，如onclick或者addEventListener等。但是当我们在一个ul下面有很多个li元素，我们如果还用老方法一个个的进行绑定注册，这样不仅会增加我们的代码量,而且当我">
 <meta property="og:type" content="article">
-<meta property="og:title" content="�¼�ί�е���ȱ��">
+<meta property="og:title" content="事件委托的优缺点">
 <meta property="og:url" content="http://yoursite.com/2017/08/02/事件委托的优缺点/index.html">
 <meta property="og:site_name" content="Liby">
-<meta property="og:description" content="ǰ����ƪ�����Ѿ����½�����JS���¼������ƣ������˲���/ð��/�¼�ί�У���������ί�е���ȱ�����з�����¼��
-�¼�ί�У����������ֱ���һ�������£�������������Ԫ�ذ����¼����������Ļ�����������DOM0������DOM2���ṩ�ķ�������onclick����addEven">
-<meta property="og:updated_time" content="2017-08-02T16:01:01.000Z">
+<meta property="og:description" content="前面有篇博客已经大致介绍了JS的事件流机制，包含了捕获/冒泡/事件委托，接下来就委托的优缺点进行分析记录。
+事件委托（代理）出现背景一般情况下，我们如果想给元素绑定事件处理函数的话，都会采用DOM0级或者DOM2级提供的方法，如onclick或者addEventListener等。但是当我们在一个ul下面有很多个li元素，我们如果还用老方法一个个的进行绑定注册，这样不仅会增加我们的代码量,而且当我">
+<meta property="og:updated_time" content="2017-08-02T16:03:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="�¼�ί�е���ȱ��">
-<meta name="twitter:description" content="ǰ����ƪ�����Ѿ����½�����JS���¼������ƣ������˲���/ð��/�¼�ί�У���������ί�е���ȱ�����з�����¼��
-�¼�ί�У����������ֱ���һ�������£�������������Ԫ�ذ����¼����������Ļ�����������DOM0������DOM2���ṩ�ķ�������onclick����addEven">
+<meta name="twitter:title" content="事件委托的优缺点">
+<meta name="twitter:description" content="前面有篇博客已经大致介绍了JS的事件流机制，包含了捕获/冒泡/事件委托，接下来就委托的优缺点进行分析记录。
+事件委托（代理）出现背景一般情况下，我们如果想给元素绑定事件处理函数的话，都会采用DOM0级或者DOM2级提供的方法，如onclick或者addEventListener等。但是当我们在一个ul下面有很多个li元素，我们如果还用老方法一个个的进行绑定注册，这样不仅会增加我们的代码量,而且当我">
 
 
 
@@ -133,7 +133,7 @@
 
 
 
-  <title> �¼�ί�е���ȱ�� | Liby </title>
+  <title> 事件委托的优缺点 | Liby </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -293,7 +293,7 @@
             
             
               
-                �¼�ί�е���ȱ��
+                事件委托的优缺点
               
             
           </h1>
@@ -344,25 +344,25 @@
       
 
       
-        <p>ǰ����ƪ�����Ѿ����½�����JS���¼������ƣ������˲���/ð��/�¼�ί�У���������ί�е���ȱ�����з�����¼��</p>
-<h2 id="�¼�ί�У����������ֱ���"><a href="#�¼�ί�У����������ֱ���" class="headerlink" title="�¼�ί�У����������ֱ���"></a>�¼�ί�У����������ֱ���</h2><p>һ�������£�������������Ԫ�ذ����¼����������Ļ�����������DOM0������DOM2���ṩ�ķ�������onclick����addEventListener�ȡ����ǵ�������һ��ul�����кܶ���liԪ�أ��������������Ϸ���һ�����Ľ��а���ע�ᣬ�����������������ǵĴ�����,���ҵ�����Ҫ�Ƴ�ĳ��liԪ��ʱ����һ������ȥ����Ԫ�غ��¼����������İ󶨣��غ��ڴ棩,������Щ�����ĳ��֣������˻���<strong>ð�ݻ���</strong>��<code>�¼�ί��</code>����������</p>
+        <p>前面有篇博客已经大致介绍了JS的事件流机制，包含了捕获/冒泡/事件委托，接下来就委托的优缺点进行分析记录。</p>
+<h2 id="事件委托（代理）出现背景"><a href="#事件委托（代理）出现背景" class="headerlink" title="事件委托（代理）出现背景"></a>事件委托（代理）出现背景</h2><p>一般情况下，我们如果想给元素绑定事件处理函数的话，都会采用DOM0级或者DOM2级提供的方法，如onclick或者addEventListener等。但是当我们在一个ul下面有很多个li元素，我们如果还用老方法一个个的进行绑定注册，这样不仅会增加我们的代码量,而且当我们要移除某个li元素时还得一个个地去解除元素和事件处理函数的绑定（关乎内存）,正是这些问题的出现，才有了基于<strong>冒泡机制</strong>的<code>事件委托</code>（代理）。</p>
 <blockquote>
-<p>��js�У��������Ƴ�ĳ��Ԫ�ص�û�н�Ԫ�غͼ����������н���ʱ���¼������������ɻ������ڴ��У��޷��������������ա�</p>
+<p>在js中，当我们移除某个元素但没有将元素和监听函数进行解绑时，事件处理函数依旧会留在内存中，无法被当成垃圾回收。</p>
 </blockquote>
-<h2 id="��o���ܽ�"><a href="#��o���ܽ�" class="headerlink" title="��ȱ���ܽ�"></a>��ȱ���ܽ�</h2><p><strong>�ŵ�</strong>��</p>
-<p>1.�����¼�ע�ᣬ��ʡ�ڴ棬�磺</p>
+<h2 id="优缺点总结"><a href="#优缺点总结" class="headerlink" title="优缺点总结"></a>优缺点总结</h2><p><strong>优点</strong>：</p>
+<p>1.减少事件注册，节省内存，如：</p>
 <ul>
-<li>table���Դ�������td��click�¼�</li>
-<li>ul��������li��click�¼�</li>
+<li>table可以代理所有td的click事件</li>
+<li>ul代理所有li的click事件</li>
 </ul>
-<p>2.������dom�ڵ����µĲ��󣬴����߼�ֻ����ί��Ԫ���Ͻ��У��磺</p>
+<p>2.减少了dom节点更新的操作，处理逻辑只需在委托元素上进行，如：</p>
 <ul>
-<li>�����ӵ�li���ð����¼�</li>
-<li>ɾ��liʱ������Ҫ����Ԫ���봦�������Ľ���</li>
+<li>新添加的li不用绑定事件</li>
+<li>删除li时，不需要进行元素与处理函数的解绑</li>
 </ul>
-<p><strong>ȱ��</strong>��</p>
-<p>1.�¼�ί�л���ð�ݣ�����onfoucs��onblur���¼���֧��<br>2.�㼶���࣬ð�ݹ����У����ܻᱻĳ����ֹ�𣨽����ͽ�ί�У�</p>
-<p>��֮һ�ж��ǻ���ð�ݵģ�ֻҪ�¼���֧��ð�ݻ�����;��event.stopPropagation�����ȣ���ôί�оͻ�ʧ�ܣ����Բ���������ֱ����document�Ͻ���ί�С�</p>
+<p><strong>缺点</strong>：</p>
+<p>1.事件委托基于冒泡，对于onfoucs和onblur等事件不支持<br>2.层级过多，冒泡过程中，可能会被某层阻止掉（建议就近委托）</p>
+<p>总之一切都是基于冒泡的，只要事件不支持冒泡或者中途有event.stopPropagation（）等，那么委托就会失败，所以并不适用于直接在document上进行委托。</p>
 
       
     </div>
@@ -405,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/01/性能优化之重绘回流/" rel="next" title="�����Ż�֮�ػ�����">
-                <i class="fa fa-chevron-left"></i> �����Ż�֮�ػ�����
+              <a href="/2017/08/01/性能优化之重绘回流/" rel="next" title="性能优化之重绘回流">
+                <i class="fa fa-chevron-left"></i> 性能优化之重绘回流
               </a>
             
           </div>
@@ -576,7 +576,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#�¼�ί�У����������ֱ���"><span class="nav-number">1.</span> <span class="nav-text">�¼�ί�У����������ֱ���</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#��o���ܽ�"><span class="nav-number">2.</span> <span class="nav-text">��ȱ���ܽ�</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件委托（代理）出现背景"><span class="nav-number">1.</span> <span class="nav-text">事件委托（代理）出现背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点总结"><span class="nav-number">2.</span> <span class="nav-text">优缺点总结</span></a></li></ol></div>
             
 
           </div>
