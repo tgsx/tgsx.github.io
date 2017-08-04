@@ -267,6 +267,210 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/js深浅拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/04/js深浅拷贝/" itemprop="url">
+                  JS之深浅拷贝
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-04T23:56:15+08:00">
+                2017-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="浅拷贝导致的问题"><a href="#浅拷贝导致的问题" class="headerlink" title="浅拷贝导致的问题"></a>浅拷贝导致的问题</h2><p>js中我们有时候需要对数组或者对象这些复杂类型进行拷贝，当我们把他们赋予其他变量时就以为万事大吉了，可实际上当我们对改变这些变量时，原来的数组或者对象也会跟着改变，如下面的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = a;</div><div class="line">arr[<span class="number">1</span>] = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(a[<span class="number">1</span>]);<span class="comment">//1</span></div><div class="line"><span class="built_in">console</span>.log(arr[<span class="number">1</span>]);<span class="comment">//1</span></div><div class="line"><span class="built_in">console</span>.log(a=arr);<span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>是的，最后打印出来的都会是相同的结果，这也证明了我们的拷贝与原来的对象并不是完全分离的，这其实是浅拷贝导致的问题。</p>
+<p>但是有时候我们想要获得跟原对象完全不相干的拷贝，那应该怎么办呢，这时候就需要深拷贝了</p>
+<h2 id="深浅拷贝的原理及区别"><a href="#深浅拷贝的原理及区别" class="headerlink" title="深浅拷贝的原理及区别"></a>深浅拷贝的原理及区别</h2><h3 id="基本类型和引用类型"><a href="#基本类型和引用类型" class="headerlink" title="基本类型和引用类型"></a>基本类型和引用类型</h3><p>ECMAScript中类型变量分为两类：</p>
+<ul>
+<li>基本数据类型：number/string/boolean/undefined/null/symbol（ES6新增）</li>
+<li>引用数据类型：object/Array/Date/Function等</li>
+</ul>
+<p>平时我们总听说堆栈，其实他们就是用来储存我们的变量和值的。</p>
+<h3 id="栈内存"><a href="#栈内存" class="headerlink" title="栈内存"></a>栈内存</h3><p>对于<strong>基本数据类型</strong>而言，它们是保存在<strong>栈内存</strong>里面的，包含<strong>变量名</strong>及<strong>对应的值</strong>。<br>结构大致如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">55</td>
+</tr>
+</tbody>
+</table>
+<h3 id="堆内存"><a href="#堆内存" class="headerlink" title="堆内存"></a>堆内存</h3><p><strong>引用类型</strong>则是保存在<strong>堆内存</strong>中，栈内存中会保存有<strong>变量名</strong>以及<strong>引用类型在堆内存中的地址</strong>。当我们访问引用类型时，会先通过变量名在栈内存中找到<strong>对象在堆内存中的地址指针</strong>，然后再到相应的堆内存中查找数据。<br>现在栈内存的结构是这样的：</p>
+<p><code>栈内存</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">堆地址1</td>
+</tr>
+</tbody>
+</table>
+<p><code>堆内存</code></p>
+<p>栈内存中的堆地址1 —&gt; 对内存中的obj1</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">obj1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>栈内存中存放的必须时大小固定的数据，而引用类型大小不固定，只能存放在堆中。基本数据类型是按值访问，而引用类型是按地址访问。</p>
+</blockquote>
+<h3 id="基本类型的复制"><a href="#基本类型的复制" class="headerlink" title="基本类型的复制"></a>基本类型的复制</h3><p>对于基本类型来说，当拷贝时，会将值也一同复制给新变量，当我们修改它时，是下面这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = a;</div><div class="line">b = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//1</span></div></pre></td></tr></table></figure></p>
+<p>从上面也可以看出，修改b后，并不会影响到a的值，因为它们是相互独立的。</p>
+<blockquote>
+<p>栈内存中对于相同的基本数据类型值只会保存一份，并不会存放两个1，如果两个变量都指向1，那么他们就是相等的，指向不同值，则是不等（变量相互独立）的。函数参数的按值传递跟上面的例子原理一样，所以函数内就算重新修改了新变量也不会改变原来的变量。</p>
+</blockquote>
+<h3 id="引用类型的复制"><a href="#引用类型的复制" class="headerlink" title="引用类型的复制"></a>引用类型的复制</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> b = a;</div><div class="line">b.push(<span class="number">4</span>);</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[1,2,3,4]</span></div><div class="line"><span class="built_in">console</span>.log(b);<span class="comment">//[1,2,3,4]</span></div></pre></td></tr></table></figure>
+<p>虽然我们的本意是只想对拷贝后的b进行修改，但是由于我们拷贝的只是a的引用类型地址，所以其实他们指向的是同一个对象，这时候无论对谁进行修改都会导致两者都发生变化。</p>
+<p>###深浅拷贝<br>聪明的你一定会想到下面这种方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> b = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    b[i] = a[i];</div><div class="line">&#125;</div><div class="line">b.pop();</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[1,2,3]</span></div></pre></td></tr></table></figure></p>
+<p>很好，你会发现现在就算我们修改了新对象，原对象也并不会发生改动（浅复制），但如果你以为这样就成功了，那还有我们深拷贝什么事呢!</p>
+<p>仔细看，你会发现我们的引用类型中的数据都是基本数据类型，那么换成引用类型又会发生什么呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> b = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    b[i] = a[i];</div><div class="line">&#125;</div><div class="line">b[<span class="number">0</span>].pop();</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[[1,2],2,3]</span></div><div class="line">b.shift();</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[[1,2],2,3]</span></div></pre></td></tr></table></figure></p>
+<p>现在，你会无奈的发现，新建了对象后并没有什么卵用，其实还是引用类型在作怪，谁让它是通过栈内存中地址来指向的呢。</p>
+<p>很明显，外层的修改并不会有什么问题，但是一旦涉及到引用类型，那么又会回到前面的老问题上面！</p>
+<p>既然一层的复制不行，那么我们就用递归的方式对下面嵌套的所有引用类型一一进行浅复制，直到最后都转换为基本数据类型的拷贝。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//深拷贝函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> newObj = &#123;&#125;;</div><div class="line">    <span class="keyword">if</span>((<span class="keyword">typeof</span> obj) !== <span class="string">'object'</span>)&#123;</div><div class="line">        <span class="keyword">return</span> obj</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> attr <span class="keyword">in</span> obj)&#123;</div><div class="line">            newObj[attr] = <span class="built_in">arguments</span>.callee(obj[attr])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> newObj;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">'liby'</span>,</div><div class="line">        <span class="attr">skills</span>:&#123;</div><div class="line">            <span class="attr">language</span>:<span class="string">'CET6'</span>,</div><div class="line">            <span class="attr">computer</span>:[<span class="string">'js'</span>,<span class="string">'python'</span>,<span class="string">'node'</span>],</div><div class="line">            <span class="attr">others</span>:[<span class="string">'skating'</span>]</div><div class="line">        &#125;    </div><div class="line">    &#125;</div><div class="line"><span class="keyword">var</span> b = deepClone(a);</div><div class="line">b.skills.others.push(<span class="string">'Balisong'</span>);</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//nothing changed</span></div></pre></td></tr></table></figure>
+<p>现在，深拷贝完成，a和b已经不会再产生交集了，随便我们怎么折腾，哈哈！</p>
+<h2 id="数组和对象原生方法实现深浅拷贝"><a href="#数组和对象原生方法实现深浅拷贝" class="headerlink" title="数组和对象原生方法实现深浅拷贝"></a>数组和对象原生方法实现深浅拷贝</h2><p>上面我们用自己写的方法递归实现了深复制，但是其实用对象提供的一些原生方法完全能够做到深浅拷贝，一起来记录一下吧！</p>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>数组有两种方法可以实现深拷贝：concat（）和slice（）</p>
+<h4 id="slice（）"><a href="#slice（）" class="headerlink" title="slice（）"></a>slice（）</h4><p>slice方法可用来在原数组上面分割形成新数组，第一个参数为0时，即切割全部，返回一个新数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = arr.slice(<span class="number">0</span>)</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span></div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure>
+<h4 id="concat（）"><a href="#concat（）" class="headerlink" title="concat（）"></a>concat（）</h4><p>concat方法用来合并两个数组，不传入参数则深拷贝此数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = arr.concat();</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span>;</div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure></p>
+<h4 id="Array-from"><a href="#Array-from" class="headerlink" title="Array.from()"></a>Array.from()</h4><p>这时ES6中的方法，用来将<strong>类数组</strong>转换为真正的数组，当然也可以用来深拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = <span class="built_in">Array</span>.from(arr);</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span></div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure>
+<h4 id="…-扩展运算符"><a href="#…-扩展运算符" class="headerlink" title="…(扩展运算符)"></a>…(扩展运算符)</h4><p>同样也是ES6的东西，能够将一个数组轻易的<strong>解构</strong>并按照同样的模式赋值给新对象，其实内部是用的迭代器遍历复制，跟我们之前遍历复制很像，不过代码量少得多，哈哈！<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = [...arr];</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span></div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure></p>
+<h3 id="对象的拷贝"><a href="#对象的拷贝" class="headerlink" title="对象的拷贝"></a>对象的拷贝</h3><h4 id="object-assign-（浅拷贝）"><a href="#object-assign-（浅拷贝）" class="headerlink" title="object.assign()（浅拷贝）"></a>object.assign()（浅拷贝）</h4><p>object.assign()用来将任意uoge对象自身的<strong>可枚举属性</strong>拷贝给目标对象，不过<code>拷贝的只是对象的引用，而不是对象本身</code>，即浅拷贝。</p>
+<h4 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse()"></a>JSON.parse()</h4><p>将元对象转成JSON字符串再转回来，最简单粗暴的一种深拷贝方法！！！<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="string">'name'</span>:<span class="string">'liby'</span>,<span class="string">'course'</span>:&#123;<span class="string">'english'</span>:<span class="number">80</span>&#125;&#125;;</div><div class="line"><span class="keyword">var</span> newObj = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj));</div></pre></td></tr></table></figure></p>
+<h4 id="jQuery-extend"><a href="#jQuery-extend" class="headerlink" title="jQuery.extend()"></a>jQuery.extend()</h4><p>jQuery.extend这个扩展对象的方法也可以用来进行深拷贝。</p>
+<p>深浅拷贝的原理及方法已介绍完，如有遗漏，后续会补充上来！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/02/事件委托的优缺点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2156,196 +2360,6 @@ func:用于监听的函数
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/css-linearGraident/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/14/css-linearGraident/" itemprop="url">
-                  CSS3渐变属性之graident
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T14:13:02+08:00">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>随着前端技术的日益更新，css3中涌现除了许多有意思且能为我们粉饰网页所用的新特性，gradient就是其中一个出色的渐变特性，它能够让我们来背景中应用几种合适的颜色进行渐变，让网页看起来更加酷炫，本文主要针对于基于下面几款内核的现代浏览器，如Mozilla（Gecko）（熟悉的有Firefox，Flock等浏览器）、WebKit（熟悉的有Safari、Chrome等浏览器）、Opera(presto)，暂不考虑在Trident(IE)的兼容。</p>
-<h2 id="线性渐变"><a href="#线性渐变" class="headerlink" title="线性渐变"></a>线性渐变</h2><h3 id="线性渐变在Molliza下的应用"><a href="#线性渐变在Molliza下的应用" class="headerlink" title="线性渐变在Molliza下的应用"></a>线性渐变在Molliza下的应用</h3><p><strong>语法：</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-moz-linear-gradient</span>(<span class="selector-attr">[angle | to side-or-corner]</span>? , <span class="selector-tag">color-stop-list</span>)</div></pre></td></tr></table></figure>
-<p><strong>参数：</strong></p>
-<p>参数分为两部分，第一部分表示<strong>渐变的方向（渐变方式为线性或者径向，由前缀指定）</strong>，如top代表从上至下渐变，left为从左至右渐变，left top是从左上角向右下角渐变。第二个参数<strong>长度是可变的</strong>，至少需要一个<strong>起始颜色</strong>和<strong>终点颜色</strong>，中间可以插入更多的参数。</p>
-<p>ps:不加私有前缀的时候需要再angle前面加<strong>to</strong></p>
-<p><strong>angle</strong>:用角度指代渐变的方向。</p>
-<ul>
-<li>to left:设置渐变从右到左，相当于270deg</li>
-<li>to  right:设置渐变从左到右，相当于90deg</li>
-<li>to top:设置渐变从下到上，相当于0deg</li>
-<li>to bottom:设置渐变从上到下，相当于180deg</li>
-</ul>
-<p><strong>EXP:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">	<span class="attribute">background</span>:<span class="built_in">-moz-linear-gradient</span>(top,#d8d8d8,#353535);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/css-gradient/14-1.png" alt="moz"></p>
-<h3 id="线性渐变在webkit下的应用"><a href="#线性渐变在webkit下的应用" class="headerlink" title="线性渐变在webkit下的应用"></a>线性渐变在webkit下的应用</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*最新语法*/</span></div><div class="line"><span class="selector-tag">-webkit-linear-gradient</span>( <span class="selector-attr">[point || angle,]</span>? <span class="selector-tag">stop</span>, <span class="selector-tag">stop</span> <span class="selector-attr">[, stop]</span>* )</div><div class="line"><span class="comment">/*老式语法*/</span></div><div class="line"><span class="selector-tag">-webkit-gradient</span>(<span class="selector-tag">type</span>, <span class="selector-tag">point</span> <span class="selector-attr">[, radius&gt;]</span>?, <span class="selector-tag">point</span> <span class="selector-attr">[, radius]</span>? <span class="selector-attr">[, stop]</span>*)</div></pre></td></tr></table></figure>
-<p>这里我们附上两个例子，新式写法与mozilla一致，老式写法则有点偏差</p>
-<p><strong>EXP:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*老式写法*/</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-webkit-gradient</span>(linear,center top,center bottom,from(#fff), <span class="built_in">to</span>(#000));</div><div class="line">&#125;</div><div class="line"><span class="comment">/*新式写法*/</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>:<span class="built_in">-webkit-linear-gradient</span>(left top,#fff,#000);</div><div class="line">&#125;</div><div class="line">```	</div><div class="line"></div><div class="line">### 线性渐变在<span class="selector-tag">opera</span>下的应用</div><div class="line"></div><div class="line">与前面的语法一样，区别只在于私有前缀的改变<span class="selector-tag">--</span>**“<span class="selector-tag">-o-</span>”**</div><div class="line"></div><div class="line">直接附例子：</div><div class="line"></div><div class="line">**<span class="selector-tag">EXP</span>:**</div><div class="line"></div><div class="line">``` <span class="selector-tag">css</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">	<span class="attribute">background</span>:<span class="built_in">-o-linear-gradient</span>(top,#d8d8d8,#353535);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="start-point补充"><a href="#start-point补充" class="headerlink" title="start point补充"></a>start point补充</h3><p>Start Point的工作方式与backgrond的position属性类似。我们可以设置水平或者垂直位置为百分比、像素、或者在水平方向上使用left、center、right，垂直方向上使用top、center、bottom。如果不指定位置，则默认是center。</p>
-<h2 id="径向渐变"><a href="#径向渐变" class="headerlink" title="径向渐变"></a>径向渐变</h2><p>css的径向渐变在语法方面课线性渐变是很相像的，只是径向渐变目前还不支持Opera浏览器，这点请注意，所以只能应用<strong>-moz-</strong>,<strong>-webkit-</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-moz-radial-gradient</span>(<span class="selector-attr">[bg-position || angle,]</span>? <span class="selector-attr">[shape || size,]</span>? <span class="selector-tag">color-stop</span>, <span class="selector-tag">color-stop</span><span class="selector-attr">[, color-stop]</span>*);</div><div class="line"> <span class="selector-tag">-webkit-radial-gradient</span>(<span class="selector-attr">[bg-position || angle,]</span>? <span class="selector-attr">[shape || size,]</span>? <span class="selector-tag">color-stop</span>, <span class="selector-tag">color-stop</span><span class="selector-attr">[, color-stop]</span>*);</div></pre></td></tr></table></figure>
-<p>除了线性渐变支持的参数之外，径向渐变还支持渐变形状（圆形（circle）或者椭圆（ellipse））和大小参数（最近端，最近角，最远端，最远角（closest-side，closet-corner，farthest-side，farthest-corner），包含或者覆盖（contain or cover））</p>
-<p><strong>EXP1:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(#ff00ff,#ffccff ,#99ffcc);</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(#ff00ff,#ffccff ,#99ffcc);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient-1.png" alt="radial1"></p>
-<p><strong>EXP2:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(#ff00ff 5%,#ffccff 20%,#99ffcc 50%);</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(#ff00ff 5%,#ffccff 20%,#99ffcc 50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient2.png" alt="radial2"></p>
-<blockquote>
-<p>例一与例二区别：起止颜色都相同，但是例一使用默认的均匀变化的径向渐变，例二给颜色设置了固定的位置。</p>
-</blockquote>
-<p><strong>EXP3:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(top left,circle,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(top left,circle,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient03.png" alt="radial03"></p>
-<p><strong>EXP4:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(top left,ellipse,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(top left,ellipse,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient4.png" alt="radial4"></p>
-<blockquote>
-<p>例三和例四的区别：默认径向渐变中形状为ellipse，但当div大小为正方形时会失效，例三中我们改变默认，置为circle圆形渐变。</p>
-</blockquote>
-<p><strong>EXP5:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(ellipse closest-side,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(ellipse closest-side,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient5.png" alt="radial5"></p>
-<p><strong>EXP6:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(ellipse farthest-corner,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(ellipse farthest-corner,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient6.png" alt="radial6"></p>
-<blockquote>
-<p>例五和例六的区别：这两个例子我们使用第二个参数中的size，例五的closest-side决定了由起始点到最近边的渐变范围，例六的farthest-corner则是起始点到远角的渐变。</p>
-</blockquote>
-<hr>
-<h2 id="重复渐变"><a href="#重复渐变" class="headerlink" title="重复渐变"></a>重复渐变</h2><p>css的两种渐变到这里也介绍结束了，下面补充一点内容，即重复渐变的应用。</p>
-<blockquote>
-<p>重复渐变需要使用-moz-repeating-linear-gradient和-moz-repeating-radial-gradient，我们可以指定起止颜色，让他们无限重复，并构建出奇怪又有趣的图案。</p>
-</blockquote>
-<p><strong>EXP7:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-repeating-radial-gradient</span>(#ff9933,#00ffff 5px, #f96 15px);</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-repeating-radial-gradient</span>(#ff9933, #00ffff 5px, #f96 15px);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient8.png" alt="radial8"></p>
-<h2 id="渐变的组合"><a href="#渐变的组合" class="headerlink" title="渐变的组合"></a>渐变的组合</h2><p>其实，通过不同的组合，我们可以设计出形形色色的背景墙哦，请看下图：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient07.png" alt="radial7"></p>
-<p>怎么样，是不是特别漂亮，完全不需要用图片来替代，只要简单的几行代码我们就可以拥有自己想要的各种图案。<a href="http://lea.verou.me/css3patterns/#" target="_blank" rel="external">网址链接</a>在这里哦！！！</p>
-<p>本片博客到这里就结束了，如果想了解更多或者想知道IE下的实现，大家可以自行百度或者google哦！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2395,7 +2409,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

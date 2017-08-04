@@ -267,6 +267,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/css-linearGraident/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/14/css-linearGraident/" itemprop="url">
+                  CSS3渐变属性之graident
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T14:13:02+08:00">
+                2017-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>随着前端技术的日益更新，css3中涌现除了许多有意思且能为我们粉饰网页所用的新特性，gradient就是其中一个出色的渐变特性，它能够让我们来背景中应用几种合适的颜色进行渐变，让网页看起来更加酷炫，本文主要针对于基于下面几款内核的现代浏览器，如Mozilla（Gecko）（熟悉的有Firefox，Flock等浏览器）、WebKit（熟悉的有Safari、Chrome等浏览器）、Opera(presto)，暂不考虑在Trident(IE)的兼容。</p>
+<h2 id="线性渐变"><a href="#线性渐变" class="headerlink" title="线性渐变"></a>线性渐变</h2><h3 id="线性渐变在Molliza下的应用"><a href="#线性渐变在Molliza下的应用" class="headerlink" title="线性渐变在Molliza下的应用"></a>线性渐变在Molliza下的应用</h3><p><strong>语法：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-moz-linear-gradient</span>(<span class="selector-attr">[angle | to side-or-corner]</span>? , <span class="selector-tag">color-stop-list</span>)</div></pre></td></tr></table></figure>
+<p><strong>参数：</strong></p>
+<p>参数分为两部分，第一部分表示<strong>渐变的方向（渐变方式为线性或者径向，由前缀指定）</strong>，如top代表从上至下渐变，left为从左至右渐变，left top是从左上角向右下角渐变。第二个参数<strong>长度是可变的</strong>，至少需要一个<strong>起始颜色</strong>和<strong>终点颜色</strong>，中间可以插入更多的参数。</p>
+<p>ps:不加私有前缀的时候需要再angle前面加<strong>to</strong></p>
+<p><strong>angle</strong>:用角度指代渐变的方向。</p>
+<ul>
+<li>to left:设置渐变从右到左，相当于270deg</li>
+<li>to  right:设置渐变从左到右，相当于90deg</li>
+<li>to top:设置渐变从下到上，相当于0deg</li>
+<li>to bottom:设置渐变从上到下，相当于180deg</li>
+</ul>
+<p><strong>EXP:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">	<span class="attribute">background</span>:<span class="built_in">-moz-linear-gradient</span>(top,#d8d8d8,#353535);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/css-gradient/14-1.png" alt="moz"></p>
+<h3 id="线性渐变在webkit下的应用"><a href="#线性渐变在webkit下的应用" class="headerlink" title="线性渐变在webkit下的应用"></a>线性渐变在webkit下的应用</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*最新语法*/</span></div><div class="line"><span class="selector-tag">-webkit-linear-gradient</span>( <span class="selector-attr">[point || angle,]</span>? <span class="selector-tag">stop</span>, <span class="selector-tag">stop</span> <span class="selector-attr">[, stop]</span>* )</div><div class="line"><span class="comment">/*老式语法*/</span></div><div class="line"><span class="selector-tag">-webkit-gradient</span>(<span class="selector-tag">type</span>, <span class="selector-tag">point</span> <span class="selector-attr">[, radius&gt;]</span>?, <span class="selector-tag">point</span> <span class="selector-attr">[, radius]</span>? <span class="selector-attr">[, stop]</span>*)</div></pre></td></tr></table></figure>
+<p>这里我们附上两个例子，新式写法与mozilla一致，老式写法则有点偏差</p>
+<p><strong>EXP:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*老式写法*/</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-webkit-gradient</span>(linear,center top,center bottom,from(#fff), <span class="built_in">to</span>(#000));</div><div class="line">&#125;</div><div class="line"><span class="comment">/*新式写法*/</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>:<span class="built_in">-webkit-linear-gradient</span>(left top,#fff,#000);</div><div class="line">&#125;</div><div class="line">```	</div><div class="line"></div><div class="line">### 线性渐变在<span class="selector-tag">opera</span>下的应用</div><div class="line"></div><div class="line">与前面的语法一样，区别只在于私有前缀的改变<span class="selector-tag">--</span>**“<span class="selector-tag">-o-</span>”**</div><div class="line"></div><div class="line">直接附例子：</div><div class="line"></div><div class="line">**<span class="selector-tag">EXP</span>:**</div><div class="line"></div><div class="line">``` <span class="selector-tag">css</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">	<span class="attribute">background</span>:<span class="built_in">-o-linear-gradient</span>(top,#d8d8d8,#353535);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="start-point补充"><a href="#start-point补充" class="headerlink" title="start point补充"></a>start point补充</h3><p>Start Point的工作方式与backgrond的position属性类似。我们可以设置水平或者垂直位置为百分比、像素、或者在水平方向上使用left、center、right，垂直方向上使用top、center、bottom。如果不指定位置，则默认是center。</p>
+<h2 id="径向渐变"><a href="#径向渐变" class="headerlink" title="径向渐变"></a>径向渐变</h2><p>css的径向渐变在语法方面课线性渐变是很相像的，只是径向渐变目前还不支持Opera浏览器，这点请注意，所以只能应用<strong>-moz-</strong>,<strong>-webkit-</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-moz-radial-gradient</span>(<span class="selector-attr">[bg-position || angle,]</span>? <span class="selector-attr">[shape || size,]</span>? <span class="selector-tag">color-stop</span>, <span class="selector-tag">color-stop</span><span class="selector-attr">[, color-stop]</span>*);</div><div class="line"> <span class="selector-tag">-webkit-radial-gradient</span>(<span class="selector-attr">[bg-position || angle,]</span>? <span class="selector-attr">[shape || size,]</span>? <span class="selector-tag">color-stop</span>, <span class="selector-tag">color-stop</span><span class="selector-attr">[, color-stop]</span>*);</div></pre></td></tr></table></figure>
+<p>除了线性渐变支持的参数之外，径向渐变还支持渐变形状（圆形（circle）或者椭圆（ellipse））和大小参数（最近端，最近角，最远端，最远角（closest-side，closet-corner，farthest-side，farthest-corner），包含或者覆盖（contain or cover））</p>
+<p><strong>EXP1:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(#ff00ff,#ffccff ,#99ffcc);</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(#ff00ff,#ffccff ,#99ffcc);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient-1.png" alt="radial1"></p>
+<p><strong>EXP2:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(#ff00ff 5%,#ffccff 20%,#99ffcc 50%);</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(#ff00ff 5%,#ffccff 20%,#99ffcc 50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient2.png" alt="radial2"></p>
+<blockquote>
+<p>例一与例二区别：起止颜色都相同，但是例一使用默认的均匀变化的径向渐变，例二给颜色设置了固定的位置。</p>
+</blockquote>
+<p><strong>EXP3:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(top left,circle,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(top left,circle,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient03.png" alt="radial03"></p>
+<p><strong>EXP4:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(top left,ellipse,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(top left,ellipse,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient4.png" alt="radial4"></p>
+<blockquote>
+<p>例三和例四的区别：默认径向渐变中形状为ellipse，但当div大小为正方形时会失效，例三中我们改变默认，置为circle圆形渐变。</p>
+</blockquote>
+<p><strong>EXP5:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(ellipse closest-side,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(ellipse closest-side,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient5.png" alt="radial5"></p>
+<p><strong>EXP6:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(ellipse farthest-corner,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(ellipse farthest-corner,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient6.png" alt="radial6"></p>
+<blockquote>
+<p>例五和例六的区别：这两个例子我们使用第二个参数中的size，例五的closest-side决定了由起始点到最近边的渐变范围，例六的farthest-corner则是起始点到远角的渐变。</p>
+</blockquote>
+<hr>
+<h2 id="重复渐变"><a href="#重复渐变" class="headerlink" title="重复渐变"></a>重复渐变</h2><p>css的两种渐变到这里也介绍结束了，下面补充一点内容，即重复渐变的应用。</p>
+<blockquote>
+<p>重复渐变需要使用-moz-repeating-linear-gradient和-moz-repeating-radial-gradient，我们可以指定起止颜色，让他们无限重复，并构建出奇怪又有趣的图案。</p>
+</blockquote>
+<p><strong>EXP7:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-repeating-radial-gradient</span>(#ff9933,#00ffff 5px, #f96 15px);</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-repeating-radial-gradient</span>(#ff9933, #00ffff 5px, #f96 15px);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>效果</strong></p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient8.png" alt="radial8"></p>
+<h2 id="渐变的组合"><a href="#渐变的组合" class="headerlink" title="渐变的组合"></a>渐变的组合</h2><p>其实，通过不同的组合，我们可以设计出形形色色的背景墙哦，请看下图：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient07.png" alt="radial7"></p>
+<p>怎么样，是不是特别漂亮，完全不需要用图片来替代，只要简单的几行代码我们就可以拥有自己想要的各种图案。<a href="http://lea.verou.me/css3patterns/#" target="_blank" rel="external">网址链接</a>在这里哦！！！</p>
+<p>本片博客到这里就结束了，如果想了解更多或者想知道IE下的实现，大家可以自行百度或者google哦！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/css-trangle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -862,155 +1052,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
-                  CSS属性之box-sizing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
-<blockquote>
-<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
-</blockquote>
-<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
-<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
-<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
-<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
-<blockquote>
-<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
-<p><strong>box model</strong></p>
-<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
-
-<blockquote>
-<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
-<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1121,6 +1162,155 @@
 </blockquote>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
+                  CSS属性之box-sizing
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
+<blockquote>
+<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
+</blockquote>
+<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
+<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
+<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
+<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
+<blockquote>
+<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
+<p><strong>box model</strong></p>
+<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
+
+<blockquote>
+<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
+<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1789,7 +1979,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

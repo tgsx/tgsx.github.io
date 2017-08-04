@@ -1,0 +1,815 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JS,前端基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="浅拷贝导致的问题js中我们有时候需要对数组或者对象这些复杂类型进行拷贝，当我们把他们赋予其他变量时就以为万事大吉了，可实际上当我们对改变这些变量时，原来的数组或者对象也会跟着改变，如下面的例子：12345678var a = [1,2,3]var arr = a;arr[1] = 1;console.log(a[1]);//1console.log(arr[1]);//1console.log(a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS之深浅拷贝">
+<meta property="og:url" content="http://yoursite.com/2017/08/04/js深浅拷贝/index.html">
+<meta property="og:site_name" content="Liby">
+<meta property="og:description" content="浅拷贝导致的问题js中我们有时候需要对数组或者对象这些复杂类型进行拷贝，当我们把他们赋予其他变量时就以为万事大吉了，可实际上当我们对改变这些变量时，原来的数组或者对象也会跟着改变，如下面的例子：12345678var a = [1,2,3]var arr = a;arr[1] = 1;console.log(a[1]);//1console.log(arr[1]);//1console.log(a">
+<meta property="og:updated_time" content="2017-08-04T18:03:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS之深浅拷贝">
+<meta name="twitter:description" content="浅拷贝导致的问题js中我们有时候需要对数组或者对象这些复杂类型进行拷贝，当我们把他们赋予其他变量时就以为万事大吉了，可实际上当我们对改变这些变量时，原来的数组或者对象也会跟着改变，如下面的例子：12345678var a = [1,2,3]var arr = a;arr[1] = 1;console.log(a[1]);//1console.log(arr[1]);//1console.log(a">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/04/js深浅拷贝/"/>
+
+
+
+
+
+  <title> JS之深浅拷贝 | Liby </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liby</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/js深浅拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JS之深浅拷贝
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-04T23:56:15+08:00">
+                2017-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="浅拷贝导致的问题"><a href="#浅拷贝导致的问题" class="headerlink" title="浅拷贝导致的问题"></a>浅拷贝导致的问题</h2><p>js中我们有时候需要对数组或者对象这些复杂类型进行拷贝，当我们把他们赋予其他变量时就以为万事大吉了，可实际上当我们对改变这些变量时，原来的数组或者对象也会跟着改变，如下面的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = a;</div><div class="line">arr[<span class="number">1</span>] = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(a[<span class="number">1</span>]);<span class="comment">//1</span></div><div class="line"><span class="built_in">console</span>.log(arr[<span class="number">1</span>]);<span class="comment">//1</span></div><div class="line"><span class="built_in">console</span>.log(a=arr);<span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>是的，最后打印出来的都会是相同的结果，这也证明了我们的拷贝与原来的对象并不是完全分离的，这其实是浅拷贝导致的问题。</p>
+<p>但是有时候我们想要获得跟原对象完全不相干的拷贝，那应该怎么办呢，这时候就需要深拷贝了</p>
+<h2 id="深浅拷贝的原理及区别"><a href="#深浅拷贝的原理及区别" class="headerlink" title="深浅拷贝的原理及区别"></a>深浅拷贝的原理及区别</h2><h3 id="基本类型和引用类型"><a href="#基本类型和引用类型" class="headerlink" title="基本类型和引用类型"></a>基本类型和引用类型</h3><p>ECMAScript中类型变量分为两类：</p>
+<ul>
+<li>基本数据类型：number/string/boolean/undefined/null/symbol（ES6新增）</li>
+<li>引用数据类型：object/Array/Date/Function等</li>
+</ul>
+<p>平时我们总听说堆栈，其实他们就是用来储存我们的变量和值的。</p>
+<h3 id="栈内存"><a href="#栈内存" class="headerlink" title="栈内存"></a>栈内存</h3><p>对于<strong>基本数据类型</strong>而言，它们是保存在<strong>栈内存</strong>里面的，包含<strong>变量名</strong>及<strong>对应的值</strong>。<br>结构大致如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">55</td>
+</tr>
+</tbody>
+</table>
+<h3 id="堆内存"><a href="#堆内存" class="headerlink" title="堆内存"></a>堆内存</h3><p><strong>引用类型</strong>则是保存在<strong>堆内存</strong>中，栈内存中会保存有<strong>变量名</strong>以及<strong>引用类型在堆内存中的地址</strong>。当我们访问引用类型时，会先通过变量名在栈内存中找到<strong>对象在堆内存中的地址指针</strong>，然后再到相应的堆内存中查找数据。<br>现在栈内存的结构是这样的：</p>
+<p><code>栈内存</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">堆地址1</td>
+</tr>
+</tbody>
+</table>
+<p><code>堆内存</code></p>
+<p>栈内存中的堆地址1 —&gt; 对内存中的obj1</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">obj1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>栈内存中存放的必须时大小固定的数据，而引用类型大小不固定，只能存放在堆中。基本数据类型是按值访问，而引用类型是按地址访问。</p>
+</blockquote>
+<h3 id="基本类型的复制"><a href="#基本类型的复制" class="headerlink" title="基本类型的复制"></a>基本类型的复制</h3><p>对于基本类型来说，当拷贝时，会将值也一同复制给新变量，当我们修改它时，是下面这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> b = a;</div><div class="line">b = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//1</span></div></pre></td></tr></table></figure></p>
+<p>从上面也可以看出，修改b后，并不会影响到a的值，因为它们是相互独立的。</p>
+<blockquote>
+<p>栈内存中对于相同的基本数据类型值只会保存一份，并不会存放两个1，如果两个变量都指向1，那么他们就是相等的，指向不同值，则是不等（变量相互独立）的。函数参数的按值传递跟上面的例子原理一样，所以函数内就算重新修改了新变量也不会改变原来的变量。</p>
+</blockquote>
+<h3 id="引用类型的复制"><a href="#引用类型的复制" class="headerlink" title="引用类型的复制"></a>引用类型的复制</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> b = a;</div><div class="line">b.push(<span class="number">4</span>);</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[1,2,3,4]</span></div><div class="line"><span class="built_in">console</span>.log(b);<span class="comment">//[1,2,3,4]</span></div></pre></td></tr></table></figure>
+<p>虽然我们的本意是只想对拷贝后的b进行修改，但是由于我们拷贝的只是a的引用类型地址，所以其实他们指向的是同一个对象，这时候无论对谁进行修改都会导致两者都发生变化。</p>
+<p>###深浅拷贝<br>聪明的你一定会想到下面这种方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> b = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    b[i] = a[i];</div><div class="line">&#125;</div><div class="line">b.pop();</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[1,2,3]</span></div></pre></td></tr></table></figure></p>
+<p>很好，你会发现现在就算我们修改了新对象，原对象也并不会发生改动（浅复制），但如果你以为这样就成功了，那还有我们深拷贝什么事呢!</p>
+<p>仔细看，你会发现我们的引用类型中的数据都是基本数据类型，那么换成引用类型又会发生什么呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> b = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    b[i] = a[i];</div><div class="line">&#125;</div><div class="line">b[<span class="number">0</span>].pop();</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[[1,2],2,3]</span></div><div class="line">b.shift();</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//[[1,2],2,3]</span></div></pre></td></tr></table></figure></p>
+<p>现在，你会无奈的发现，新建了对象后并没有什么卵用，其实还是引用类型在作怪，谁让它是通过栈内存中地址来指向的呢。</p>
+<p>很明显，外层的修改并不会有什么问题，但是一旦涉及到引用类型，那么又会回到前面的老问题上面！</p>
+<p>既然一层的复制不行，那么我们就用递归的方式对下面嵌套的所有引用类型一一进行浅复制，直到最后都转换为基本数据类型的拷贝。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//深拷贝函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> newObj = &#123;&#125;;</div><div class="line">    <span class="keyword">if</span>((<span class="keyword">typeof</span> obj) !== <span class="string">'object'</span>)&#123;</div><div class="line">        <span class="keyword">return</span> obj</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> attr <span class="keyword">in</span> obj)&#123;</div><div class="line">            newObj[attr] = <span class="built_in">arguments</span>.callee(obj[attr])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> newObj;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">'liby'</span>,</div><div class="line">        <span class="attr">skills</span>:&#123;</div><div class="line">            <span class="attr">language</span>:<span class="string">'CET6'</span>,</div><div class="line">            <span class="attr">computer</span>:[<span class="string">'js'</span>,<span class="string">'python'</span>,<span class="string">'node'</span>],</div><div class="line">            <span class="attr">others</span>:[<span class="string">'skating'</span>]</div><div class="line">        &#125;    </div><div class="line">    &#125;</div><div class="line"><span class="keyword">var</span> b = deepClone(a);</div><div class="line">b.skills.others.push(<span class="string">'Balisong'</span>);</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//nothing changed</span></div></pre></td></tr></table></figure>
+<p>现在，深拷贝完成，a和b已经不会再产生交集了，随便我们怎么折腾，哈哈！</p>
+<h2 id="数组和对象原生方法实现深浅拷贝"><a href="#数组和对象原生方法实现深浅拷贝" class="headerlink" title="数组和对象原生方法实现深浅拷贝"></a>数组和对象原生方法实现深浅拷贝</h2><p>上面我们用自己写的方法递归实现了深复制，但是其实用对象提供的一些原生方法完全能够做到深浅拷贝，一起来记录一下吧！</p>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>数组有两种方法可以实现深拷贝：concat（）和slice（）</p>
+<h4 id="slice（）"><a href="#slice（）" class="headerlink" title="slice（）"></a>slice（）</h4><p>slice方法可用来在原数组上面分割形成新数组，第一个参数为0时，即切割全部，返回一个新数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = arr.slice(<span class="number">0</span>)</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span></div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure>
+<h4 id="concat（）"><a href="#concat（）" class="headerlink" title="concat（）"></a>concat（）</h4><p>concat方法用来合并两个数组，不传入参数则深拷贝此数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = arr.concat();</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span>;</div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure></p>
+<h4 id="Array-from"><a href="#Array-from" class="headerlink" title="Array.from()"></a>Array.from()</h4><p>这时ES6中的方法，用来将<strong>类数组</strong>转换为真正的数组，当然也可以用来深拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = <span class="built_in">Array</span>.from(arr);</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span></div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure>
+<h4 id="…-扩展运算符"><a href="#…-扩展运算符" class="headerlink" title="…(扩展运算符)"></a>…(扩展运算符)</h4><p>同样也是ES6的东西，能够将一个数组轻易的<strong>解构</strong>并按照同样的模式赋值给新对象，其实内部是用的迭代器遍历复制，跟我们之前遍历复制很像，不过代码量少得多，哈哈！<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line"><span class="keyword">var</span> newArr = [...arr];</div><div class="line">newArr[<span class="number">0</span>] = <span class="number">6</span></div><div class="line"><span class="built_in">console</span>.log(arr);<span class="comment">//[1,2,3,4,5]</span></div></pre></td></tr></table></figure></p>
+<h3 id="对象的拷贝"><a href="#对象的拷贝" class="headerlink" title="对象的拷贝"></a>对象的拷贝</h3><h4 id="object-assign-（浅拷贝）"><a href="#object-assign-（浅拷贝）" class="headerlink" title="object.assign()（浅拷贝）"></a>object.assign()（浅拷贝）</h4><p>object.assign()用来将任意uoge对象自身的<strong>可枚举属性</strong>拷贝给目标对象，不过<code>拷贝的只是对象的引用，而不是对象本身</code>，即浅拷贝。</p>
+<h4 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse()"></a>JSON.parse()</h4><p>将元对象转成JSON字符串再转回来，最简单粗暴的一种深拷贝方法！！！<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="string">'name'</span>:<span class="string">'liby'</span>,<span class="string">'course'</span>:&#123;<span class="string">'english'</span>:<span class="number">80</span>&#125;&#125;;</div><div class="line"><span class="keyword">var</span> newObj = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj));</div></pre></td></tr></table></figure></p>
+<h4 id="jQuery-extend"><a href="#jQuery-extend" class="headerlink" title="jQuery.extend()"></a>jQuery.extend()</h4><p>jQuery.extend这个扩展对象的方法也可以用来进行深拷贝。</p>
+<p>深浅拷贝的原理及方法已介绍完，如有遗漏，后续会补充上来！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/前端基础/" rel="tag"># 前端基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/02/事件委托的优缺点/" rel="next" title="事件委托的优缺点">
+                <i class="fa fa-chevron-left"></i> 事件委托的优缺点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
+               alt="Liby" />
+          <p class="site-author-name" itemprop="name">Liby</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浅拷贝导致的问题"><span class="nav-number">1.</span> <span class="nav-text">浅拷贝导致的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深浅拷贝的原理及区别"><span class="nav-number">2.</span> <span class="nav-text">深浅拷贝的原理及区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型和引用类型"><span class="nav-number">2.1.</span> <span class="nav-text">基本类型和引用类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈内存"><span class="nav-number">2.2.</span> <span class="nav-text">栈内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆内存"><span class="nav-number">2.3.</span> <span class="nav-text">堆内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型的复制"><span class="nav-number">2.4.</span> <span class="nav-text">基本类型的复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用类型的复制"><span class="nav-number">2.5.</span> <span class="nav-text">引用类型的复制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组和对象原生方法实现深浅拷贝"><span class="nav-number">3.</span> <span class="nav-text">数组和对象原生方法实现深浅拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组"><span class="nav-number">3.1.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#slice（）"><span class="nav-number">3.1.1.</span> <span class="nav-text">slice（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#concat（）"><span class="nav-number">3.1.2.</span> <span class="nav-text">concat（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Array-from"><span class="nav-number">3.1.3.</span> <span class="nav-text">Array.from()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#…-扩展运算符"><span class="nav-number">3.1.4.</span> <span class="nav-text">…(扩展运算符)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的拷贝"><span class="nav-number">3.2.</span> <span class="nav-text">对象的拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#object-assign-（浅拷贝）"><span class="nav-number">3.2.1.</span> <span class="nav-text">object.assign()（浅拷贝）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON-parse"><span class="nav-number">3.2.2.</span> <span class="nav-text">JSON.parse()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jQuery-extend"><span class="nav-number">3.2.3.</span> <span class="nav-text">jQuery.extend()</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
