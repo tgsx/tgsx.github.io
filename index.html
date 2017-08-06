@@ -267,6 +267,183 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/06/事件的那些事/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/06/事件的那些事/" itemprop="url">
+                  JS事件的那些事
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-06T17:06:23+08:00">
+                2017-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>之前已经有博客介绍了js的事件，下面的作为补充。</p>
+<h2 id="为何移动端点击会有0-3s的延迟"><a href="#为何移动端点击会有0-3s的延迟" class="headerlink" title="为何移动端点击会有0.3s的延迟"></a>为何移动端点击会有0.3s的延迟</h2><p>移动端设备会有这样的现象，就是移动端页面对于触摸事件会有<strong>300ms</strong>的延迟，据研究表明，当延迟超过100ms时，用户就能感受到明显的卡顿，当延迟达到300ms，用户更能感受到界面响应速度的缓慢。</p>
+<blockquote>
+<p>其实这应该追溯到手机开始支持<strong>双击缩放</strong>的时候了，ios上的safari为了能将pc端的大网页较好的展示在手机端上，开始使用双击缩放的方案。通过双击缩放，我们能够看清原本因为尺寸太小而看不清楚的字体，图片等。虽然这为我们带来了便利，但在另一方面却造成了困扰，要支持这个功能，浏览器就必须判断用户是否在极短的事件内双击，就算你只是想点击一个按钮，浏览器也会按照惯例等待300ms的时间来确定用户到底是不是要缩放页面，这也就是延迟的由来。</p>
+</blockquote>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="使用fastclick-js"><a href="#使用fastclick-js" class="headerlink" title="使用fastclick.js"></a>使用fastclick.js</h4><p>fastclick的使用方法简单，在window load事件后，在body上调用fastClick.attach（）即可<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    FastClick.attach(<span class="built_in">document</span>.body);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>当 FastClick 检测到当前页面使用meta设置了user-scalable=no或者 touch-action 属性的解决方案时，会静默退出.</p>
+</blockquote>
+<h4 id="jQuery和zepto-js则使用tap事件取代click事件"><a href="#jQuery和zepto-js则使用tap事件取代click事件" class="headerlink" title="jQuery和zepto.js则使用tap事件取代click事件"></a>jQuery和zepto.js则使用tap事件取代click事件</h4><p>tap事件的大致思路：</p>
+<ul>
+<li>在touchstart/touchend时记录时间，手指位置</li>
+<li>在touchend时进行比较，确认是否为同一位置（或允许较小的位移）</li>
+<li>判断时间间隔（一般为200ms）</li>
+<li>过程未曾触发touchmove，即认为触发移动端的’click’，成为’tap’</li>
+</ul>
+<h4 id="meta-viewport"><a href="#meta-viewport" class="headerlink" title="meta viewport"></a>meta viewport</h4><p>meta viewport中指定页面不可缩放，则click时不存在300ms延迟</p>
+<h2 id="mouseenter-mouseleave-和-mouseover-mouseout"><a href="#mouseenter-mouseleave-和-mouseover-mouseout" class="headerlink" title="mouseenter/mouseleave 和 mouseover/mouseout"></a>mouseenter/mouseleave 和 mouseover/mouseout</h2><p>区别：</p>
+<ul>
+<li>mouseover，mouseout可冒泡，mouseenter，mouseleave不可冒泡</li>
+<li>mouseenter只作用于<strong>目标元素</strong>，进入子元素返回不能再触发（进入只触发一次）</li>
+<li>mouseover作用于<strong>目标元素及后代元素</strong>，进入子元素返回可再触发父元素的事件(mouseout)（可多次触发）</li>
+<li>mouseleave与mouseenter类似，各自只触发自己的事件</li>
+<li>mouseout与mouseover类似，进入子元素可触发父元素的事件(mouseover)</li>
+</ul>
+<p>在<code>mouseover/mouseout</code>看来，它的事件都<strong>与后代元素有关</strong>，<strong>进入子元素</strong>和<strong>从子元素移出</strong>会触发父元素相应的<strong>mouseout</strong>和<strong>mouseover</strong>，且子元素事件会冒泡；而在<code>mouseenter/mouseleave</code>中，一旦进入了元素，无论是子元素或者父元素，都看作<strong>单独的个体</strong>，各自触发事件且<strong>不会冒泡</strong>，从父元素进入子元素和从子元素移出到父元素都不会触发父元素的事件。</p>
+<blockquote>
+<p>总结：这两组事件的区别总结起来就是：是否冒泡和子元素的移入移出是否会触发父元素的事件。牢记这两点就ok了！</p>
+</blockquote>
+<h2 id="clientX-clientY-和-pageX-pageY"><a href="#clientX-clientY-和-pageX-pageY" class="headerlink" title="clientX/clientY 和 pageX/pageY"></a>clientX/clientY 和 pageX/pageY</h2><p>当我们通过鼠标触发页面的鼠标事件时，就会产生一个事件对象e并传给我们绑定的事件函数，里面包含很多的内容。</p>
+<p>通常鼠标操作的话，主要是要获取<strong>鼠标当前的坐标值</strong>，并利用坐标值经过一系列的计算来完成我们的目的，例如：音乐播放器的进度条的拉拽，页面上元素的拖拽以及边界的判断等等。</p>
+<p>而事件对象e中就提供了很多有用的信息：最常用的还是clientX/clientY 和 pageX/pageY这两组属性。</p>
+<p>client表示的是<code>页面的可视区域（即当前浏览器窗口）</code>，而page表示的则是<code>整个页面（包括超出窗口宽高的部分）</code>。</p>
+<p>这样就很明了了，在没发生滚动的情况下，两组属性随便你选，但是一旦发生滚动，还是需要选择page开头的属性，才能获得正确的数据。</p>
+<blockquote>
+<p>兼容性：IE不支持，需要用event.y和event.y获取</p>
+</blockquote>
+<p>除了上面两组属性外，通过鼠标触发的事件e中还有screenX和screenY，不过不是很常用，就不解释了。</p>
+<h2 id="DOM0和DOM2级事件的区别"><a href="#DOM0和DOM2级事件的区别" class="headerlink" title="DOM0和DOM2级事件的区别"></a>DOM0和DOM2级事件的区别</h2><h3 id="Dom0级事件"><a href="#Dom0级事件" class="headerlink" title="Dom0级事件"></a>Dom0级事件</h3><p>dom0级有两种形式：</p>
+<ul>
+<li>在标签内绑定事件，如‘onclick=fn（）’</li>
+<li>在js中用‘onclick=function(){}’的形式绑定</li>
+</ul>
+<p>看看下面的例子：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">'test'</span> <span class="attr">href</span>=<span class="string">'javascript:void(0);'</span> <span class="attr">onclick</span>=<span class="string">'alert(click)'</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"></div><div class="line">//js</div><div class="line">var oTest = document.getElementById('oTest');</div><div class="line">oTest.onclick = function()&#123;</div><div class="line">    alert('testing...')</div><div class="line">&#125;</div><div class="line">oTest.onclick = function()&#123;</div><div class="line">    alert('finished!')</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的例子执行后，你会发现只会弹出finished字样的提示框，这是因为同一类型的事件只能绑定一个，后面会覆盖前面的。</p>
+<h3 id="Dom2级事件"><a href="#Dom2级事件" class="headerlink" title="Dom2级事件"></a>Dom2级事件</h3><p>Dom2级事件有两个方法：addEventListener()和removeEventListener()，</p>
+<p>都可传入3个参数：</p>
+<ul>
+<li>事件名，不需要加on</li>
+<li>事件函数</li>
+<li>capture标识，true或false，默认false（冒泡）</li>
+</ul>
+<p>我们将上面例子用Dom2级改写后就能顺序输出testing和finished字样了：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">'test'</span> <span class="attr">href</span>=<span class="string">'javascript:void(0);'</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"></div><div class="line">//js</div><div class="line">var oTest = document.getElementById('oTest');</div><div class="line">oTest.addEventListener('click', function()&#123;</div><div class="line">    alert('testing...')</div><div class="line">&#125;)</div><div class="line">oTest.addEventListener('click', function()&#123;</div><div class="line">    alert('finished!')</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>移除事件时需要传入和绑定事件时完全相同的参数，所以<code>匿名函数</code>绑定的事件不能被移除</p>
+</blockquote>
+<p>IE 通过attachEvent()和detachEvent()来支持，只传入事件名(<strong>要加on前缀</strong>)和处理函数，<code>只支持冒泡</code>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/js深浅拷贝/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2179,187 +2356,6 @@ c) 使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/event-bubble/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/15/event-bubble/" itemprop="url">
-                  事件流之冒泡和捕获
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T15:23:13+08:00">
-                2017-06-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h1><p>有时候我们在网页中多个地方都绑定了点击事件，但是当你点击其中一个，你会发现其他的绑定事件也被触发了，是不是觉得有点灵异，实际上是浏览器的事件流在作怪。</p>
-<p>假设我们在页面上有一个按钮，那么当我们单击它时，你们是不是认为单击事件仅仅只会发生在这个按钮上？这其实只是我们理所当然的认为而已。想象一下，现在有一张画了很多个同心圆的纸，你把手指放在圆心上面，那么你的手就指向了最小的圆吗，不，事实并不是这样，你其实指向了纸上的所有圆。</p>
-<p>在浏览器页面上，众多浏览器开发团队也认为<code>你在单击按钮的同时，也单击了包含按钮的容器元素，甚至也单击了整个页面</code>。</p>
-<p>很奇葩的是IE和Netscape开发团队提出了两种相反的事件流的概念。IE的事件流是事件<strong>冒泡流</strong>，而Netscape的事件流是事件<strong>捕获流</strong>。</p>
-<h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><p>IE的事件流叫做事件冒泡，即开始时由最具体的元素（<strong>文档中嵌套层次最深的那个节点</strong>），通常也是我们点击的节点接收，然后逐级向上传播。</p>
-<p>别的啥都不说，看代码说话</p>
-<p><strong>EXP1</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"click"</span>&gt;</span>点我啊!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>现在，当你点击了div元素时，传播路径是这样的：</p>
-<ol><br>    <li>div</li><br>    <li>body</li><br>    <li>html</li><br>    <li>document</li><br><br></ol>
-
-<p>看到没有，原来你不止触发了一个点击事件，只要你在body或者html上绑定一个事件，你会发现，他们都会在div事件触发之后被触发。现代浏览器都支持事件冒泡，只是有少许差别。IE9、FF、chrome、Safari会将事件一直冒泡到window对象，不过我们不用太在意。</p>
-<p>下面在上面的代码基础上我们再做一些修改</p>
-<p><strong>EXP2</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.onclick = clickFunc;</div><div class="line">		pObj.onclick = clickFunc;</div><div class="line">		cObj.onclick = clickFunc;</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>但我们点击最小的区域块，即黄色的child，效果图如下：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-1.png" alt="event1"></p>
-<p>我们只点击了child子元素，但是却也触发了parent和ancestor的点击事件!</p>
-<h2 id="取消冒泡"><a href="#取消冒泡" class="headerlink" title="取消冒泡"></a>取消冒泡</h2><p>有些情况下，我们并不希望子元素的事件影响父元素，这时我们就要阻止冒泡事件了，具体兼容代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopBubble</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</div><div class="line">    <span class="keyword">if</span>(e &amp;&amp; e.stopPropagation)&#123;</div><div class="line">        e.stopPropagation();</div><div class="line">    &#125;<span class="keyword">else</span>(</div><div class="line">        e.cancleBubble = <span class="literal">true</span><span class="comment">//仅IE6/7/8支持</span></div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下面我们再看看事件捕获又是怎么一回事。</p>
-<h2 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h2><p><strong>事件捕获</strong>是由Netscape提出的另一种事件流，它与冒泡恰好相反，是由顶层至上而下传播的。</p>
-<p>如果在捕获状态下触发第一个例子的话，传播路径则相反过来了：</p>
-<ol><br>    <li>document</li><br>    <li>html</li><br>    <li>body</li><br>    <li>div</li><br></ol>
-
-<p>document事件首先接受到click事件，然后沿DOM树依次向下一直传递到到我们所点击的div元素，至此，捕获事件才算完成。</p>
-<p>我们对例二进行一下修改，来看看捕获的实际过程。</p>
-<p><strong>EXP3</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件捕获<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		pObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		cObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>我们依旧点击黄色的child，效果如下：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-2.png" alt="event2"></p>
-<p>因为老版本浏览器不支持，所以并不建议使用它，除非特殊需要。</p>
-<h2 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h2><blockquote>
-<p>任何发生在w3c事件模型中的事件，首是进入捕获阶段，直到达到目标元素，再进入冒泡阶段</p>
-</blockquote>
-<p>默认情况下，执行的是时间冒泡。</p>
-<p>那么我们要如何让事件在捕获或者冒泡时执行呢？</p>
-<h2 id="事件绑定方法"><a href="#事件绑定方法" class="headerlink" title="事件绑定方法"></a>事件绑定方法</h2><p>这里我们只涉及addEventListener、attachEvent这两个绑定方法。</p>
-<ul>
-<li><p>addEventListener(event,func,useCapture)</p>
-<p>  参数：</p>
-<pre><code>event:事件名称，如click，不带on
-func:用于监听的函数
-useCapture:是否进行捕获，默认为false即冒泡
-</code></pre><p>  addEventListener在IE11、Chrome、FF、Safiri等浏览器都支持</p>
-</li>
-<li><p>attachevent（event,func）</p>
-<p>  参数：</p>
-<pre><code>event:事件名称，如onclick，带on
-func:用于监听的函数
-</code></pre><p>  attachEvent仅在IE10及以下才支持.</p>
-</li>
-</ul>
-<h2 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h2><p>说完了事件的冒泡、捕获和绑定方法，下面综合这些知识点来讲讲事件委托。</p>
-<p>有时候我们需要给很多子元素添加事件，这时候我们可以选择另一种方式，把事件添加到父节点即将事件委托给父节点来触发处理函数。这主要得益于Dom事件流的事件冒泡机制。</p>
-<p>假设我们有一个ul列表，需要给下面的子节点绑定函数：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"item-list"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>现在我们要求点击每个li元素的时候在console打印出他的content。最普遍的写法，就是给每个li元素通过onClick的方式绑定监听函数。</p>
-<p>这样做不仅费力，当li元素的个数增加或者减少时，我们就需要手动为新添加的元素绑定函数。更好的方式是使用<strong>事件委托</strong>机制，把事件绑定到父元素或者更上层的节点，通过检查时间的<strong>目标对象（event.target）</strong>来获取事件源。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</div><div class="line">    <span class="keyword">var</span> target = e.target || e.srcElement;<span class="comment">//IE兼容写法</span></div><div class="line">    <span class="keyword">if</span>（target.tagName.toLowerCase() == <span class="string">"li"</span>）&#123;</div><div class="line">        <span class="built_in">console</span>.log(target.index);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"item-list"</span>).addEventListener(<span class="string">"click"</span>,clickFunc);</div></pre></td></tr></table></figure>
-<p>我们通过e.target拿到被点击的L节点，除此之外e还有一个<strong>currentTarget</strong>属性，里面保存的是触发事件的当前对象，这里为ul元素。</p>
-<p>掌握好这些事件流的知识点对我们今后的开发会很有帮助，大家可以上网多搜搜捕获冒泡及委托的例子学习下！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2409,7 +2405,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

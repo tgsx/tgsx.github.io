@@ -267,6 +267,187 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/event-bubble/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/15/event-bubble/" itemprop="url">
+                  事件流之冒泡和捕获
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T15:23:13+08:00">
+                2017-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h1><p>有时候我们在网页中多个地方都绑定了点击事件，但是当你点击其中一个，你会发现其他的绑定事件也被触发了，是不是觉得有点灵异，实际上是浏览器的事件流在作怪。</p>
+<p>假设我们在页面上有一个按钮，那么当我们单击它时，你们是不是认为单击事件仅仅只会发生在这个按钮上？这其实只是我们理所当然的认为而已。想象一下，现在有一张画了很多个同心圆的纸，你把手指放在圆心上面，那么你的手就指向了最小的圆吗，不，事实并不是这样，你其实指向了纸上的所有圆。</p>
+<p>在浏览器页面上，众多浏览器开发团队也认为<code>你在单击按钮的同时，也单击了包含按钮的容器元素，甚至也单击了整个页面</code>。</p>
+<p>很奇葩的是IE和Netscape开发团队提出了两种相反的事件流的概念。IE的事件流是事件<strong>冒泡流</strong>，而Netscape的事件流是事件<strong>捕获流</strong>。</p>
+<h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><p>IE的事件流叫做事件冒泡，即开始时由最具体的元素（<strong>文档中嵌套层次最深的那个节点</strong>），通常也是我们点击的节点接收，然后逐级向上传播。</p>
+<p>别的啥都不说，看代码说话</p>
+<p><strong>EXP1</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"click"</span>&gt;</span>点我啊!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>现在，当你点击了div元素时，传播路径是这样的：</p>
+<ol><br>    <li>div</li><br>    <li>body</li><br>    <li>html</li><br>    <li>document</li><br><br></ol>
+
+<p>看到没有，原来你不止触发了一个点击事件，只要你在body或者html上绑定一个事件，你会发现，他们都会在div事件触发之后被触发。现代浏览器都支持事件冒泡，只是有少许差别。IE9、FF、chrome、Safari会将事件一直冒泡到window对象，不过我们不用太在意。</p>
+<p>下面在上面的代码基础上我们再做一些修改</p>
+<p><strong>EXP2</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.onclick = clickFunc;</div><div class="line">		pObj.onclick = clickFunc;</div><div class="line">		cObj.onclick = clickFunc;</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>但我们点击最小的区域块，即黄色的child，效果图如下：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-1.png" alt="event1"></p>
+<p>我们只点击了child子元素，但是却也触发了parent和ancestor的点击事件!</p>
+<h2 id="取消冒泡"><a href="#取消冒泡" class="headerlink" title="取消冒泡"></a>取消冒泡</h2><p>有些情况下，我们并不希望子元素的事件影响父元素，这时我们就要阻止冒泡事件了，具体兼容代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopBubble</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</div><div class="line">    <span class="keyword">if</span>(e &amp;&amp; e.stopPropagation)&#123;</div><div class="line">        e.stopPropagation();</div><div class="line">    &#125;<span class="keyword">else</span>(</div><div class="line">        e.cancleBubble = <span class="literal">true</span><span class="comment">//仅IE6/7/8支持</span></div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面我们再看看事件捕获又是怎么一回事。</p>
+<h2 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h2><p><strong>事件捕获</strong>是由Netscape提出的另一种事件流，它与冒泡恰好相反，是由顶层至上而下传播的。</p>
+<p>如果在捕获状态下触发第一个例子的话，传播路径则相反过来了：</p>
+<ol><br>    <li>document</li><br>    <li>html</li><br>    <li>body</li><br>    <li>div</li><br></ol>
+
+<p>document事件首先接受到click事件，然后沿DOM树依次向下一直传递到到我们所点击的div元素，至此，捕获事件才算完成。</p>
+<p>我们对例二进行一下修改，来看看捕获的实际过程。</p>
+<p><strong>EXP3</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件捕获<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		pObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		cObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我们依旧点击黄色的child，效果如下：</p>
+<p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-2.png" alt="event2"></p>
+<p>因为老版本浏览器不支持，所以并不建议使用它，除非特殊需要。</p>
+<h2 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h2><blockquote>
+<p>任何发生在w3c事件模型中的事件，首是进入捕获阶段，直到达到目标元素，再进入冒泡阶段</p>
+</blockquote>
+<p>默认情况下，执行的是时间冒泡。</p>
+<p>那么我们要如何让事件在捕获或者冒泡时执行呢？</p>
+<h2 id="事件绑定方法"><a href="#事件绑定方法" class="headerlink" title="事件绑定方法"></a>事件绑定方法</h2><p>这里我们只涉及addEventListener、attachEvent这两个绑定方法。</p>
+<ul>
+<li><p>addEventListener(event,func,useCapture)</p>
+<p>  参数：</p>
+<pre><code>event:事件名称，如click，不带on
+func:用于监听的函数
+useCapture:是否进行捕获，默认为false即冒泡
+</code></pre><p>  addEventListener在IE11、Chrome、FF、Safiri等浏览器都支持</p>
+</li>
+<li><p>attachevent（event,func）</p>
+<p>  参数：</p>
+<pre><code>event:事件名称，如onclick，带on
+func:用于监听的函数
+</code></pre><p>  attachEvent仅在IE10及以下才支持.</p>
+</li>
+</ul>
+<h2 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h2><p>说完了事件的冒泡、捕获和绑定方法，下面综合这些知识点来讲讲事件委托。</p>
+<p>有时候我们需要给很多子元素添加事件，这时候我们可以选择另一种方式，把事件添加到父节点即将事件委托给父节点来触发处理函数。这主要得益于Dom事件流的事件冒泡机制。</p>
+<p>假设我们有一个ul列表，需要给下面的子节点绑定函数：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"item-list"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>现在我们要求点击每个li元素的时候在console打印出他的content。最普遍的写法，就是给每个li元素通过onClick的方式绑定监听函数。</p>
+<p>这样做不仅费力，当li元素的个数增加或者减少时，我们就需要手动为新添加的元素绑定函数。更好的方式是使用<strong>事件委托</strong>机制，把事件绑定到父元素或者更上层的节点，通过检查时间的<strong>目标对象（event.target）</strong>来获取事件源。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</div><div class="line">    <span class="keyword">var</span> target = e.target || e.srcElement;<span class="comment">//IE兼容写法</span></div><div class="line">    <span class="keyword">if</span>（target.tagName.toLowerCase() == <span class="string">"li"</span>）&#123;</div><div class="line">        <span class="built_in">console</span>.log(target.index);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"item-list"</span>).addEventListener(<span class="string">"click"</span>,clickFunc);</div></pre></td></tr></table></figure>
+<p>我们通过e.target拿到被点击的L节点，除此之外e还有一个<strong>currentTarget</strong>属性，里面保存的是触发事件的当前对象，这里为ul元素。</p>
+<p>掌握好这些事件流的知识点对我们今后的开发会很有帮助，大家可以上网多搜搜捕获冒泡及委托的例子学习下！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/css-linearGraident/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1979,7 +2160,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
