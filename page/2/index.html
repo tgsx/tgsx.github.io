@@ -267,6 +267,212 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/17/js之BOM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liby">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/17/js之BOM/" itemprop="url">
+                  JS之BOM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-17T16:31:08+08:00">
+                2017-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="BOM（Browser-Object-Model）"><a href="#BOM（Browser-Object-Model）" class="headerlink" title="BOM（Browser Object Model）"></a>BOM（Browser Object Model）</h1><p>BOM（Browser Object Model）浏览器对象模型，它主要处理的是<strong>浏览器窗口和框架</strong>，独立于<strong>内容之外</strong>。BOM提供了很多很多对象，用于访问浏览器的功能。</p>
+<p>要注意的是，浏览器产商会根据自己的想法去扩展它，所以不同浏览器的实现方式有所不同，不过，浏览器之间有一些共有的对象就成了事实上的标准。</p>
+<p>主要的BOM对象有：</p>
+<ul>
+<li>window</li>
+<li>loaction</li>
+<li>navigator</li>
+<li>screen</li>
+<li>history</li>
+</ul>
+<p>除次之外还有一些其他的对象，大家可以上W3school上查阅资料！</p>
+<h2 id="window"><a href="#window" class="headerlink" title="window"></a>window</h2><p>window，这是一个所有浏览器都支持的对象，代表的是浏览器的一个实例，通过它我们可以用<strong>js访问浏览器窗口</strong>，同时他也是ECMAScript定义的一个<strong>global对象</strong>。</p>
+<h3 id="全局对象及作用域"><a href="#全局对象及作用域" class="headerlink" title="全局对象及作用域"></a>全局对象及作用域</h3><p>因为window是一个全局的对象，所以我们在全局作用域下声明的对象、函数及变量会自动变成它下面的成员。</p>
+<p>先来看一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> count = <span class="number">20</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showCount</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.count);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.count); <span class="comment">//20</span></div><div class="line">showCount();   <span class="comment">//20</span></div><div class="line"><span class="built_in">window</span>.showCount();   <span class="comment">//20</span></div></pre></td></tr></table></figure></p>
+<p>我们在<strong>全局作用域</strong>中定义了一个变量count和一个函数showCount，他们会成为<strong>window对象的属性和方法</strong>，但在<strong>调用时可以省略window</strong>。所以除直接count这样调用，也可以通过window.count这样调用属性或者方法。这时，再调用showCount方法时，方法中的this指代的就是window了，自然<strong>this.count就指向了window.count</strong>。</p>
+<h3 id="Window位置"><a href="#Window位置" class="headerlink" title="Window位置"></a>Window位置</h3><p>各种浏览器都提供了window的位置属性来确定浏览器窗口相对于屏幕的位置。</p>
+<p>IE、Safari、Chrome、opera都提供了<strong>ScreenLeft</strong>和<strong>ScreenTop</strong>属性，代表窗口距离屏幕左边和上方的距离。</p>
+<p>FireFox虽然不支持上面两个属性，但提供另外两个属性<strong>ScreenX</strong>和<strong>ScreenY</strong>，含义与前两个属性相同，支持这两个属性的还有Safari和Chrome。</p>
+<p>附上能在各大浏览器正常获取到属性的兼容代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sLeft = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenLeft == <span class="string">"number"</span>)?<span class="built_in">window</span>.screenLeft:<span class="built_in">window</span>.screenX;</div><div class="line"></div><div class="line"><span class="keyword">var</span> sTop = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenTop == <span class="string">"number"</span>)?<span class="built_in">window</span>.screenTop:<span class="built_in">window</span>.ScreenY;</div></pre></td></tr></table></figure>
+<p>不过这两对属性获取到的信息还是有些差别：</p>
+<ul>
+<li>screenLeft和screenTop获取到的距离是<strong>页面可见区域</strong>到屏幕的距离（并不包括滚动栏和上方的工具栏）。  </li>
+<li>screenx和screenY则是<strong>整个浏览器窗口</strong>距离屏幕的距离</li>
+</ul>
+<h4 id="moveTo（）和moveBy（）"><a href="#moveTo（）和moveBy（）" class="headerlink" title="moveTo（）和moveBy（）"></a>moveTo（）和moveBy（）</h4><p>除了获取位置信息外，我们还可以通过moveTo和moveBy这两个方法将窗口移到我们想要的地方上去。</p>
+<p>moveTo（）和moveBy（）都接收两个参数，其中moveTo（）接收的是新位置的X和Y坐标，moveBy（）接收的是在水平和垂直方向上移动的像素数。</p>
+<p>例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//将屏幕移到（100,100）</span></div><div class="line"><span class="built_in">window</span>.moveTo(<span class="number">100</span>,<span class="number">100</span>);</div><div class="line"></div><div class="line"><span class="comment">//将屏幕下移50px</span></div><div class="line"><span class="built_in">window</span>.moveBy(<span class="number">0</span>,<span class="number">50</span>);</div><div class="line"></div><div class="line">&gt; 要注意，这些方法只适合对外层的<span class="built_in">window</span>使用。</div></pre></td></tr></table></figure>
+<h3 id="window尺寸"><a href="#window尺寸" class="headerlink" title="window尺寸"></a>window尺寸</h3><ul>
+<li>innerWidth:浏览器窗口内部宽度</li>
+<li>innerHeight:浏览器窗口内部高度</li>
+<li>outerWidth:浏览器窗口外部宽度</li>
+<li>outerHeight:浏览器窗口外部高度</li>
+</ul>
+<p>ps：在Chrome中，这四个属性返回的都是视口(view port)的大小。</p>
+<p>IE8及较早版本不支持这些属性，但可以通过DOM获取这些信息。</p>
+<ul>
+<li><p>标准模式下：</p>
+<p>  document.document.clientWidth<br>  document.document.clientHeight</p>
+</li>
+<li><p>混杂模式下：</p>
+<p>  document.body.clientWidth<br>  document.body.clientHeight</p>
+</li>
+</ul>
+<p>混杂模式下的Chrome也可以通过这些属性获得视口大小。</p>
+<p>附上获取视口大小的兼容代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pageWidth = <span class="built_in">window</span>.innerWidth;</div><div class="line"><span class="keyword">var</span> pageHeight = <span class="built_in">window</span>.innerHeight;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span> pageWidth !=<span class="string">"number"</span>)&#123;</div><div class="line">    <span class="comment">//标准模式下</span></div><div class="line">    <span class="keyword">if</span>(<span class="built_in">document</span>.compatMode == <span class="string">"CSS1Compat"</span>)&#123;</div><div class="line">        pageWidth = <span class="built_in">document</span>.documentElement.clientWidth;</div><div class="line">        pageHeight = <span class="built_in">document</span>.documentElement.clientHeight;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        pageWidth = <span class="built_in">document</span>.body.clientWidth;</div><div class="line">        pageHeight = <span class="built_in">document</span>.body.clientHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">-------------------------</div><div class="line"><span class="comment">// 或者下面这种</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> w=<span class="built_in">window</span>.innerWidth</div><div class="line">|| <span class="built_in">document</span>.documentElement.clientWidth</div><div class="line">|| <span class="built_in">document</span>.body.clientWidth;</div><div class="line"></div><div class="line"><span class="keyword">var</span> h=<span class="built_in">window</span>.innerHeight</div><div class="line">|| <span class="built_in">document</span>.documentElement.clientHeight</div><div class="line">|| <span class="built_in">document</span>.body.</div></pre></td></tr></table></figure>
+<h3 id="open-和close"><a href="#open-和close" class="headerlink" title="open()和close()"></a>open()和close()</h3><p>window.open(url,target,param)</p>
+<ul>
+<li>url:要打开的地址</li>
+<li>target：打开窗口的位置 _blank,_self,_parent(父框架)</li>
+<li>新窗口的设置参数</li>
+</ul>
+<p>window.close()</p>
+<blockquote>
+<p>只有通过 JavaScript 代码打开的窗口才能够由 JavaScript 代码关闭。这阻止了恶意的脚本终止用户的浏览器</p>
+</blockquote>
+<h2 id="location"><a href="#location" class="headerlink" title="location"></a>location</h2><p>window.location对象用于获取当前页面的URL，也可将当前页面重定向到新的页面</p>
+<p>loaction的一些属性</p>
+<ul>
+<li>hostname:返回web主机的域名</li>
+<li>pathname：返回当前页面的路径和文件名</li>
+<li>port:返回web主机的端口</li>
+<li>protocol：返回所使用的web协议</li>
+<li>hash:返回url中”#“后的字符串</li>
+<li>href:返回当前页面的完整url，location的toString（）方法也返回这个值</li>
+<li>search：返回url的查询字符串，字符串以问号开头</li>
+</ul>
+<h3 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h3><p>可以通过location.assign（）来改变浏览器的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.assign(<span class="string">"http://www.baidu.com"</span>)</div></pre></td></tr></table></figure>
+<p>调用者方法会在本页面打开新的url，并在历史记录中生成一条记录。其实，当我们给window.location和location.href设置一个url时，最终调用的也是assign（）方法。</p>
+<p>除了这些浏览器位置的方法，也可通过修改location的一些属性来达到目的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//初始化的url为http://www.liby.com/tag/js</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.liby.com/tag/js#article1</span></div><div class="line">locatin.hash = <span class="string">"#article1"</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.liby.com/tag/js?id=101</span></div><div class="line">locatin.search = <span class="string">"?id=101"</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.candy.com/tag/js</span></div><div class="line">location.hostname = <span class="string">"www.candy.com"</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.candy.com/tag/css</span></div><div class="line">location.pathname = <span class="string">"tag/css"</span></div></pre></td></tr></table></figure>
+<p>上面的操作都会在跳转到新url的同时在历史记录里添加一条新的记录，这样单击后退按钮就可回到之前的页面，我们可以用<strong>replace（）</strong>来避免。</p>
+<p>最后一个方法<strong>reload（）</strong>表示重载当前页面，可以添加参数true，代表从服务器重载，也可不传递参数，这样就有可能直接从缓存里加载了。</p>
+<h2 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h2><p>navigator对象可以让我们获取到浏览器的信息。<br>例如可以用plugins来获取文档中安装的插件，或者获取user-agent的值，这里大家可以上<a href="http://www.w3school.com.cn" target="_blank" rel="external">w3cschool</a>详细了解。</p>
+<h2 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h2><p>Screen 对象包含有关客户端显示屏幕的信息，像屏幕的可用高度，或者屏幕的颜色分辨率等等。</p>
+<h2 id="history"><a href="#history" class="headerlink" title="history"></a>history</h2><p>history对象保存的是用户上网的历史记录。处于安全原因，开发人员无法获取实际的url，但我们可以通过方法实现前进或者后退。</p>
+<p>history的属性与方法：</p>
+<ul>
+<li>length：返回浏览器历史记录中的url数量</li>
+<li>forward（）：加载history列表中的下一个url</li>
+<li>back（）：加载history列表中的前一个url</li>
+<li>go（）：可以通过指定正负数值来前进或后退到指定的页面</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/event-bubble/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1955,167 +2161,11 @@ func:用于监听的函数
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/22/python-Tkinter-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/22/python-Tkinter-1/" itemprop="url">
-                  python-Tkinter(1)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-22T21:29:47+08:00">
-                2017-03-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>  最近用python的Tkinter框架写了一个桌面小程序，来实现汉语和蒙语的互译，虽说Tkinter的界面有点丑，肯定不及新兴的pyqt美观，但考虑到以后可能不会过多涉及桌面程序，就讲究用它来写了，毕竟之前有一点点小小的基础。这篇文章中会指出一些实际应用中的例子，如果需要详细了解Tkinter的细节，可以点击我下方推荐的blog进行查看。同时在数据导入过程中涉及到了excel表格，也顺便写下来分享。</p>
-<h1 id="操作excel表格"><a href="#操作excel表格" class="headerlink" title="操作excel表格"></a>操作excel表格</h1><p> python 作为数据处理的一门优秀语言，在爬虫和数据挖掘领域有着较高的地位，所以不可避免的需要对excel表格进行操作，来存入和读取数据，这其中就要用到xlrd模块(当然还有其他的模块)，下面就来介绍它：</p>
-<p> 首先，xlrd模块需要通过<code>pip install</code>来安装:</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install xlrd</div></pre></td></tr></table></figure>
-<p> 第一步，先导入此模块:</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> xlrd</div></pre></td></tr></table></figure>
-<p> 第二步，先用xlrd的open__workbook(‘filename’)来打开要读取数据的xlxs文件:</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f1 = xlrd.open_workbook(<span class="string">'filename'</span>)</div></pre></td></tr></table></figure>
-</code></pre><p> 第三步，选择要操作的sheet:<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">booksheet = f1.sheet_by_name(<span class="string">'sheetname'</span>)</div></pre></td></tr></table></figure></p>
-<p> 第四步,对行和列的操作:<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#对行数进行迭代</span></div><div class="line"><span class="keyword">for</span> row <span class="keyword">in</span> range(booksheet.nrows):</div><div class="line">	p = list()</div><div class="line">对列数进行迭代</div><div class="line"><span class="keyword">for</span> col <span class="keyword">in</span> range(booksheet.ncols):</div><div class="line">	cel = booksheet.cell(row,col)</div><div class="line">	val = cel.value</div><div class="line">	<span class="comment">#...对数据进行判断</span></div><div class="line">	<span class="keyword">if</span> xxx:</div><div class="line">		p.append(val)</div><div class="line"><span class="comment">#这里已经取出了一行的数值,可以导入数据库</span></div><div class="line"><span class="comment">#此处为数据库操作,省略</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>对excel表格的操作就介绍到这里,如需深入请自行百度</p>
-</blockquote>
-<hr>
-<p>介绍完xlrd,导入了字典数据仅数据库后,我们就需要构建一个gui界面来实现对数据的增删查改了.</p>
-<h1 id="GUI功能简介"><a href="#GUI功能简介" class="headerlink" title="GUI功能简介"></a>GUI功能简介</h1><ul>
-<li>登录注册</li>
-<li>蒙汉互译</li>
-<li>后台管理</li>
-</ul>
-<p>其实Tkinter的语法很简单,有类似html的一些表单控件,基本理念是先定义一个大窗口,然后将其余的小窗口绑定到这个<br>大窗口里面,最后再用pack,grid,place三个方法中的一个来进行位置的布局.</p>
-<p>先拿主界面来进行举例:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#主窗口初始化</span></div><div class="line">top=Tk()   <span class="comment">#主窗口</span></div><div class="line">top.title(<span class="string">'蒙汉互译电子词典'</span>)<span class="comment">#设置左上角标题</span></div><div class="line"> </div><div class="line"></div><div class="line"><span class="comment">#利用canvas画布实现背景图片的加载 </span></div><div class="line">canvas = Canvas(top,width = <span class="number">1200</span>, height = <span class="number">700</span>, )</div><div class="line">canvas.pack(expand = YES, fill = BOTH)</div><div class="line"><span class="comment">#用ImagetK打开图片，并获取图片的宽高</span></div><div class="line">image = ImageTk.PhotoImage(file = <span class="string">"aa.jpg"</span>)</div><div class="line">width = image.width()</div><div class="line">height = image.height()</div><div class="line"><span class="comment">#根据图片大小设置主窗体的大小</span></div><div class="line">top.geometry(<span class="string">'%dx%d+300+180'</span>%(width,height))</div><div class="line">canvas.create_image(<span class="number">0</span>, <span class="number">0</span>, image = image, anchor = NW)</div><div class="line"><span class="comment">#内容标题，括号内第一个参数代表这个控件要放在哪个窗体上面，font设置字体</span></div><div class="line">label=Label(canvas,text=<span class="string">'蒙汉互译电子词典'</span>,font=<span class="string">'Helvetica -21 bold'</span>)  <span class="comment">#设置标签字体的初始大小</span></div><div class="line"></div><div class="line">label.pack(fill=Y,expand=<span class="number">0</span>,pady=<span class="number">60</span>)</div><div class="line"><span class="comment">#以下皆为按钮设置，text代表按钮内的文字，command后面是按钮按下触发的函数</span></div><div class="line">button_login = Button(canvas,text=<span class="string">u'登录'</span>,command=login_register).pack(ipady=<span class="number">5</span>,ipadx=<span class="number">22</span>,pady=<span class="number">10</span>)</div><div class="line"></div><div class="line">button_login = Button(canvas,text=<span class="string">u'蒙汉互译'</span>,command=meng_han).pack(ipady=<span class="number">5</span>,ipadx=<span class="number">14</span>,pady=<span class="number">30</span>)</div><div class="line"></div><div class="line"><span class="comment">#退出按钮</span></div><div class="line">quit = Button(top,text=<span class="string">'退出'</span>,command=top.quit,activeforeground=<span class="string">'white'</span>,</div><div class="line"></div><div class="line">activebackground=<span class="string">'red'</span>)</div><div class="line"></div><div class="line">quit.pack(fill=X)</div><div class="line"><span class="comment">#主窗体循环监听</span></div><div class="line">mainloop(</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<p>稍微解释一下：<br>  一般一个控件定义的第一个参数是要绑定的父元素,其后一般会有如text，command的选项，再后面就是用pack，grid，place来进行布局,可以接受padx，ipadx之类的参数，跟html很类似。</p>
-<p>这里涉及到一个问题，就是对一个label或者其他的控件我们可以直接以<strong>label1=Label(options=parameters).pack()</strong>的形式来定义,但是这样做会导致后面出现一些小问题，假如我们再用label1.config()来对它进行配置，就会出现如 ‘NoneType’ object has no attribute 这样的提示，解释下原因:<br>    pack()函数返回的是空值，所以并不具有config等函数可以调用,我们需要分成两步来写，<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">label1 = Label()</div><div class="line">label1.pack()</div><div class="line">label1.config()</div></pre></td></tr></table></figure></p>
-<p>这样就不会出现上面的报错了。</p>
-<hr>
-<p>我实现的三个功能中用的最多的还是Button,Entry,text三个控件，下面简单介绍下它们:<br><strong>Entry</strong>即输入框，通过它我们可以获得用户输入,进行后续操作<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#‘*’代表我们输入的字符用*号替代，跟网页的密码框‘type=password’一个道理</span></div><div class="line">entry = Entry(root,show=<span class="string">"*"</span>)</div><div class="line">entry.pack()</div></pre></td></tr></table></figure></p>
-<p>获取输入框的输入数据要调用get方法:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">content = entry.get()</div></pre></td></tr></table></figure>
-<p>在输入框中插入字符要用insert方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">entry.insert(<span class="number">0</span>,conent)</div></pre></td></tr></table></figure></p>
-<p><strong>button</strong>即按钮，通过其中绑定的command函数，我们可以触发相关事件:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">button1 = Button(root,text=<span class="string">"确认"</span>,command=function_name)</div><div class="line">button1.pack()</div></pre></td></tr></table></figure></p>
-<p>定义好函数后，点击这个按钮就能够跳转到函数体内执行了。</p>
-<p>最后的<strong>text</strong>为文本框,用户可以输入多行文本,也可以调用insert方法进行插入,可以参考上面的entry。</p>
-<blockquote>
-<p>对Tkinter的简单介绍就到这里了，如需要进行更多的了解，请点击下面的博客链接</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2160,7 +2210,7 @@ func:用于监听的函数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="python,GUI," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,16 +87,12 @@
 
 
 
-<meta name="description" content="最近用python的Tkinter框架写了一个桌面小程序，来实现汉语和蒙语的互译，虽说Tkinter的界面有点丑，肯定不及新兴的pyqt美观，但考虑到以后可能不会过多涉及桌面程序，就讲究用它来写了，毕竟之前有一点点小小的基础。这篇文章中会指出一些实际应用中的例子，如果需要详细了解Tkinter的细节，可以点击我下方推荐的blog进行查看。同时在数据导入过程中涉及到了excel表格，也顺便写下来">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python-Tkinter(1)">
-<meta property="og:url" content="http://yoursite.com/2017/03/22/python-Tkinter-1/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Liby">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="Liby">
-<meta property="og:description" content="最近用python的Tkinter框架写了一个桌面小程序，来实现汉语和蒙语的互译，虽说Tkinter的界面有点丑，肯定不及新兴的pyqt美观，但考虑到以后可能不会过多涉及桌面程序，就讲究用它来写了，毕竟之前有一点点小小的基础。这篇文章中会指出一些实际应用中的例子，如果需要详细了解Tkinter的细节，可以点击我下方推荐的blog进行查看。同时在数据导入过程中涉及到了excel表格，也顺便写下来">
-<meta property="og:updated_time" content="2017-03-25T09:56:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python-Tkinter(1)">
-<meta name="twitter:description" content="最近用python的Tkinter框架写了一个桌面小程序，来实现汉语和蒙语的互译，虽说Tkinter的界面有点丑，肯定不及新兴的pyqt美观，但考虑到以后可能不会过多涉及桌面程序，就讲究用它来写了，毕竟之前有一点点小小的基础。这篇文章中会指出一些实际应用中的例子，如果需要详细了解Tkinter的细节，可以点击我下方推荐的blog进行查看。同时在数据导入过程中涉及到了excel表格，也顺便写下来">
+<meta name="twitter:title" content="Liby">
 
 
 
@@ -124,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/22/python-Tkinter-1/"/>
+  <link rel="canonical" href="http://yoursite.com/page/3/"/>
 
 
 
 
 
-  <title> python-Tkinter(1) | Liby </title>
+  <title> Liby </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -155,7 +151,9 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -258,9 +256,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -290,7 +288,10 @@
             
             
               
-                python-Tkinter(1)
+                
+                <a class="post-title-link" href="/2017/03/22/python-Tkinter-1/" itemprop="url">
+                  python-Tkinter(1)
+                </a>
               
             
           </h1>
@@ -341,7 +342,9 @@
       
 
       
-        <p>  最近用python的Tkinter框架写了一个桌面小程序，来实现汉语和蒙语的互译，虽说Tkinter的界面有点丑，肯定不及新兴的pyqt美观，但考虑到以后可能不会过多涉及桌面程序，就讲究用它来写了，毕竟之前有一点点小小的基础。这篇文章中会指出一些实际应用中的例子，如果需要详细了解Tkinter的细节，可以点击我下方推荐的blog进行查看。同时在数据导入过程中涉及到了excel表格，也顺便写下来分享。</p>
+        
+          
+            <p>  最近用python的Tkinter框架写了一个桌面小程序，来实现汉语和蒙语的互译，虽说Tkinter的界面有点丑，肯定不及新兴的pyqt美观，但考虑到以后可能不会过多涉及桌面程序，就讲究用它来写了，毕竟之前有一点点小小的基础。这篇文章中会指出一些实际应用中的例子，如果需要详细了解Tkinter的细节，可以点击我下方推荐的blog进行查看。同时在数据导入过程中涉及到了excel表格，也顺便写下来分享。</p>
 <h1 id="操作excel表格"><a href="#操作excel表格" class="headerlink" title="操作excel表格"></a>操作excel表格</h1><p> python 作为数据处理的一门优秀语言，在爬虫和数据挖掘领域有着较高的地位，所以不可避免的需要对excel表格进行操作，来存入和读取数据，这其中就要用到xlrd模块(当然还有其他的模块)，下面就来介绍它：</p>
 <p> 首先，xlrd模块需要通过<code>pip install</code>来安装:</p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install xlrd</div></pre></td></tr></table></figure>
@@ -378,74 +381,46 @@
 <p>对Tkinter的简单介绍就到这里了，如需要进行更多的了解，请点击下面的博客链接</p>
 </blockquote>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/python/" rel="tag"># python</a>
-          
-            <a href="/tags/GUI/" rel="tag"># GUI</a>
-          
-        </div>
+
       
 
       
-        
-      
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/10/js循环绑定事件的问题/" rel="prev" title="js循环绑定事件的问题">
-                js循环绑定事件的问题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -453,10 +428,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -476,17 +447,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
@@ -582,22 +544,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作excel表格"><span class="nav-number">1.</span> <span class="nav-text">操作excel表格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GUI功能简介"><span class="nav-number">2.</span> <span class="nav-text">GUI功能简介</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -703,10 +649,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 
