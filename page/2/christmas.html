@@ -269,13 +269,13 @@
       "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Mark_Smeby/En_attendant_Nol/Mark_Smeby_-_07_-_Jingle_Bell_Swing.mp3"];
 
       const file = files[i];
-
+      init();
       const loader = new THREE.AudioLoader();
       loader.load(file, function (buffer) {
        audio.setBuffer(buffer);
        audio.play();
        analyser = new THREE.AudioAnalyser(audio, fftSize);
-       init();
+       
       });
 
 
