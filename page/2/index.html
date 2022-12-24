@@ -1,2558 +1,617 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" >
 
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+ <meta charset="UTF-8">
 
+ <title></title>
 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Hexo, NexT" />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
-
-
-
-
-
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="Liby">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
-<meta property="og:site_name" content="Liby">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Liby">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+ <style>
+  * 
+  {
+   box-sizing: border-box;
+  }
+  .text {
+      text-align: center;
+    position: absolute;
+    top: 40px;
+    color: #cce7f8;
+    font-size: 2.5rem;
+    -webkit-animation: shining 0.5s alternate infinite;
+    animation: shining 0.5s alternate infinite;
+}
+@-webkit-keyframes shining {
+    from {
+        text-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue, 0 0 40px skyblue, 0 0 50px skyblue, 0 0 60px skyblue;
     }
-  };
-</script>
+
+    to {
+        text-shadow: 0 0 5px lightblue, 0 0 10px lightblue, 0 0 15px lightblue, 0 0 20px skyblue, 0 0 25px skyblue, 0 0 30px skyblue;
+    }
+}
+
+  body 
+  {
+   margin: 0;
+   height: 100vh;
+   overflow: hidden;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: #161616;
+   color: #c5a880;
+   font-family: sans-serif;
+  }
 
 
+  label
+  {
+   display: inline-block;
+   background-color: #161616;
+   padding: 16px;
+   border-radius: 0.3rem;
+   cursor: pointer;
+   margin-top: 1rem;
+   width: 300px;
+   border-radius: 10px;
+   border: 1px solid #c5a880;
+   text-align: center;
+  }
 
-  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+
+  ul 
+  {
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+  }
 
 
+  .btn
+  {
+   background-color: #161616;
+   border-radius: 10px;
+   color: #c5a880;
+   border: 1px solid #c5a880;
+   padding: 16px;
+   width: 300px;
+   margin-bottom: 16px;
+   line-height: 1.5;
+   cursor: pointer;
+  }
+  .separator
+  {
+   font-weight: bold;
+   text-align: center;
+   width: 300px;
+   margin: 16px 0px;
+   color: #a07676;
+  }
 
 
+  .title 
+  {
+   color: #a07676;
+   font-weight: bold;
+   font-size: 1.25rem;
+   margin-bottom: 16px;
+  }
 
-  <title> Liby </title>
+
+  .text-loading 
+  {
+   font-size: 2rem;
+  }
+ </style>
+
+ <script>
+  window.console = window.console || function(t) {};
+ </script>
+
+ <script>
+  if (document.location.search.match(/type=embed/gi)) {
+   window.parent.postMessage("resize", "*");
+  }
+ </script>
+
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body translate="no" >
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/EffectComposer.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/RenderPass.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/ShaderPass.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/shaders/CopyShader.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left 
-   page-home 
- ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Liby</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-      
-        <p class="site-subtitle"></p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
+ <div id="overlay">
+  <ul>
+   <li class="title">请选择音乐</li>
+   <li>
+    <button class="btn" id="btnA" type="button">
+     Snowflakes Falling Down by Simon Panrucker
     </button>
-  </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
-            
-            站点地图
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
+   </li>
+   <li><button class="btn" id="btnB" type="button">This Christmas by Dott</button></li>
+   <li><button class="btn" id="btnC" type="button">No room at the inn by TRG Banks</button></li>
+   <li><button class="btn" id="btnD" type="button">Jingle Bell Swing by Mark Smeby</button></li>
+   <li class="separator">或者</li>
+   <li>
+    <input type="file" id="upload" hidden />
+    <label for="upload">Upload File</label>
+   </li>
+  </ul>
  </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/JS之DOM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/18/JS之DOM/" itemprop="url">
-                  JS之DOM
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-18T18:23:08+08:00">
-                2017-06-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>DOM是文档对象模型（Document Object Model）,它是为文文档结构更改和查询提供的一系列API。通过这些API，我们可以对页面进行添加、移动或者更改节点，从而对调整页面结构。1998年，W3C发布了第一级的DOM规范。为基本的文档结构及查询提供了接口。</p>
-<p>到目前为止，DOM被分为不同的部分（核心、XML、HTML）和级别（Level 1/2/3）</p>
-<ul>
-<li>Core DOM<br>  定义了一套标准的针对任何结构化文档的对象</li>
-<li>XML Dom<br>  定义了一套标准的针对XML文档的对象</li>
-<li>HTML DOM<br>  定义了一套标准的针对HTML文档的对象</li>
-</ul>
-<p>IE中Dom对象都是以CDom的形式实现的，所以和其他浏览器的实现会有一些差异。</p>
-<h2 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h2><p>Dom会将结构性文档描绘成一个由节点形成的文档树。其中，节点又分为多种类型，每种类型代表文档中不同的信息。不同的节点之间的关系行了层次结构，由根节点向下延伸，形成了一棵完整的文档树。</p>
-<p>每个文档都有一个根节点，为文档节点（document）。在文档节点之下，一般都会有<hmtl>元素充当文档元素，文档中的所有内容都包含在内。</hmtl></p>
-<h2 id="节点类型"><a href="#节点类型" class="headerlink" title="节点类型"></a>节点类型</h2><p>DOM1级定义了一个Node接口，在js中作为Node类型实现，而且js中的所有节点类型都继承至Node类型。</p>
-<p>常见的节点类型(及代表等级)有：</p>
-<ul>
-<li>元素节点（ELEMENT_NODE 1）</li>
-<li>属性节点（ATTRIBUTE_NODE 2）</li>
-<li>文本节点(TEXT_NODE 3)</li>
-<li>注释节点(COMMENT_NODE 8)</li>
-<li>文档类型（DOCUMENT_NODE 9）</li>
-</ul>
-<p>判断某节点的节点类型：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(someNode.nodeType == <span class="number">1</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span> node is a element);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>除了nodeType，还可以通过nodeName和nodeValue获得节点信息。</p>
-<ul>
-<li>对于元素节点，nodeName就是标签名，nodeValue就是null</li>
-<li>对于文本节点，nodeName是“#text”，nodeValue是文本字符串</li>
-</ul>
-<h2 id="节点关系"><a href="#节点关系" class="headerlink" title="节点关系"></a>节点关系</h2><p>每个节点都有一个childNodes属性，它的值是一个类数组对象NodeList，里面保存了此节点的所有直接子元素。</p>
-<p>这个对象也有length属性，但它并不是Array的实例。且它是在Dom结构上动态查询的结果，并不是一直不变的。</p>
-<p>访问这个类数组可以用数组的方括号或者item方法。</p>
-<p>每个节点拥有访问其他节点的几个属性：</p>
-<ul>
-<li>parentNode：指向父节点</li>
-<li>firstNode：指向childNodes列表中第一个子元素</li>
-<li>lastNode：指向childNodes列表中最后一个子元素</li>
-<li>previousSibling：指向前一个同胞（同级）元素</li>
-<li>nextSibling：指向后一个同胞元素</li>
-<li>ownerDocument：指向文档节点，即document</li>
-</ul>
-<p>通过hasChildNodes（）方法可以直接知道元素是否有子元素</p>
-<h2 id="操作节点"><a href="#操作节点" class="headerlink" title="操作节点"></a>操作节点</h2><p>操作子节点的常用方法：</p>
-<ul>
-<li>appendchild（）：在节点的childNodes列表末尾插入一个节点，如果该节点已经存在，就会将该节点从原位置移至新位置</li>
-<li>insertBefore（）：把节点插入到指定位置，接收两个参数，<strong>要插入的节点</strong>及<strong>作为参照的节点</strong>，被插入的节点最后会置于同胞参照节点的前面。</li>
-<li>replaceChild（）：替换子节点，接收两个参数，<strong>要插入的节点</strong>和<strong>要替换的节点</strong>，并返回被替换的节点</li>
-<li>removeChild（）：移除子节点，将要移除的子节点作为参数，并作为返回值返回。</li>
-</ul>
-<h2 id="Document类型"><a href="#Document类型" class="headerlink" title="Document类型"></a>Document类型</h2><p>Document类型有一个实例–documnet，它也作为全局对象被挂在window对象上。</p>
-<p>document对象作为我们常用的一个对象，弄清楚它的方法属性是非常有必要的：</p>
-<ul>
-<li>childNodes：既然document也是一个节点，那么他也有所有节点共有的属性</li>
-<li>documentElement：指向文档中的html元素</li>
-<li>body：指向文档中的body元素</li>
-<li>doctype：取得对&lt;!Doctype&gt;的引用</li>
-<li>title：文档标题</li>
-<li>url：获取完整的url</li>
-<li>domain：取得域名（只能设置url中包含的域）</li>
-<li>referrer：取得来源页面的url</li>
-</ul>
-<p>要注意domain，比如在页面中引入了一个框架且页面的域和此框架的域并不相同，那么这时他们是不能通信的，我们可以通过设置domai为相同域来实现通信。设置domain属性只支持从紧绷（mail.qq.com）到松散(qq.com)，不支持重新设置为从松散都紧绷。</p>
-<h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p>下面是我们常见的集中获得元素索引的方法：</p>
-<ul>
-<li>getElementById（）：传入要获取元素的id</li>
-<li><p>getElementsByTagName()：传入要获取元素的标签名，返回包含零或多个元素的NodesList</p>
-<ul>
-<li>getElementsByTagName(*)会返回页面所有元素的集合，但在IE中会返回所有注释节点，因为它将注释实现为元素</li>
-</ul>
-</li>
-<li><p>getElementByName（）：HTMLDocument特有的方法，返回带有name特性的包含所有元素的HTMLCollection，可以通过namedItem（）方法（可以在nodesList中获取特定name的项）来获取第一项</p>
-</li>
-</ul>
-<h2 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h2><p>元素类型（NodeType为1）算是我们最常用到的类型之一了，它提供了我们访问标签名、子节点及其他他行的途径。</p>
-<p>它有以下特征：</p>
-<ul>
-<li>nodeType为1</li>
-<li>nodeName为标签名，也可用tagName获得</li>
-<li>nodeValue为null</li>
-<li>子节点可能是<strong>Element、Text、Comment</strong>等</li>
-</ul>
-<blockquote>
-<p>HTMLElement类型直接继承与Element类型，我们的所有HTML元素都是HTMLElemnt或者它的子类的实例，这些元素都有一些<strong>共有的属性</strong>：</p>
-</blockquote>
-<ul>
-<li>id 唯一标识符</li>
-<li>title 元素的附加说明，鼠标获取焦点会显示</li>
-<li>className 类名</li>
-</ul>
-<h3 id="获取及设置Attribute"><a href="#获取及设置Attribute" class="headerlink" title="获取及设置Attribute"></a>获取及设置Attribute</h3><p>操作特性主要有三个：</p>
-<ul>
-<li>getAttribute：获取指定特性的value</li>
-<li>setAttribute：传入设置的特性名及新设置的value</li>
-<li>removeAttribute：传入要移除的特性名</li>
-</ul>
-<p>这些方法其实是在操作一个动态的<strong>NamedNodeMap</strong>，通过元素的Element.attributes我们可以访问它，我们可以通过操作attributes下的<strong>getNamedItem、setNamedItem</strong>等方法来实现统一的目的，只不过不是很方便就是了。<br>一般尽量少用这些方法，而是通过元素的属性直接去获取或者设置特性。</p>
-<h3 id="创建元素"><a href="#创建元素" class="headerlink" title="创建元素"></a>创建元素</h3><p>通过document.createElement(tagName)方法我们可以创建一个元素，这时元素尚未添加到文档树中，我们通过appendchild（）、insertBefore（）、replaceChild（）来进行插入。</p>
-<p>IE下可以直接传入html字符串，如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.createElement（“&lt;div  id=\<span class="string">"nav\"&gt;content&lt;/div&gt;”）</span></div></pre></td></tr></table></figure></p>
-<h2 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h2><p>文本节点可以包含转义后的HTML字符，但不能包含HTML代码，文本节点会作为父元素的第一个子元素，所以通过Element.childNodes[0]就可访问。</p>
-<p>它有以下特征：</p>
-<ul>
-<li>nodeType为3</li>
-<li>nodeName为#text，也可用tagName获得</li>
-<li>nodeValue为文本</li>
-<li>父节点是Element，不支持子节点</li>
-</ul>
-<p>操作文本的方法：</p>
-<ul>
-<li>append（）：添加文本到末尾</li>
-<li>deleteData（）：传入offset（指定的位置），从这里开始删除count个字符</li>
-<li>insertData（）：在offset出入文本</li>
-<li>replace（）</li>
-<li>splitText（）</li>
-</ul>
-<p>创建文本节点的方法：</p>
-<pre><code>document.createTextNode():传入文本内容，最后也需要插入到文档中才能生效
-</code></pre><blockquote>
-<p>下一篇博客会介绍DOM的一些扩展和DOM2及DOM3的一些新增知识点。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/17/js之BOM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/17/js之BOM/" itemprop="url">
-                  JS之BOM
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-17T16:31:08+08:00">
-                2017-06-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="BOM（Browser-Object-Model）"><a href="#BOM（Browser-Object-Model）" class="headerlink" title="BOM（Browser Object Model）"></a>BOM（Browser Object Model）</h1><p>BOM（Browser Object Model）浏览器对象模型，它主要处理的是<strong>浏览器窗口和框架</strong>，独立于<strong>内容之外</strong>。BOM提供了很多很多对象，用于访问浏览器的功能。</p>
-<p>要注意的是，浏览器产商会根据自己的想法去扩展它，所以不同浏览器的实现方式有所不同，不过，浏览器之间有一些共有的对象就成了事实上的标准。</p>
-<p>主要的BOM对象有：</p>
-<ul>
-<li>window</li>
-<li>loaction</li>
-<li>navigator</li>
-<li>screen</li>
-<li>history</li>
-</ul>
-<p>除次之外还有一些其他的对象，大家可以上W3school上查阅资料！</p>
-<h2 id="window"><a href="#window" class="headerlink" title="window"></a>window</h2><p>window，这是一个所有浏览器都支持的对象，代表的是浏览器的一个实例，通过它我们可以用<strong>js访问浏览器窗口</strong>，同时他也是ECMAScript定义的一个<strong>global对象</strong>。</p>
-<h3 id="全局对象及作用域"><a href="#全局对象及作用域" class="headerlink" title="全局对象及作用域"></a>全局对象及作用域</h3><p>因为window是一个全局的对象，所以我们在全局作用域下声明的对象、函数及变量会自动变成它下面的成员。</p>
-<p>先来看一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> count = <span class="number">20</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showCount</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.count);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.count); <span class="comment">//20</span></div><div class="line">showCount();   <span class="comment">//20</span></div><div class="line"><span class="built_in">window</span>.showCount();   <span class="comment">//20</span></div></pre></td></tr></table></figure></p>
-<p>我们在<strong>全局作用域</strong>中定义了一个变量count和一个函数showCount，他们会成为<strong>window对象的属性和方法</strong>，但在<strong>调用时可以省略window</strong>。所以除直接count这样调用，也可以通过window.count这样调用属性或者方法。这时，再调用showCount方法时，方法中的this指代的就是window了，自然<strong>this.count就指向了window.count</strong>。</p>
-<h3 id="Window位置"><a href="#Window位置" class="headerlink" title="Window位置"></a>Window位置</h3><p>各种浏览器都提供了window的位置属性来确定浏览器窗口相对于屏幕的位置。</p>
-<p>IE、Safari、Chrome、opera都提供了<strong>ScreenLeft</strong>和<strong>ScreenTop</strong>属性，代表窗口距离屏幕左边和上方的距离。</p>
-<p>FireFox虽然不支持上面两个属性，但提供另外两个属性<strong>ScreenX</strong>和<strong>ScreenY</strong>，含义与前两个属性相同，支持这两个属性的还有Safari和Chrome。</p>
-<p>附上能在各大浏览器正常获取到属性的兼容代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sLeft = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenLeft == <span class="string">"number"</span>)?<span class="built_in">window</span>.screenLeft:<span class="built_in">window</span>.screenX;</div><div class="line"></div><div class="line"><span class="keyword">var</span> sTop = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenTop == <span class="string">"number"</span>)?<span class="built_in">window</span>.screenTop:<span class="built_in">window</span>.ScreenY;</div></pre></td></tr></table></figure>
-<p>不过这两对属性获取到的信息还是有些差别：</p>
-<ul>
-<li>screenLeft和screenTop获取到的距离是<strong>页面可见区域</strong>到屏幕的距离（并不包括滚动栏和上方的工具栏）。  </li>
-<li>screenx和screenY则是<strong>整个浏览器窗口</strong>距离屏幕的距离</li>
-</ul>
-<h4 id="moveTo（）和moveBy（）"><a href="#moveTo（）和moveBy（）" class="headerlink" title="moveTo（）和moveBy（）"></a>moveTo（）和moveBy（）</h4><p>除了获取位置信息外，我们还可以通过moveTo和moveBy这两个方法将窗口移到我们想要的地方上去。</p>
-<p>moveTo（）和moveBy（）都接收两个参数，其中moveTo（）接收的是新位置的X和Y坐标，moveBy（）接收的是在水平和垂直方向上移动的像素数。</p>
-<p>例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//将屏幕移到（100,100）</span></div><div class="line"><span class="built_in">window</span>.moveTo(<span class="number">100</span>,<span class="number">100</span>);</div><div class="line"></div><div class="line"><span class="comment">//将屏幕下移50px</span></div><div class="line"><span class="built_in">window</span>.moveBy(<span class="number">0</span>,<span class="number">50</span>);</div><div class="line"></div><div class="line">&gt; 要注意，这些方法只适合对外层的<span class="built_in">window</span>使用。</div></pre></td></tr></table></figure>
-<h3 id="window尺寸"><a href="#window尺寸" class="headerlink" title="window尺寸"></a>window尺寸</h3><ul>
-<li>innerWidth:浏览器窗口内部宽度</li>
-<li>innerHeight:浏览器窗口内部高度</li>
-<li>outerWidth:浏览器窗口外部宽度</li>
-<li>outerHeight:浏览器窗口外部高度</li>
-</ul>
-<p>ps：在Chrome中，这四个属性返回的都是视口(view port)的大小。</p>
-<p>IE8及较早版本不支持这些属性，但可以通过DOM获取这些信息。</p>
-<ul>
-<li><p>标准模式下：</p>
-<p>  document.document.clientWidth<br>  document.document.clientHeight</p>
-</li>
-<li><p>混杂模式下：</p>
-<p>  document.body.clientWidth<br>  document.body.clientHeight</p>
-</li>
-</ul>
-<p>混杂模式下的Chrome也可以通过这些属性获得视口大小。</p>
-<p>附上获取视口大小的兼容代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pageWidth = <span class="built_in">window</span>.innerWidth;</div><div class="line"><span class="keyword">var</span> pageHeight = <span class="built_in">window</span>.innerHeight;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span> pageWidth !=<span class="string">"number"</span>)&#123;</div><div class="line">    <span class="comment">//标准模式下</span></div><div class="line">    <span class="keyword">if</span>(<span class="built_in">document</span>.compatMode == <span class="string">"CSS1Compat"</span>)&#123;</div><div class="line">        pageWidth = <span class="built_in">document</span>.documentElement.clientWidth;</div><div class="line">        pageHeight = <span class="built_in">document</span>.documentElement.clientHeight;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        pageWidth = <span class="built_in">document</span>.body.clientWidth;</div><div class="line">        pageHeight = <span class="built_in">document</span>.body.clientHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">-------------------------</div><div class="line"><span class="comment">// 或者下面这种</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> w=<span class="built_in">window</span>.innerWidth</div><div class="line">|| <span class="built_in">document</span>.documentElement.clientWidth</div><div class="line">|| <span class="built_in">document</span>.body.clientWidth;</div><div class="line"></div><div class="line"><span class="keyword">var</span> h=<span class="built_in">window</span>.innerHeight</div><div class="line">|| <span class="built_in">document</span>.documentElement.clientHeight</div><div class="line">|| <span class="built_in">document</span>.body.</div></pre></td></tr></table></figure>
-<h3 id="open-和close"><a href="#open-和close" class="headerlink" title="open()和close()"></a>open()和close()</h3><p>window.open(url,target,param)</p>
-<ul>
-<li>url:要打开的地址</li>
-<li>target：打开窗口的位置 _blank,_self,_parent(父框架)</li>
-<li>新窗口的设置参数</li>
-</ul>
-<p>window.close()</p>
-<blockquote>
-<p>只有通过 JavaScript 代码打开的窗口才能够由 JavaScript 代码关闭。这阻止了恶意的脚本终止用户的浏览器</p>
-</blockquote>
-<h2 id="location"><a href="#location" class="headerlink" title="location"></a>location</h2><p>window.location对象用于获取当前页面的URL，也可将当前页面重定向到新的页面</p>
-<p>loaction的一些属性</p>
-<ul>
-<li>hostname:返回web主机的域名</li>
-<li>pathname：返回当前页面的路径和文件名</li>
-<li>port:返回web主机的端口</li>
-<li>protocol：返回所使用的web协议</li>
-<li>hash:返回url中”#“后的字符串</li>
-<li>href:返回当前页面的完整url，location的toString（）方法也返回这个值</li>
-<li>search：返回url的查询字符串，字符串以问号开头</li>
-</ul>
-<h3 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h3><p>可以通过location.assign（）来改变浏览器的位置。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.assign(<span class="string">"http://www.baidu.com"</span>)</div></pre></td></tr></table></figure>
-<p>调用者方法会在本页面打开新的url，并在历史记录中生成一条记录。其实，当我们给window.location和location.href设置一个url时，最终调用的也是assign（）方法。</p>
-<p>除了这些浏览器位置的方法，也可通过修改location的一些属性来达到目的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//初始化的url为http://www.liby.com/tag/js</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.liby.com/tag/js#article1</span></div><div class="line">locatin.hash = <span class="string">"#article1"</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.liby.com/tag/js?id=101</span></div><div class="line">locatin.search = <span class="string">"?id=101"</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.candy.com/tag/js</span></div><div class="line">location.hostname = <span class="string">"www.candy.com"</span></div><div class="line"></div><div class="line"><span class="comment">//将URL修改成http://www.candy.com/tag/css</span></div><div class="line">location.pathname = <span class="string">"tag/css"</span></div></pre></td></tr></table></figure>
-<p>上面的操作都会在跳转到新url的同时在历史记录里添加一条新的记录，这样单击后退按钮就可回到之前的页面，我们可以用<strong>replace（）</strong>来避免。</p>
-<p>最后一个方法<strong>reload（）</strong>表示重载当前页面，可以添加参数true，代表从服务器重载，也可不传递参数，这样就有可能直接从缓存里加载了。</p>
-<h2 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h2><p>navigator对象可以让我们获取到浏览器的信息。<br>例如可以用plugins来获取文档中安装的插件，或者获取user-agent的值，这里大家可以上<a href="http://www.w3school.com.cn" target="_blank" rel="external">w3cschool</a>详细了解。</p>
-<h2 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h2><p>Screen 对象包含有关客户端显示屏幕的信息，像屏幕的可用高度，或者屏幕的颜色分辨率等等。</p>
-<h2 id="history"><a href="#history" class="headerlink" title="history"></a>history</h2><p>history对象保存的是用户上网的历史记录。处于安全原因，开发人员无法获取实际的url，但我们可以通过方法实现前进或者后退。</p>
-<p>history的属性与方法：</p>
-<ul>
-<li>length：返回浏览器历史记录中的url数量</li>
-<li>forward（）：加载history列表中的下一个url</li>
-<li>back（）：加载history列表中的前一个url</li>
-<li>go（）：可以通过指定正负数值来前进或后退到指定的页面</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/event-bubble/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/15/event-bubble/" itemprop="url">
-                  事件流之冒泡和捕获
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T15:23:13+08:00">
-                2017-06-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h1><p>有时候我们在网页中多个地方都绑定了点击事件，但是当你点击其中一个，你会发现其他的绑定事件也被触发了，是不是觉得有点灵异，实际上是浏览器的事件流在作怪。</p>
-<p>假设我们在页面上有一个按钮，那么当我们单击它时，你们是不是认为单击事件仅仅只会发生在这个按钮上？这其实只是我们理所当然的认为而已。想象一下，现在有一张画了很多个同心圆的纸，你把手指放在圆心上面，那么你的手就指向了最小的圆吗，不，事实并不是这样，你其实指向了纸上的所有圆。</p>
-<p>在浏览器页面上，众多浏览器开发团队也认为<code>你在单击按钮的同时，也单击了包含按钮的容器元素，甚至也单击了整个页面</code>。</p>
-<p>很奇葩的是IE和Netscape开发团队提出了两种相反的事件流的概念。IE的事件流是事件<strong>冒泡流</strong>，而Netscape的事件流是事件<strong>捕获流</strong>。</p>
-<h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><p>IE的事件流叫做事件冒泡，即开始时由最具体的元素（<strong>文档中嵌套层次最深的那个节点</strong>），通常也是我们点击的节点接收，然后逐级向上传播。</p>
-<p>别的啥都不说，看代码说话</p>
-<p><strong>EXP1</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"click"</span>&gt;</span>点我啊!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>现在，当你点击了div元素时，传播路径是这样的：</p>
-<ol><br>    <li>div</li><br>    <li>body</li><br>    <li>html</li><br>    <li>document</li><br><br></ol>
-
-<p>看到没有，原来你不止触发了一个点击事件，只要你在body或者html上绑定一个事件，你会发现，他们都会在div事件触发之后被触发。现代浏览器都支持事件冒泡，只是有少许差别。IE9、FF、chrome、Safari会将事件一直冒泡到window对象，不过我们不用太在意。</p>
-<p>下面在上面的代码基础上我们再做一些修改</p>
-<p><strong>EXP2</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件冒泡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.onclick = clickFunc;</div><div class="line">		pObj.onclick = clickFunc;</div><div class="line">		cObj.onclick = clickFunc;</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>但我们点击最小的区域块，即黄色的child，效果图如下：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-1.png" alt="event1"></p>
-<p>我们只点击了child子元素，但是却也触发了parent和ancestor的点击事件!</p>
-<h2 id="取消冒泡"><a href="#取消冒泡" class="headerlink" title="取消冒泡"></a>取消冒泡</h2><p>有些情况下，我们并不希望子元素的事件影响父元素，这时我们就要阻止冒泡事件了，具体兼容代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopBubble</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</div><div class="line">    <span class="keyword">if</span>(e &amp;&amp; e.stopPropagation)&#123;</div><div class="line">        e.stopPropagation();</div><div class="line">    &#125;<span class="keyword">else</span>(</div><div class="line">        e.cancleBubble = <span class="literal">true</span><span class="comment">//仅IE6/7/8支持</span></div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下面我们再看看事件捕获又是怎么一回事。</p>
-<h2 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h2><p><strong>事件捕获</strong>是由Netscape提出的另一种事件流，它与冒泡恰好相反，是由顶层至上而下传播的。</p>
-<p>如果在捕获状态下触发第一个例子的话，传播路径则相反过来了：</p>
-<ol><br>    <li>document</li><br>    <li>html</li><br>    <li>body</li><br>    <li>div</li><br></ol>
-
-<p>document事件首先接受到click事件，然后沿DOM树依次向下一直传递到到我们所点击的div元素，至此，捕获事件才算完成。</p>
-<p>我们对例二进行一下修改，来看看捕获的实际过程。</p>
-<p><strong>EXP3</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!Doctype htm&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>事件捕获<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-id">#ancestor</span>&#123;<span class="attribute">width</span>:<span class="number">250px</span>;<span class="attribute">height</span>:<span class="number">200px</span>;<span class="attribute">background</span>:orange;&#125;</div><div class="line">        <span class="selector-id">#parent</span>&#123;<span class="attribute">width</span>:<span class="number">150px</span>;<span class="attribute">height</span>:<span class="number">100px</span>;<span class="attribute">background</span>:skyblue;&#125;</div><div class="line">        <span class="selector-id">#child</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">background</span>:yellow;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ancestor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		<span class="keyword">var</span> aObj = <span class="built_in">document</span>.getElementById(<span class="string">"ancestor"</span>);</div><div class="line">		<span class="keyword">var</span> pObj = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</div><div class="line">		<span class="keyword">var</span> cObj = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</div><div class="line">		<span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"my id is "</span>+<span class="keyword">this</span>.id);</div><div class="line">		&#125;</div><div class="line">		aObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		pObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">		cObj.addEventListener(<span class="string">"click"</span>,clickFunc,<span class="literal">true</span>);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>我们依旧点击黄色的child，效果如下：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/event/event-2.png" alt="event2"></p>
-<p>因为老版本浏览器不支持，所以并不建议使用它，除非特殊需要。</p>
-<h2 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h2><blockquote>
-<p>任何发生在w3c事件模型中的事件，首是进入捕获阶段，直到达到目标元素，再进入冒泡阶段</p>
-</blockquote>
-<p>默认情况下，执行的是时间冒泡。</p>
-<p>那么我们要如何让事件在捕获或者冒泡时执行呢？</p>
-<h2 id="事件绑定方法"><a href="#事件绑定方法" class="headerlink" title="事件绑定方法"></a>事件绑定方法</h2><p>这里我们只涉及addEventListener、attachEvent这两个绑定方法。</p>
-<ul>
-<li><p>addEventListener(event,func,useCapture)</p>
-<p>  参数：</p>
-<pre><code>event:事件名称，如click，不带on
-func:用于监听的函数
-useCapture:是否进行捕获，默认为false即冒泡
-</code></pre><p>  addEventListener在IE11、Chrome、FF、Safiri等浏览器都支持</p>
-</li>
-<li><p>attachevent（event,func）</p>
-<p>  参数：</p>
-<pre><code>event:事件名称，如onclick，带on
-func:用于监听的函数
-</code></pre><p>  attachEvent仅在IE10及以下才支持.</p>
-</li>
-</ul>
-<h2 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h2><p>说完了事件的冒泡、捕获和绑定方法，下面综合这些知识点来讲讲事件委托。</p>
-<p>有时候我们需要给很多子元素添加事件，这时候我们可以选择另一种方式，把事件添加到父节点即将事件委托给父节点来触发处理函数。这主要得益于Dom事件流的事件冒泡机制。</p>
-<p>假设我们有一个ul列表，需要给下面的子节点绑定函数：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"item-list"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ll</span>&gt;</span>item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>现在我们要求点击每个li元素的时候在console打印出他的content。最普遍的写法，就是给每个li元素通过onClick的方式绑定监听函数。</p>
-<p>这样做不仅费力，当li元素的个数增加或者减少时，我们就需要手动为新添加的元素绑定函数。更好的方式是使用<strong>事件委托</strong>机制，把事件绑定到父元素或者更上层的节点，通过检查时间的<strong>目标对象（event.target）</strong>来获取事件源。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> clickFunc = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;</div><div class="line">    <span class="keyword">var</span> target = e.target || e.srcElement;<span class="comment">//IE兼容写法</span></div><div class="line">    <span class="keyword">if</span>（target.tagName.toLowerCase() == <span class="string">"li"</span>）&#123;</div><div class="line">        <span class="built_in">console</span>.log(target.index);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"item-list"</span>).addEventListener(<span class="string">"click"</span>,clickFunc);</div></pre></td></tr></table></figure>
-<p>我们通过e.target拿到被点击的L节点，除此之外e还有一个<strong>currentTarget</strong>属性，里面保存的是触发事件的当前对象，这里为ul元素。</p>
-<p>掌握好这些事件流的知识点对我们今后的开发会很有帮助，大家可以上网多搜搜捕获冒泡及委托的例子学习下！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/css-linearGraident/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/14/css-linearGraident/" itemprop="url">
-                  CSS3渐变属性之graident
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T14:13:02+08:00">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>随着前端技术的日益更新，css3中涌现除了许多有意思且能为我们粉饰网页所用的新特性，gradient就是其中一个出色的渐变特性，它能够让我们来背景中应用几种合适的颜色进行渐变，让网页看起来更加酷炫，本文主要针对于基于下面几款内核的现代浏览器，如Mozilla（Gecko）（熟悉的有Firefox，Flock等浏览器）、WebKit（熟悉的有Safari、Chrome等浏览器）、Opera(presto)，暂不考虑在Trident(IE)的兼容。</p>
-<h2 id="线性渐变"><a href="#线性渐变" class="headerlink" title="线性渐变"></a>线性渐变</h2><h3 id="线性渐变在Molliza下的应用"><a href="#线性渐变在Molliza下的应用" class="headerlink" title="线性渐变在Molliza下的应用"></a>线性渐变在Molliza下的应用</h3><p><strong>语法：</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-moz-linear-gradient</span>(<span class="selector-attr">[angle | to side-or-corner]</span>? , <span class="selector-tag">color-stop-list</span>)</div></pre></td></tr></table></figure>
-<p><strong>参数：</strong></p>
-<p>参数分为两部分，第一部分表示<strong>渐变的方向（渐变方式为线性或者径向，由前缀指定）</strong>，如top代表从上至下渐变，left为从左至右渐变，left top是从左上角向右下角渐变。第二个参数<strong>长度是可变的</strong>，至少需要一个<strong>起始颜色</strong>和<strong>终点颜色</strong>，中间可以插入更多的参数。</p>
-<p>ps:不加私有前缀的时候需要再angle前面加<strong>to</strong></p>
-<p><strong>angle</strong>:用角度指代渐变的方向。</p>
-<ul>
-<li>to left:设置渐变从右到左，相当于270deg</li>
-<li>to  right:设置渐变从左到右，相当于90deg</li>
-<li>to top:设置渐变从下到上，相当于0deg</li>
-<li>to bottom:设置渐变从上到下，相当于180deg</li>
-</ul>
-<p><strong>EXP:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">	<span class="attribute">background</span>:<span class="built_in">-moz-linear-gradient</span>(top,#d8d8d8,#353535);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/css-gradient/14-1.png" alt="moz"></p>
-<h3 id="线性渐变在webkit下的应用"><a href="#线性渐变在webkit下的应用" class="headerlink" title="线性渐变在webkit下的应用"></a>线性渐变在webkit下的应用</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*最新语法*/</span></div><div class="line"><span class="selector-tag">-webkit-linear-gradient</span>( <span class="selector-attr">[point || angle,]</span>? <span class="selector-tag">stop</span>, <span class="selector-tag">stop</span> <span class="selector-attr">[, stop]</span>* )</div><div class="line"><span class="comment">/*老式语法*/</span></div><div class="line"><span class="selector-tag">-webkit-gradient</span>(<span class="selector-tag">type</span>, <span class="selector-tag">point</span> <span class="selector-attr">[, radius&gt;]</span>?, <span class="selector-tag">point</span> <span class="selector-attr">[, radius]</span>? <span class="selector-attr">[, stop]</span>*)</div></pre></td></tr></table></figure>
-<p>这里我们附上两个例子，新式写法与mozilla一致，老式写法则有点偏差</p>
-<p><strong>EXP:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*老式写法*/</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-webkit-gradient</span>(linear,center top,center bottom,from(#fff), <span class="built_in">to</span>(#000));</div><div class="line">&#125;</div><div class="line"><span class="comment">/*新式写法*/</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>:<span class="built_in">-webkit-linear-gradient</span>(left top,#fff,#000);</div><div class="line">&#125;</div><div class="line">```	</div><div class="line"></div><div class="line">### 线性渐变在<span class="selector-tag">opera</span>下的应用</div><div class="line"></div><div class="line">与前面的语法一样，区别只在于私有前缀的改变<span class="selector-tag">--</span>**“<span class="selector-tag">-o-</span>”**</div><div class="line"></div><div class="line">直接附例子：</div><div class="line"></div><div class="line">**<span class="selector-tag">EXP</span>:**</div><div class="line"></div><div class="line">``` <span class="selector-tag">css</span></div><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">	<span class="attribute">background</span>:<span class="built_in">-o-linear-gradient</span>(top,#d8d8d8,#353535);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="start-point补充"><a href="#start-point补充" class="headerlink" title="start point补充"></a>start point补充</h3><p>Start Point的工作方式与backgrond的position属性类似。我们可以设置水平或者垂直位置为百分比、像素、或者在水平方向上使用left、center、right，垂直方向上使用top、center、bottom。如果不指定位置，则默认是center。</p>
-<h2 id="径向渐变"><a href="#径向渐变" class="headerlink" title="径向渐变"></a>径向渐变</h2><p>css的径向渐变在语法方面课线性渐变是很相像的，只是径向渐变目前还不支持Opera浏览器，这点请注意，所以只能应用<strong>-moz-</strong>,<strong>-webkit-</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-moz-radial-gradient</span>(<span class="selector-attr">[bg-position || angle,]</span>? <span class="selector-attr">[shape || size,]</span>? <span class="selector-tag">color-stop</span>, <span class="selector-tag">color-stop</span><span class="selector-attr">[, color-stop]</span>*);</div><div class="line"> <span class="selector-tag">-webkit-radial-gradient</span>(<span class="selector-attr">[bg-position || angle,]</span>? <span class="selector-attr">[shape || size,]</span>? <span class="selector-tag">color-stop</span>, <span class="selector-tag">color-stop</span><span class="selector-attr">[, color-stop]</span>*);</div></pre></td></tr></table></figure>
-<p>除了线性渐变支持的参数之外，径向渐变还支持渐变形状（圆形（circle）或者椭圆（ellipse））和大小参数（最近端，最近角，最远端，最远角（closest-side，closet-corner，farthest-side，farthest-corner），包含或者覆盖（contain or cover））</p>
-<p><strong>EXP1:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(#ff00ff,#ffccff ,#99ffcc);</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(#ff00ff,#ffccff ,#99ffcc);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient-1.png" alt="radial1"></p>
-<p><strong>EXP2:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(#ff00ff 5%,#ffccff 20%,#99ffcc 50%);</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(#ff00ff 5%,#ffccff 20%,#99ffcc 50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient2.png" alt="radial2"></p>
-<blockquote>
-<p>例一与例二区别：起止颜色都相同，但是例一使用默认的均匀变化的径向渐变，例二给颜色设置了固定的位置。</p>
-</blockquote>
-<p><strong>EXP3:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(top left,circle,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(top left,circle,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient03.png" alt="radial03"></p>
-<p><strong>EXP4:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(top left,ellipse,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(top left,ellipse,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient4.png" alt="radial4"></p>
-<blockquote>
-<p>例三和例四的区别：默认径向渐变中形状为ellipse，但当div大小为正方形时会失效，例三中我们改变默认，置为circle圆形渐变。</p>
-</blockquote>
-<p><strong>EXP5:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(ellipse closest-side,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(ellipse closest-side,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient5.png" alt="radial5"></p>
-<p><strong>EXP6:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-radial-gradient</span>(ellipse farthest-corner,#ff00ff ,#ffccff ,#99ffcc );</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-radial-gradient</span>(ellipse farthest-corner,#ff00ff, #ffccff ,#99ffcc );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient6.png" alt="radial6"></p>
-<blockquote>
-<p>例五和例六的区别：这两个例子我们使用第二个参数中的size，例五的closest-side决定了由起始点到最近边的渐变范围，例六的farthest-corner则是起始点到远角的渐变。</p>
-</blockquote>
-<hr>
-<h2 id="重复渐变"><a href="#重复渐变" class="headerlink" title="重复渐变"></a>重复渐变</h2><p>css的两种渐变到这里也介绍结束了，下面补充一点内容，即重复渐变的应用。</p>
-<blockquote>
-<p>重复渐变需要使用-moz-repeating-linear-gradient和-moz-repeating-radial-gradient，我们可以指定起止颜色，让他们无限重复，并构建出奇怪又有趣的图案。</p>
-</blockquote>
-<p><strong>EXP7:</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.gradient</span>&#123;</div><div class="line">    <span class="attribute">background</span>: <span class="built_in">-moz-repeating-radial-gradient</span>(#ff9933,#00ffff 5px, #f96 15px);</div><div class="line">	<span class="attribute">background</span>: <span class="built_in">-webkit-repeating-radial-gradient</span>(#ff9933, #00ffff 5px, #f96 15px);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient8.png" alt="radial8"></p>
-<h2 id="渐变的组合"><a href="#渐变的组合" class="headerlink" title="渐变的组合"></a>渐变的组合</h2><p>其实，通过不同的组合，我们可以设计出形形色色的背景墙哦，请看下图：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/gradient/gradient07.png" alt="radial7"></p>
-<p>怎么样，是不是特别漂亮，完全不需要用图片来替代，只要简单的几行代码我们就可以拥有自己想要的各种图案。<a href="http://lea.verou.me/css3patterns/#" target="_blank" rel="external">网址链接</a>在这里哦！！！</p>
-<p>本片博客到这里就结束了，如果想了解更多或者想知道IE下的实现，大家可以自行百度或者google哦！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/css-trangle/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/10/css-trangle/" itemprop="url">
-                  CSS实现三角形及before和after伪类的使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T14:13:02+08:00">
-                2017-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>网页中，html为骨架，而css则是为我们的网页进行润色，丰富色彩，css的作用随着CSS3的发展而显得日益客观，几行简单的代码就能实现酷炫的效果，今天就来讲讲怎么通过纯CSS制作三角<br>，并且介绍三角形和after和before的结合使用。</p>
-<h3 id="border属性"><a href="#border属性" class="headerlink" title="border属性"></a>border属性</h3><p>在开始介绍做法之前，先来看看两个例子，他们会让我们对css如何实现三角形有更加直观的了解。</p>
-<p>CSS:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">30px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">30px</span>;</div><div class="line">    <span class="attribute">border-width</span>:<span class="number">20px</span>;</div><div class="line">    <span class="attribute">border-style</span>:solid;</div><div class="line">    <span class="attribute">border-color</span>:<span class="number">#ff9966</span> <span class="number">#cc66ff</span> <span class="number">#33ff66</span> <span class="number">#00ccff</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>效果图：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/13-1.png" alt="exp1"></p>
-<p>这是在有宽高的情况下的效果图，如果我们把宽高去掉，会发生什么变化呢？</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/13-2.png" alt="exp2"></p>
-<p>很明显，四个边框变成了四个三角形，现在我们只需要把不需要的三角形设置为透明，就能得到我们唯一想要的三角形了。</p>
-<h3 id="上三角"><a href="#上三角" class="headerlink" title="上三角"></a>上三角</h3><p>ps：IE6下吧边框设置成transparent时会出现黑影，并不会透明，把border-style设置成dashed就ok了。</p>
-<p>这里有几种写法</p>
-<p>CSS（1）:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border-width</span>:<span class="number">20px</span>;</div><div class="line">    <span class="attribute">border-style</span>:dashed dashed solid dashed ;</div><div class="line">    <span class="attribute">border-color</span>:transparent transparent <span class="number">#33ff66</span> transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>CSS（2）:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom-color</span>:<span class="number">#3f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>CSS（3）:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">    <span class="attribute">border-left</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>:<span class="number">20px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>:<span class="number">20px</span> solid <span class="number">#3f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>效果图</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/13-3.png" alt="exp3"></p>
-<blockquote>
-<p>其他的三角形（下、左、右）只需要将其他三个方向的颜色置为透明即可。</p>
-</blockquote>
-<h3 id="如何使三角形紧贴在元素上？"><a href="#如何使三角形紧贴在元素上？" class="headerlink" title="如何使三角形紧贴在元素上？"></a>如何使三角形紧贴在元素上？</h3><ul>
-<li>方法一：定义一个标签，画出一个三角形，在进行定位</li>
-<li>方法二：用before和after伪元素画出三角形</li>
-</ul>
-<p>我们用第二种方法来做个例子：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.triangle</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</div><div class="line">    <span class="attribute">position</span>:relative;</div><div class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#c2e1f5</span></div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:before</span>,<span class="selector-class">.triangle</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">display</span>:block;</div><div class="line">	<span class="attribute">content</span>:<span class="string">""</span>;</div><div class="line">	<span class="attribute">width</span>:<span class="number">0px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">0px</span>;</div><div class="line">	<span class="attribute">border-left</span>:<span class="number">15px</span> solid transparent;</div><div class="line">	<span class="attribute">border-right</span>:<span class="number">15px</span> solid transparent;</div><div class="line">	<span class="attribute">position</span>:absolute;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:before</span>&#123;</div><div class="line">			</div><div class="line">	<span class="attribute">border-top</span>:<span class="number">15px</span> solid <span class="number">#c2e1f5</span>;</div><div class="line">	<span class="attribute">top</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">60%</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="selector-class">.triangle</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">	<span class="attribute">border-top</span>:<span class="number">15px</span> solid <span class="number">#fff</span>;</div><div class="line">	<span class="attribute">top</span>:<span class="number">99%</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">60%</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>思路：我们用before和after分别画出一个三角形，前者为边框色，后者为背景色，后者会覆盖在前者之上，我们需要使两者相差1px，露出边框色。</p>
-</blockquote>
-<p>三角形和after及before伪元素的结合就介绍到这里了，是不是挺简单的呢！这样我们就不用再用图片去实现，节省了一次请求哦！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/css选择器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/css选择器/" itemprop="url">
-                  CSS选择器及优先级
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>css选择器作为网页中我们用来选中样式添加样式的一样利器，掌握好它无疑是我们能够在开发中顺心顺手的前提。这里汇总了CSS和CSS3的选择器，这里有些选择器你可能不常用，但是过一眼还是很有必要的，大家共勉！</p>
-<h2 id="一、基本选择器"><a href="#一、基本选择器" class="headerlink" title="一、基本选择器"></a>一、基本选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>*</td>
-<td>类似于正则的*，匹配任何元素</td>
-</tr>
-<tr>
-<td>E</td>
-<td>标签选择器，匹配所有标签名为E的元素</td>
-</tr>
-<tr>
-<td>.className</td>
-<td>类选择器，匹配标签中含有class=”className”的属性</td>
-</tr>
-<tr>
-<td>#idName</td>
-<td>id选择器，匹配标签中含有id=”idName”的属性</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>class和id的区别即多和一的区别，希望大家自己查阅资料，。</p>
-</blockquote>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">a</span>&#123;<span class="attribute">color</span>:<span class="number">#000</span>;&#125;</div><div class="line"><span class="selector-class">.form-group</span>&#123;<span class="attribute">height</span>:<span class="number">150px</span>;&#125;</div><div class="line"><span class="selector-id">#nav</span>&#123;<span class="attribute">backgound</span>:<span class="built_in">rgba</span>(0,0,0,0.7);&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="二、组合选择器"><a href="#二、组合选择器" class="headerlink" title="二、组合选择器"></a>二、组合选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E1，E2</td>
-<td>多元素选择器，同时匹配所有标签名为E1和E2的元素，以逗号分割</td>
-</tr>
-<tr>
-<td>E1 E2</td>
-<td>后代元素选择器，匹配所有E1元素中的E2元素，以空格作为标识</td>
-</tr>
-<tr>
-<td>E1 &gt; E2</td>
-<td>子元素选择器，匹配所有E1元素子元素中E2</td>
-</tr>
-<tr>
-<td>E1 + E2</td>
-<td>邻居选择器，匹配所有与E元素同级且在紧邻其后的元素E2</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span>&#123;<span class="attribute">float</span>:left;&#125;</div><div class="line"><span class="selector-id">#nav</span> &gt; <span class="selector-tag">div</span>&#123;<span class="attribute">height</span>:<span class="number">40px</span>;&#125;</div><div class="line"><span class="selector-tag">p</span> + <span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="三、CSS2-1属性选择器"><a href="#三、CSS2-1属性选择器" class="headerlink" title="三、CSS2.1属性选择器"></a>三、CSS2.1属性选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E[attr]</td>
-<td>匹配所有具有attr属性的E元素，不考虑它的值（ps：E可以省略,如’[selected],下同’）</td>
-</tr>
-<tr>
-<td>E[attr=val]</td>
-<td>匹配所有属性attr值等于val的元素E</td>
-</tr>
-<tr>
-<td>E[attr~=val]</td>
-<td>匹配所有attr属性具有多个空格分割的值，其中一个值等于”val”的E元素</td>
-</tr>
-<tr>
-<td>E[attr</td>
-<td>=val]</td>
-<td>匹配所有attr属性具有多个连字号分割的值，其中一个值以”val”开头的E元素，主要用于lang的属性，比如”en”、”en-us”</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[title]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=button]</span>&#123;<span class="attribute">width</span>:<span class="number">60px</span>;&#125;</div><div class="line"><span class="selector-tag">td</span><span class="selector-attr">[headers~=coll]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[lang|=en]</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="四、css2-1中的伪类"><a href="#四、css2-1中的伪类" class="headerlink" title="四、css2.1中的伪类"></a>四、css2.1中的伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E：first-child</td>
-<td>匹配父元素E的第一个子元素</td>
-</tr>
-<tr>
-<td>E：link</td>
-<td>匹配所有未被点击链接的E元素</td>
-</tr>
-<tr>
-<td>E：visited</td>
-<td>匹配所有已被点击链接的E元素</td>
-</tr>
-<tr>
-<td>E：active</td>
-<td>匹配鼠标已经按下还没释放的E元素</td>
-</tr>
-<tr>
-<td>E：hover</td>
-<td>匹配鼠标悬停的E元素</td>
-</tr>
-<tr>
-<td>E：focus</td>
-<td>匹配获得当前焦点的E元素</td>
-</tr>
-<tr>
-<td>E:lang(c)</td>
-<td>匹配lang属性等于c的E元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ul:first-child&#123;background：#000;&#125;</div><div class="line">/*hover，link，active，vistied主要匹配的状态不同，感兴趣的可以自行百度*/</div><div class="line">a:hover&#123;color:orange;&#125;</div><div class="line">input[type=text]:focu[color:#000;]</div><div class="line">q:lang(sv)&#123;quotes:"\201D" "\201D" "\2019" "\2019"&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="五、CSS2-1中的伪元素"><a href="#五、CSS2-1中的伪元素" class="headerlink" title="五、CSS2.1中的伪元素"></a>五、CSS2.1中的伪元素</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E：first-line</td>
-<td>　匹配E元素的第一行</td>
-</tr>
-<tr>
-<td>E：first-letter</td>
-<td>匹配E元素的第一个字母</td>
-</tr>
-<tr>
-<td>E：before</td>
-<td>在E元素之前插入生成的内容</td>
-</tr>
-<tr>
-<td>E：after</td>
-<td>在E元素之后插入生成的内容</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>下一篇博客会说到三角形的生成以及before和after的应用</p>
-</blockquote>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cbb</span><span class="selector-pseudo">:before</span> &#123; <span class="attribute">content</span>:<span class="string">""</span>; <span class="attribute">display</span>:block; <span class="attribute">height</span>:<span class="number">17px</span>; <span class="attribute">width</span>:<span class="number">18px</span>; <span class="attribute">background</span>:<span class="built_in">url</span>(top.png) no-repeat <span class="number">0</span> <span class="number">0</span>; <span class="attribute">margin</span>:<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">18px</span>; &#125;</div><div class="line"></div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span><span class="selector-pseudo">:after</span> &#123; <span class="attribute">content</span>: <span class="string">" ("</span> <span class="built_in">attr</span>(href) <span class="string">") "</span>; &#125;</div></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="六、CSS3的同级元素通用选择器"><a href="#六、CSS3的同级元素通用选择器" class="headerlink" title="六、CSS3的同级元素通用选择器"></a>六、CSS3的同级元素通用选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E1~E2</td>
-<td>匹配E1元素之后的同级E2元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span> ~ <span class="selector-tag">div</span>&#123;<span class="attribute">background</span>:<span class="number">#fff</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="七、CSS3属性选择器"><a href="#七、CSS3属性选择器" class="headerlink" title="七、CSS3属性选择器"></a>七、CSS3属性选择器</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E[attr^=”val”]</td>
-<td>匹配属性attr的值以“val”开头的元素</td>
-</tr>
-<tr>
-<td>E[attr$=”val”]</td>
-<td>匹配属性attr的值以”val“结尾的元素</td>
-</tr>
-<tr>
-<td>E[attr*=”val”]</td>
-<td>匹配属性attr值中包含“val”的元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span><span class="selector-attr">[id^="nav"]</span>&#123;<span class="attribute">background</span>:<span class="number">#ff0</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="八、CSS3中与用户界面有关的伪类"><a href="#八、CSS3中与用户界面有关的伪类" class="headerlink" title="八、CSS3中与用户界面有关的伪类"></a>八、CSS3中与用户界面有关的伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:enabled</td>
-<td>匹配表单中激活的元素</td>
-</tr>
-<tr>
-<td>E：disabled</td>
-<td>匹配表单中被禁用的元素</td>
-</tr>
-<tr>
-<td>E:checked</td>
-<td>匹配表单中被选中的radio或checkbox元素</td>
-</tr>
-<tr>
-<td>E::selection</td>
-<td>匹配用户当前选择的元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type="text"]</span><span class="selector-pseudo">:disabled</span>&#123;<span class="attribute">background</span>:<span class="number">#ddd</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="九、CSS3中的结构性伪类"><a href="#九、CSS3中的结构性伪类" class="headerlink" title="九、CSS3中的结构性伪类"></a>九、CSS3中的结构性伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:root</td>
-<td>匹配文档的根元素，对于HTML文档，就是HTML元素</td>
-</tr>
-<tr>
-<td>E:nth-child(n)</td>
-<td>匹配其父元素的第n（起始为1）个子元素</td>
-</tr>
-<tr>
-<td>E:nth-last-child(n)</td>
-<td>匹配其父元素的倒数第n（起始为1）个子元素</td>
-</tr>
-<tr>
-<td>E：nth-of-type(n)</td>
-<td>与nth—child作用类似，但是仅匹配使用同种标签的元素</td>
-</tr>
-<tr>
-<td>E:nth-last-of-type(n)</td>
-<td>与nth-last-child作用类似，但是仅匹配使用同种标签的元素</td>
-</tr>
-<tr>
-<td>E:last-child</td>
-<td>匹配父元素的最后一个子元素，等同于nth-last-child(1)</td>
-</tr>
-<tr>
-<td>E:first-of-type</td>
-<td>匹配父元素下使用同种标签的第一个子元素，等同于nth-of-type(1)</td>
-</tr>
-<tr>
-<td>E:last-of-type</td>
-<td>匹配父元素下使用同种标签的最后一个子元素，等同于nth-last-of-type(1)</td>
-</tr>
-<tr>
-<td>E:only-child</td>
-<td>匹配父元素下仅有的一个子元素，等同于:first-child:last-child 或 :nth-child(1):nth-last-child(1)</td>
-</tr>
-<tr>
-<td>E:only-of-type</td>
-<td>匹配父元素下使用同种标签的为一个一个子元素，等同于:first-of-type:last-of-type 或 :nth-of-type(1):nth-last-of-type(1)</td>
-</tr>
-<tr>
-<td>E:empty</td>
-<td>匹配一个不包含任何子元素的元素，ps：文本节点也被看做子元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"></div><div class="line"><span class="comment">/*匹配p元素下的奇数位子元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(odd)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;  </div><div class="line">  </div><div class="line"><span class="comment">/*匹配p元素下的偶数数位子元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(even)</span>&#123;<span class="attribute">color</span>:<span class="number">#f6c</span>;&#125;</div><div class="line"></div><div class="line"><span class="comment">/*这种用法要了解,灵活匹配中间的元素*/</span></div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(3n+3)</span>&#123;<span class="attribute">background</span>:<span class="number">#f6c</span>;&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="十、CSS3的反选伪类"><a href="#十、CSS3的反选伪类" class="headerlink" title="十、CSS3的反选伪类"></a>十、CSS3的反选伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:not(s)</td>
-<td>　匹配不符合当前选择器的任何元素</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EXP:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*匹配所有不包含class1的元素*/</span></div><div class="line"><span class="selector-pseudo">:not(.class1)</span></div><div class="line"></div><div class="line"><span class="comment">/*匹配所有含有子元素的p元素*/</span></div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:not(</span><span class="selector-pseudo">:empty)</span></div></pre></td></tr></table></figure></p>
-<h2 id="十一、CSS3中的target伪类"><a href="#十一、CSS3中的target伪类" class="headerlink" title="十一、CSS3中的target伪类"></a>十一、CSS3中的target伪类</h2><table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>E:target</td>
-<td>　　匹配文档中特定”id”点击后的效果</td>
-</tr>
-</tbody>
-</table>
-<p>更多信息请参照<a href="http://www.w3school.com.cn/css/css_pseudo_classes.asp" target="_blank" rel="external">W3C</a>进行阅读,关于伪类的知识点就介绍到这里了！</p>
-<hr>
-<h2 id="选择器优先级"><a href="#选择器优先级" class="headerlink" title="选择器优先级"></a>选择器优先级</h2><p>页面中我们可能对一个元素应用了多个样式，那它到底会应用那个样式呢，这涉及到了优先级，下面就补充下关于选择器的优先级问题。</p>
-<p>选择器的特殊性分为<strong>4个权重值</strong>，<strong>a b c d</strong>，值分别为1000,100,10,1,从左到右，越左边的越优先。</p>
-<ul>
-<li>HTML内样式，那么特殊性最优先，权重为1000</li>
-<li>id选择器的特殊性是b，权重为100</li>
-<li>类选择器、伪类选择器、属性选择器为c，权重为10</li>
-<li>标签选择器、伪元素选择器为d，权重为1</li>
-</ul>
-<p>ps:</p>
-<ul>
-<li>比较的过程就是将权重相加，大者优先级高</li>
-<li>结果相同的情况下，后定义的样式会覆盖前面的</li>
-<li>样式中含有！important，则该样式或者该属性优先级最高，无视其他样式，即使是<strong>内联样式</strong>。</li>
-</ul>
-<h3 id="important特殊性"><a href="#important特殊性" class="headerlink" title="!important特殊性"></a>!important特殊性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#id</span> &#123; <span class="attribute">color</span>: red &#125;   </div><div class="line"><span class="selector-class">.class</span> &#123; <span class="attribute">color</span>: yellow <span class="meta">!important</span> &#125;</div></pre></td></tr></table></figure>
-<p>第二个样式优先于第一个样式，即使id选择器优先级高于类选择器<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-tag">div</span> &#123;   </div><div class="line">  <span class="attribute">color</span>: yellow <span class="meta">!important</span>;     </div><div class="line">  <span class="attribute">color</span>: red;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种情况带!important的属性优先级高，但是在IE6这样会显示为红色，是因为IE6的一点小bug，通过书写格式可以避免，可以参考<a href="http://www.cnblogs.com/yudy/archive/2013/05/27/3102825.html" target="_blank" rel="external">这篇博文</a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/cssheight/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/cssheight/" itemprop="url">
-                  css高度坍塌及解决方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="元素脱离文档流导致高度坍塌"><a href="#元素脱离文档流导致高度坍塌" class="headerlink" title="元素脱离文档流导致高度坍塌"></a>元素脱离文档流导致高度坍塌</h2><blockquote>
-<p>在日常的开发页面工作中，我们都知道在文档流内，父元素的高度默认是通过子元素来支撑的（如果我们没有设置高度）,即父元素的高度==子元素的高度。一旦我们设置了子元素的float之后，子元素就会脱离文档流，引发的问题就是父元素不能再通过子元素来撑起高度，直观的表现就是高度坍塌。</p>
-</blockquote>
-<p>一个普遍的例子就是轮播图的圆点按钮小框，比如<br><img src="http://og48zuyzv.bkt.clouddn.com/8-1.png" alt="8-2.png"></p>
-<p>一般要实现这个按钮小框，我们都会选择用<strong>ul 和 li 元素</strong>以及 float样式,代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel "</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>这时你会发现这段代码出来的效果并没有什么毛病，但其实高度坍塌真实发生了，只是因为我们使用<strong>position</strong>解决了内容坍塌的问题，你可以去掉position看看，会变成下面这样：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/8-2.png" alt="8-2.png"></p>
-<p><strong>position</strong>算是解决高度坍塌的其中一种方法,下面开始详细介绍几种方法：</p>
-<blockquote>
-<p>方法一：根据W3C标准，在页面中元素都有一个隐藏的属性叫做BLOCK FORMATTING Context，简称BFC，该属性可以通过设置来打开或者关闭，默认是关闭的。</p>
-</blockquote>
-<h3 id="当开启BFC后，元素将会具有以下特性："><a href="#当开启BFC后，元素将会具有以下特性：" class="headerlink" title="当开启BFC后，元素将会具有以下特性："></a>当开启BFC后，元素将会具有以下特性：</h3><ul>
-<li>元素的垂直外边距不会和子元素重叠</li>
-<li>开启BFC的元素不会被浮动元素所覆盖</li>
-<li>开启BFC的元素可以包含浮动元素</li>
-</ul>
-<h3 id="如何开启BFC："><a href="#如何开启BFC：" class="headerlink" title="如何开启BFC："></a>如何开启BFC：</h3><ul>
-<li>设置元素的浮动，即给上述的ul标签设置浮动，但是会导致ul标签宽度丢失，并且下面的元素会上移，并不能解决问题 </li>
-<li>设置元素的绝对定位，上面的例子就是用的<code>position：absolute</code>，但是不是所有场景都适用</li>
-<li>设置元素的inline-block，这样父元素的宽度会丢失，不推荐</li>
-<li>将元素的overflow设置为一个非visible的值（这种方法开启BFC副作用小，IE6中可以适用hasLayout，给父元素设置zoom：1）</li>
-</ul>
-<blockquote>
-<p>方法二：clear属性可以用于清除元素周围浮动元素对元素的影响。这样元素就不会因为出现浮动元素尔改变位置</p>
-</blockquote>
-<p>可选值：</p>
-<ul><br>    <li> left ：忽略左侧浮动 （清除左侧浮动对当前元素的影响）</li><br>    <li> right ：忽略右侧浮动 （清除右侧浮动对当前元素的影响）</li><br>    <li>both ：忽略全部浮动 （清除两侧对他影响最大的浮动对）</li><br>    <li> none : 不忽略浮动，默认值</li><br></ul>
-
-<blockquote>
-<p>方法三：通过after伪类，和添加div元素一样，但是不需要添加div元素</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css">        </span></div><div class="line">        <span class="selector-tag">ul</span>,<span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>:<span class="number">0</span>;&#125;</div><div class="line">        <span class="selector-class">.carousel</span>&#123;<span class="attribute">width</span>:<span class="number">400px</span>;<span class="attribute">height</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">position</span>:relative;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span>&#123;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">0</span>;<span class="attribute">width</span>:<span class="number">200px</span>;<span class="attribute">margin</span>:auto;<span class="attribute">position</span>:absolute;<span class="attribute">bottom</span>:<span class="number">0</span>;<span class="attribute">left</span>:<span class="number">24%</span>;&#125;</div><div class="line">        <span class="selector-class">.btn-list</span> <span class="selector-tag">li</span>&#123;<span class="attribute">width</span>:<span class="number">20px</span>;<span class="attribute">height</span>:<span class="number">20px</span>;<span class="attribute">border-radius</span>:<span class="number">50%</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;<span class="attribute">float</span>:left;<span class="attribute">list-style</span>:none;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">14px</span>; &#125;</div><div class="line">        <span class="selector-class">.clear</span><span class="selector-pseudo">:after</span>&#123;</div><div class="line">           <span class="comment">/* 必须设置一个空的congtent,否则不起作用  */</span> </div><div class="line">            <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">            <span class="comment">/* 转换成块元素  */</span></div><div class="line">            <span class="attribute">display</span>: block;</div><div class="line">            <span class="attribute">clear</span>: both;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"carousel clear"</span>&gt;</span></div><div class="line">        </div><div class="line">        轮播内容...</div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"btn-list"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>解决高度坍塌的方法已经介绍完了，具体那种方法，就需要大家见仁见智了！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/boxSizing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/03/boxSizing/" itemprop="url">
-                  CSS属性之box-sizing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T22:11:08+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在页面代码编写的过程中，box model一直是很重要的一块，理解好这块写起代码来也是水到渠成。box-sizing是CSS3的box属性之一。那么作为box的属性之一，它当然遵循css的box model原理，为了更好的理解box-sizing，先行了解box model也不无必要。</p>
-<blockquote>
-<p>CSS中box model分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，相同之处在于都是对元素计算尺寸的模型，包含width，height，padding，border，margin以及实际尺寸的计算关系；不同之处嘛，下面详细为你介绍：</p>
-</blockquote>
-<h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content height + padding + border + margin</div><div class="line">  Element 空间宽度 = content width + padding + border + margin</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content height + padding + border （Height为内容高度）</div><div class="line">  Element Width = content width + padding + border （Width为内容宽度）</div></pre></td></tr></table></figure>
-<h2 id="IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。"><a href="#IE下的传统Box-Model（IE6以下，不含IE6版本或“QuirksMode下IE5-5-”）。" class="headerlink" title="IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。"></a>IE下的传统Box Model（IE6以下，不含IE6版本或“QuirksMode下IE5.5+”）。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/*外盒尺寸计算（元素空间尺寸）*/</div><div class="line">  Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)</div><div class="line">  /*内盒尺寸计算（元素大小）*/</div><div class="line">  Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)</div><div class="line">  Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)</div></pre></td></tr></table></figure>
-<p>可能上面的内容会让你感觉很懵逼，这样举个例子，可能你马上就能get到了：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.box</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">border</span>:<span class="number">3px</span> solid green;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">10px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>在chrome浏览器下，你会发现效果如下图：<br><img src="http://og48zuyzv.bkt.clouddn.com/box-1.png" alt="1"></p>
-<p><strong>box model</strong><br><ul><br><li>紫色区域就是我们width+height定义出来的content区域，</li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框，</li><br><li>绿色边框距离页面边框的距离就是我们padding定义出来的外边距，   </li><br></ul></p>
-<blockquote>
-<p>这里注意:<br>所有的边距和边框都不会影响我们定义content的大小，而是以附加的形式来增大我们的整个box的大小。    </p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>在IE5下面（用box-sizing：border-box模仿），则是这样的：</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/box-2.png" alt="2"></p>
-<p><strong>box model</strong></p>
-<ul><br><li>紫色区域就是我们width*height-padding-border定义出来的content区域(注意)， </li><br><li>红色区域就是我们padding定义出来的内边距，</li><br><li>绿色区域就是我们padding定义出来的边框， </li><br><li>绿色边框距离上一个box的距离就是我们padding定义出来的外边距，<br></li><br></ul>
-
-<blockquote>
-<p>不难看出，其实差别就在于content的区域块，ie的传统model中由width和height定义的不再是content区域块了，而是padding+border+content组成的块，那么我们添加padding或者border都只会在这个区域块上划分，而不是在width*height区域的基础上向外扩张，个人感觉这更符合人的思维，这样我们写页面的时候就不需要考虑太多其他的事情，只需要着眼于当前的区域，不用太过担心牵一发而动全身。</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>很明显，content-box即content区域=widht<em>height；而border-box即content区域=width</em>height-padding-border</strong>，理解好这点就没问题了。</p>
-<h2 id="如何再box-model模式间切换"><a href="#如何再box-model模式间切换" class="headerlink" title="如何再box model模式间切换"></a>如何再box model模式间切换</h2><p>box-sizing现代浏览器都支持，但IE家族只有IE8版本以上才支持，虽然现代浏览器支持box-sizing，但有些浏览器还是需要加上自己的前缀，Mozilla需要加上-moz-，Webkit内核需要加上-webkit-，Presto内核-o-,IE8-ms-，所以box-sizing兼容浏览器时需要加上各自的前缀。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*Content box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: content-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: content-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: content-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: content-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: content-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div><div class="line">       </div><div class="line"> <span class="comment">/*Border box*/</span></div><div class="line"> <span class="selector-tag">Element</span> &#123;</div><div class="line">    <span class="attribute">-moz-box-sizing</span>: border-box;  <span class="comment">/*Firefox3.5+*/</span></div><div class="line">    <span class="attribute">-webkit-box-sizing</span>: border-box; <span class="comment">/*Safari3.2+*/</span></div><div class="line">    <span class="attribute">-o-box-sizing</span>: border-box; <span class="comment">/*Opera9.6*/</span></div><div class="line">    <span class="attribute">-ms-box-sizing</span>: border-box; <span class="comment">/*IE8*/</span></div><div class="line">    <span class="attribute">box-sizing</span>: border-box; <span class="comment">/*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/02/纵向自动填充及监听滚轮事件的兼容性问题/" itemprop="url">
-                  纵向自动填充及监听滚轮事件的兼容性问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-02T22:11:08+08:00">
-                2017-06-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="初始化文件reset-css"><a href="#初始化文件reset-css" class="headerlink" title="初始化文件reset.css"></a>初始化文件reset.css</h2><p>在开始进入正题之前先分享一段代码，对于新手的同学可以参考下！</p>
-<p>写过几个页面的同学都知道，标签元素如body，p等等浏览器默认都会赋予一些样式，而如a，buttom默认移动鼠标都不会出现小手的标记，在需要的时候一遍遍地添加显然是不合理的，也增加了冗余代码，我们可以在写其他css代码之前先引入下面的代码文件：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/*初始化  reset*/  </div><div class="line">body,button,dd,dl,dt,h1,h2,h3,h4,h5,h6,input,li,ol,p,td,ul&#123;margin:0;padding:0&#125;  </div><div class="line">body,button,input&#123;font:12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif&#125;  </div><div class="line">h1,h2,h3,h4,h5,h6,button,input&#123;font-size:100%&#125;  </div><div class="line">ol,ul&#123;list-style:none&#125;  </div><div class="line">a&#123;text-decoration:none&#125;  </div><div class="line">a:hover&#123;text-decoration:underline&#125;  </div><div class="line">fieldset,img&#123;border:0;vertical-align:top;&#125;  </div><div class="line">a,button&#123;cursor:pointer;&#125;  </div><div class="line">/*清除浮动*/  </div><div class="line">.clearfix:before,.clearfix:after &#123;  </div><div class="line">    content:"";  </div><div class="line">    display:table;  </div><div class="line">&#125;  </div><div class="line">.clearfix:after&#123;clear:both;&#125;  </div><div class="line">.clearfix&#123;  </div><div class="line">    *zoom:1;/*IE/7/6*/  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>引入上面代码之后，我们就可以开始愉快地书写我们的代码了！</p>
-</blockquote>
-<h2 id="纵向内容自动填充"><a href="#纵向内容自动填充" class="headerlink" title="纵向内容自动填充"></a>纵向内容自动填充</h2><p>之前有一篇博文讲的是三栏布局中间自适应的问题，现在讲纵向两栏内容自动填充的问题！</p>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/2-1.png" alt="2-1.png"></p>
-<p>纵向的自适应跟水平的略有不同，因为我们不能利用<strong>div标签的block特性（占据一行）</strong>了，而是利用<strong>头部元素绝对定位</strong>和<strong>内容元素的height：100%</strong>来实现，而且还需要借助js(窗口大小变化需要重新计算高度)。</p>
-<blockquote>
-<p>实际场景：这是我最近做一个小项目中的一个场景，头部固定高度，下面部分N屏，随滑轮滚动而切换，头部不变，不显示侧边栏。</p>
-</blockquote>
-<p><img src="http://og48zuyzv.bkt.clouddn.com/2-2.png" alt="2-2.png"></p>
-<p>页面框架如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">    <span class="selector-id">#header</span>&#123;<span class="attribute">height</span>:<span class="number">130px</span>;<span class="attribute">position</span>:absolute;<span class="attribute">z-index</span>:<span class="number">100</span>;&#125;</div><div class="line">    <span class="selector-id">#content</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;<span class="attribute">padding-top</span>:<span class="number">130px</span>;<span class="attribute">overflow</span>:hidden;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"header"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">        这里是需要滚动的内容......</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>id为content的元素用了padding-top：130px，跟之前博文中的两栏布局类似，再用height：100%；达到视觉上的上下两栏，其实头部是覆盖在content之上的。</p>
-<blockquote>
-<p>但是，这样会造成一个问题，就是<strong>height+padding-top</strong>其实已经超出了窗口的大小，这时会出现滚动栏，那么如何让滚动栏消失呢？</p>
-</blockquote>
-<p>这里需要用到js（jq）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#content'</span>).css(&#123;<span class="string">"height"</span>:(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.clientHeight)<span class="number">-130</span>)+<span class="string">"px"</span>&#125;);</div></pre></td></tr></table></figure></p>
-<p>这样我们就能让侧边栏消失了，考虑到用户有时会缩放页面，所以最好把这句代码放到函数里面，并绑定到resize事件，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> resizes = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#content'</span>).css(&#123;<span class="string">"height"</span>:(<span class="built_in">parseInt</span>(<span class="built_in">document</span>.body.clientHeight)<span class="number">-130</span>)+<span class="string">"px"</span>&#125;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//窗口变化时调用</span></div><div class="line">$(<span class="built_in">window</span>).resize = resizes;</div></pre></td></tr></table></figure></p>
-<h2 id="鼠标滚动的兼容性问题"><a href="#鼠标滚动的兼容性问题" class="headerlink" title="鼠标滚动的兼容性问题"></a>鼠标滚动的兼容性问题</h2><p>解决完布局的问题，接下来就是考虑如何解决鼠标滚动事件的兼容性问题了。<br>首先，不同的浏览器有不同的滚轮事件。主要是有两种，onmousewheel（firefox不支持）和DOMMouseScroll（只有firefox支持）。那么如何写一个可以兼容所有浏览器的监听函数呢？看下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">//判断浏览器类型</span></div><div class="line">   <span class="keyword">var</span> agent = navigator.userAgent;</div><div class="line">   <span class="comment">//firefox滚动函数</span></div><div class="line"><span class="keyword">var</span> DomScroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">				</div><div class="line">	<span class="comment">//event对象兼容获取</span></div><div class="line"></div><div class="line">	e = e || <span class="built_in">window</span>.event;</div><div class="line">	indexY = e.clientY;</div><div class="line">	wrapHeight = <span class="built_in">parseInt</span>(wrapper[<span class="number">0</span>].offsetHeight);</div><div class="line">       <span class="comment">//判断鼠标是否位于第二栏内</span></div><div class="line">	<span class="keyword">if</span> (indexY&gt;=wrapY)</div><div class="line">       &#123;	</div><div class="line">		<span class="comment">//获取滑动的方向</span></div><div class="line">		<span class="keyword">var</span> orient = e.detail</div><div class="line">					</div><div class="line">		<span class="keyword">if</span> (orient&gt;<span class="number">0</span>)</div><div class="line">		&#123;	</div><div class="line">			<span class="comment">//下滚</span></div><div class="line">			initial++;</div><div class="line">			<span class="keyword">if</span>(initial&gt;<span class="number">6</span>)&#123;</div><div class="line">				initial = <span class="number">6</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//上滚</span></div><div class="line">			initial--;</div><div class="line">			<span class="keyword">if</span>(initial&lt;<span class="number">0</span>)&#123;</div><div class="line">				initial = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		animation(initial);</div><div class="line">		</div><div class="line">		<span class="comment">//滚动一次后2s内不能再滚动</span></div><div class="line">		</div><div class="line">		<span class="built_in">document</span>.removeEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll);</div><div class="line">		setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">document</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll)&#125;,<span class="number">2000</span>);</div><div class="line">					</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line">	</div><div class="line"><span class="comment">//其他浏览器滚动函数</span></div><div class="line"><span class="keyword">var</span> wheelScroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = e || <span class="built_in">window</span>.event;</div><div class="line">	indexY = e.clientY;</div><div class="line">	wrapHeight = <span class="built_in">parseInt</span>(wrapper[<span class="number">0</span>].offsetHeight);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (indexY&gt;=wrapY)</div><div class="line">	&#123;	</div><div class="line">					</div><div class="line">		<span class="comment">//获取滑动滚动的方向，并且兼容浏览器</span></div><div class="line">		<span class="keyword">var</span> orient = e.wheelDelta;</div><div class="line">		<span class="keyword">if</span> (orient&lt;<span class="number">0</span>)</div><div class="line">		&#123;</div><div class="line">			<span class="comment">//下滚</span></div><div class="line">			initial++;</div><div class="line">			<span class="keyword">if</span>(initial&gt;<span class="number">6</span>)&#123;</div><div class="line">				initial = <span class="number">6</span>;</div><div class="line">			&#125;</div><div class="line">						</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">//上滚</span></div><div class="line">			initial--;</div><div class="line">			<span class="keyword">if</span>(initial&lt;<span class="number">0</span>)&#123;</div><div class="line">				initial = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">						</div><div class="line">		&#125;</div><div class="line">		animation(initial);</div><div class="line">		<span class="built_in">document</span>.onmousewheel = <span class="literal">null</span>;</div><div class="line">		setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">document</span>.onmousewheel=wheelScroll&#125;,<span class="number">2000</span>)</div><div class="line">						</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">		</div><div class="line"></div><div class="line"><span class="comment">//判断并滚动</span></div><div class="line"><span class="keyword">if</span>(<span class="regexp">/.*Firefox.*/</span>.test(agent))&#123;</div><div class="line">			</div><div class="line">	<span class="built_in">document</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>,DomScroll);</div><div class="line">			</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="built_in">document</span>.onmousewheel = wheelScroll;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>我们首先要通过navigator.UserAgent获取agent对象，利用正则我们可以判断当前浏览器的类别，如果是firefox浏览器，则需要通过<strong>document.addEventListener(“DOMMouseScroll”,DomScroll);</strong>来监听事件，否则用document.onmousewheel = wheelScroll即可;</p>
-</li>
-<li><p>通常我们都需要知道鼠标滑轮是上滚还是下滚，从而作出更多的操作。</p>
-<blockquote>
-<p>这里需要注意，现在五大浏览器（IE、Opera、Safari、Firefox、Chrome）中Firefox 使用detail，其余四类使用wheelDelta；两者只在取值上不一致，代表含义也不一致，detail与wheelDelta只各取两个值，detail只取±3，wheelDelta只取±120，其中detail正数表示为向下，负数表示向上，而wheelDelta正数表示为向上，负数表示向下，网上的文章有出入（说含义一样实际不是），请以实践为主！</p>
-</blockquote>
-</li>
-</ul>
-<p>到这里内容就结束了，如想了解更多自适应和兼容性的问题，请看高级程序设计这本书或者google寻找资料！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/三栏布局之中间栏自适应宽度的几种方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liby">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/10/三栏布局之中间栏自适应宽度的几种方法/" itemprop="url">
-                  两栏布局之右边栏自适应宽度的几种方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T01:44:09+08:00">
-                2017-04-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>  现如今网站层出不穷，对响应式的要求也越来越高，大多数网站都是基于两栏或者三栏布局，那么我们是如何实现左边栏固定宽度而右边栏自适应的呢？又是如何做到左右两边固定宽度，中间自适应的呢（下一篇博客解决这个问题）？</p>
-<p>   下面就让我们共同来解决这些questions。</p>
-<p>   HTML代码如下：<br>    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">'en'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>两栏自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h2><p>让左边的内容<em>脱离文档流</em>,右边栏设置<em>margin-left</em>来实现视觉上的左右分栏:</p>
-<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">   <span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.lef</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>:</div><div class="line">	background:red;</div><div class="line">	<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">	&#125;</div><div class="line"><span class="selector-class">.right</span>&#123;</div><div class="line">	<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">	<span class="attribute">background</span>:green;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-</code></pre><h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;<span class="attribute">height</span>:<span class="number">100%</span>;&#125;</div><div class="line"><span class="selector-class">.left</span>&#123;</div><div class="line">  		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">80%</span>:</div><div class="line">		background:red;</div><div class="line">		<span class="attribute">float</span>:left;<span class="comment">/*脱离文档流*/</span></div><div class="line">&#125;</div><div class="line">   <span class="selector-class">.right</span>&#123;                                                                                </div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">		<span class="attribute">margin-left</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">background</span>:green;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</code></pre><p>上面代码会造成类似文字环绕效果，实际是float元素覆盖在了右边元素上面。<br>这里我们利用BFC(格式化上下文)来实现功能,这里小小科普一下BFC.</p>
-<blockquote>
-<p>BFC:BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。    </p>
-</blockquote>
-<p>会生成BFC的元素:</p>
-<ul>
-<li>根元素</li>
-<li>float属性不为none                                    </li>
-<li>position为absolute或fixed                                                                                                </li>
-<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
-<li>overflow不为visible</li>
-</ul>
-<p>一般情况下，div和浮动元素做兄弟元素时，是覆盖的关系(呈现类似文字环绕效果).BFC特性很多，而我们这里，只关心一个，和float元素做相邻兄弟时候的表现.</p>
-<blockquote>
-<p>规则:BFC的区域不会与float box重叠。</p>
-</blockquote>
-<p>了解规则后,我们可以通过生成BFC来实现自适应的分栏</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span>&#123;<span class="attribute">overflow</span>:hidden;&#125;</div></pre></td></tr></table></figure>
-<p>这样我们就解决的重叠覆盖的问题，至此，两种解决两栏自适应布局的方法也介绍完了，敬请期待下一篇解决三栏布局的博客！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="http://og48zuyzv.bkt.clouddn.com/t01fad4ace94b4e1dd0.jpg"
-               alt="Liby" />
-          <p class="site-author-name" itemprop="name">Liby</p>
-           
-              <p class="site-description motion-element" itemprop="description"></p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Wangjunyu" target="_blank" title="github">
-                  
-                  github
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://web.umeng.com" title="CNZZ" target="_blank">CNZZ</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://tongji.baidu.com/" title="百度统计" target="_blank">百度统计</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://leancloud.cn" title="leancloud" target="_blank">leancloud</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://analytics.google.com" title="Google分析" target="_blank">Google分析</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://theme-next.iissnan.com/" title="Next主题配置文档" target="_blank">Next主题配置文档</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://hexo.io/docs/" title="Hexo官方配置文档" target="_blank">Hexo官方配置文档</a>
-                </li>
-              
-            </ul>
-          </div>
-        
-
-        
-
-
-      </section>
-
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Liby</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
-
-
-        
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+ <div class="text" style="display: none;">😄祝孙静怡，圣诞节快乐！！！😄<br/><br/>😄新的一年平安喜乐，永远开心没有烦恼😄</div>
+ <script id="rendered-js" >
+  const { PI, sin, cos } = Math;
+  const TAU = 2 * PI;
+
+  const map = (value, sMin, sMax, dMin, dMax) => {
+   return dMin + (value - sMin) / (sMax - sMin) * (dMax - dMin);
+  };
+
+  const range = (n, m = 0) =>
+  Array(n).
+  fill(m).
+  map((i, j) => i + j);
+
+  const rand = (max, min = 0) => min + Math.random() * (max - min);
+  const randInt = (max, min = 0) => Math.floor(min + Math.random() * (max - min));
+  const randChoise = arr => arr[randInt(arr.length)];
+  const polar = (ang, r = 1) => [r * cos(ang), r * sin(ang)];
+
+  let scene, camera, renderer, analyser;
+  let step = 0;
+  const uniforms = {
+   time: { type: "f", value: 0.0 },
+   step: { type: "f", value: 0.0 } };
+
+   const params = {
+    exposure: 1,
+    bloomStrength: 0.9,
+    bloomThreshold: 0,
+    bloomRadius: 0.5 };
+
+    let composer;
+
+    const fftSize = 2048;
+    const totalPoints = 4000;
+
+    const listener = new THREE.AudioListener();
+
+    const audio = new THREE.Audio(listener);
+
+    document.querySelector("input").addEventListener("change", uploadAudio, false);
+
+    const buttons = document.querySelectorAll(".btn");
+    buttons.forEach((button, index) =>
+     button.addEventListener("click", () => loadAudio(index)));
+
+
+    function init() {
+     const overlay = document.getElementById("overlay");
+     overlay.remove();
+     scene = new THREE.Scene();
+
+     renderer = new THREE.WebGLRenderer({ antialias: true });
+     renderer.setPixelRatio(window.devicePixelRatio);
+     renderer.setSize(window.innerWidth, window.innerHeight);
+     document.body.appendChild(renderer.domElement);
+
+     
+     camera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      1,
+      1000);
+
+     camera.position.set(-0.09397456774197047, -2.5597086635726947, 24.420789670889008);
+     camera.rotation.set(0.10443543723052419, -0.003827152981119352, 0.0004011488708739715);
+
+     const format = renderer.capabilities.isWebGL2 ?
+     THREE.RedFormat :
+     THREE.LuminanceFormat;
+
+     uniforms.tAudioData = {
+      value: new THREE.DataTexture(analyser.data, fftSize / 2, 1, format) };
+
+
+      addPlane(scene, uniforms, 3000);
+      addSnow(scene, uniforms);
+
+      range(10).map(i => {
+       addTree(scene, uniforms, totalPoints, [20, 0, -20 * i]);
+       addTree(scene, uniforms, totalPoints, [-20, 0, -20 * i]);
+      });
+
+      const renderScene = new THREE.RenderPass(scene, camera);
+
+      const bloomPass = new THREE.UnrealBloomPass(
+       new THREE.Vector2(window.innerWidth, window.innerHeight),
+       1.5,
+       0.4,
+       0.85);
+
+      bloomPass.threshold = params.bloomThreshold;
+      bloomPass.strength = params.bloomStrength;
+      bloomPass.radius = params.bloomRadius;
+
+      composer = new THREE.EffectComposer(renderer);
+      composer.addPass(renderScene);
+      composer.addPass(bloomPass);
+
+      addListners(camera, renderer, composer);
+      animate();
+     }
+
+     function animate(time) {
+      analyser.getFrequencyData();
+      uniforms.tAudioData.value.needsUpdate = true;
+      step = (step + 1) % 1000;
+      uniforms.time.value = time;
+      uniforms.step.value = step;
+      composer.render();
+      requestAnimationFrame(animate);
+     }
+
+     function loadAudio(i) {
+      document.getElementById("overlay").innerHTML =
+      '<div class="text-loading">正在下载音乐，请稍等...</div>';
+      const files = [
+      "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Simon_Panrucker/Happy_Christmas_You_Guys/Simon_Panrucker_-_01_-_Snowflakes_Falling_Down.mp3",
+      "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Dott/This_Christmas/Dott_-_01_-_This_Christmas.mp3",
+      "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/TRG_Banks/TRG_Banks_Christmas_Album/TRG_Banks_-_12_-_No_room_at_the_inn.mp3",
+      "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Mark_Smeby/En_attendant_Nol/Mark_Smeby_-_07_-_Jingle_Bell_Swing.mp3"];
+
+      const file = files[i];
+      init();
+      const loader = new THREE.AudioLoader();
+      loader.load(file, function (buffer) {
+       audio.setBuffer(buffer);
+       audio.play();
+       analyser = new THREE.AudioAnalyser(audio, fftSize);
+       
+      });
+
+
+     }
+
+
+     function uploadAudio(event) {
+      document.getElementById("overlay").innerHTML =
+      '<div class="text-loading">请稍等...</div>';
+      const files = event.target.files;
+      const reader = new FileReader();
+
+      reader.onload = function (file) {
+       var arrayBuffer = file.target.result;
+
+       listener.context.decodeAudioData(arrayBuffer, function (audioBuffer) {
+        audio.setBuffer(audioBuffer);
+        audio.play();
+        analyser = new THREE.AudioAnalyser(audio, fftSize);
+        init();
+       });
+      };
+
+      reader.readAsArrayBuffer(files[0]);
+     }
+
+     function addTree(scene, uniforms, totalPoints, treePosition) {
+        document.getElementsByClassName('text')[0].style.display = 'block';
+      const vertexShader = `
+      attribute float mIndex;
+      varying vec3 vColor;
+      varying float opacity;
+      uniform sampler2D tAudioData;
+      float norm(float value, float min, float max ){
+       return (value - min) / (max - min);
+      }
+      float lerp(float norm, float min, float max){
+       return (max - min) * norm + min;
+      }
+      float map(float value, float sourceMin, float sourceMax, float destMin, float destMax){
+       return lerp(norm(value, sourceMin, sourceMax), destMin, destMax);
+      }
+      void main() {
+       vColor = color;
+       vec3 p = position;
+       vec4 mvPosition = modelViewMatrix * vec4( p, 1.0 );
+       float amplitude = texture2D( tAudioData, vec2( mIndex, 0.1 ) ).r;
+       float amplitudeClamped = clamp(amplitude-0.4,0.0, 0.6 );
+       float sizeMapped = map(amplitudeClamped, 0.0, 0.6, 1.0, 20.0);
+       opacity = map(mvPosition.z , -200.0, 15.0, 0.0, 1.0);
+       gl_PointSize = sizeMapped * ( 100.0 / -mvPosition.z );
+       gl_Position = projectionMatrix * mvPosition;
+      }
+      `;
+      const fragmentShader = `
+      varying vec3 vColor;
+      varying float opacity;
+      uniform sampler2D pointTexture;
+      void main() {
+       gl_FragColor = vec4( vColor, opacity );
+       gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord ); 
+      }
+      `;
+      const shaderMaterial = new THREE.ShaderMaterial({
+       uniforms: {
+        ...uniforms,
+        pointTexture: {
+         value: new THREE.TextureLoader().load(`https://assets.codepen.io/3685267/spark1.png`) } },
+
+
+         vertexShader,
+         fragmentShader,
+         blending: THREE.AdditiveBlending,
+         depthTest: false,
+         transparent: true,
+         vertexColors: true });
+
+
+      const geometry = new THREE.BufferGeometry();
+      const positions = [];
+      const colors = [];
+      const sizes = [];
+      const phases = [];
+      const mIndexs = [];
+
+      const color = new THREE.Color();
+
+      for (let i = 0; i < totalPoints; i++) {
+       const t = Math.random();
+       const y = map(t, 0, 1, -8, 10);
+       const ang = map(t, 0, 1, 0, 6 * TAU) + TAU / 2 * (i % 2);
+       const [z, x] = polar(ang, map(t, 0, 1, 5, 0));
+
+       const modifier = map(t, 0, 1, 1, 0);
+       positions.push(x + rand(-0.3 * modifier, 0.3 * modifier));
+       positions.push(y + rand(-0.3 * modifier, 0.3 * modifier));
+       positions.push(z + rand(-0.3 * modifier, 0.3 * modifier));
+
+       color.setHSL(map(i, 0, totalPoints, 1.0, 0.0), 1.0, 0.5);
+
+       colors.push(color.r, color.g, color.b);
+       phases.push(rand(1000));
+       sizes.push(1);
+       const mIndex = map(i, 0, totalPoints, 1.0, 0.0);
+       mIndexs.push(mIndex);
+      }
+
+      geometry.setAttribute(
+       "position",
+       new THREE.Float32BufferAttribute(positions, 3).setUsage(
+        THREE.DynamicDrawUsage));
+
+
+      geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+      geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+      geometry.setAttribute("phase", new THREE.Float32BufferAttribute(phases, 1));
+      geometry.setAttribute("mIndex", new THREE.Float32BufferAttribute(mIndexs, 1));
+
+      const tree = new THREE.Points(geometry, shaderMaterial);
+
+      const [px, py, pz] = treePosition;
+
+      tree.position.x = px;
+      tree.position.y = py;
+      tree.position.z = pz;
+
+      scene.add(tree);
+     }
+
+     function addSnow(scene, uniforms) {
+      const vertexShader = `
+      attribute float size;
+      attribute float phase;
+      attribute float phaseSecondary;
+      varying vec3 vColor;
+      varying float opacity;
+      uniform float time;
+      uniform float step;
+      float norm(float value, float min, float max ){
+       return (value - min) / (max - min);
+      }
+      float lerp(float norm, float min, float max){
+       return (max - min) * norm + min;
+      }
+      float map(float value, float sourceMin, float sourceMax, float destMin, float destMax){
+       return lerp(norm(value, sourceMin, sourceMax), destMin, destMax);
+      }
+      void main() {
+       float t = time* 0.0006;
+       vColor = color;
+       vec3 p = position;
+       p.y = map(mod(phase+step, 1000.0), 0.0, 1000.0, 25.0, -8.0);
+       p.x += sin(t+phase);
+       p.z += sin(t+phaseSecondary);
+       opacity = map(p.z, -150.0, 15.0, 0.0, 1.0);
+       vec4 mvPosition = modelViewMatrix * vec4( p, 1.0 );
+       gl_PointSize = size * ( 100.0 / -mvPosition.z );
+       gl_Position = projectionMatrix * mvPosition;
+      }
+      `;
+
+      const fragmentShader = `
+      uniform sampler2D pointTexture;
+      varying vec3 vColor;
+      varying float opacity;
+      void main() {
+       gl_FragColor = vec4( vColor, opacity );
+       gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord ); 
+      }
+      `;
+      function createSnowSet(sprite) {
+       const totalPoints = 300;
+       const shaderMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+         ...uniforms,
+         pointTexture: {
+          value: new THREE.TextureLoader().load(sprite) } },
+
+
+          vertexShader,
+          fragmentShader,
+          blending: THREE.AdditiveBlending,
+          depthTest: false,
+          transparent: true,
+          vertexColors: true });
+
+
+       const geometry = new THREE.BufferGeometry();
+       const positions = [];
+       const colors = [];
+       const sizes = [];
+       const phases = [];
+       const phaseSecondaries = [];
+
+       const color = new THREE.Color();
+
+       for (let i = 0; i < totalPoints; i++) {
+        const [x, y, z] = [rand(25, -25), 0, rand(15, -150)];
+        positions.push(x);
+        positions.push(y);
+        positions.push(z);
+
+        color.set(randChoise(["#f1d4d4", "#f1f6f9", "#eeeeee", "#f1f1e8"]));
+
+        colors.push(color.r, color.g, color.b);
+        phases.push(rand(1000));
+        phaseSecondaries.push(rand(1000));
+        sizes.push(rand(4, 2));
+       }
+
+       geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(positions, 3));
+
+       geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+       geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+       geometry.setAttribute("phase", new THREE.Float32BufferAttribute(phases, 1));
+       geometry.setAttribute(
+        "phaseSecondary",
+        new THREE.Float32BufferAttribute(phaseSecondaries, 1));
+
+
+       const mesh = new THREE.Points(geometry, shaderMaterial);
+
+       scene.add(mesh);
+      }
+      const sprites = [
+      "https://assets.codepen.io/3685267/snowflake1.png",
+      "https://assets.codepen.io/3685267/snowflake2.png",
+      "https://assets.codepen.io/3685267/snowflake3.png",
+      "https://assets.codepen.io/3685267/snowflake4.png",
+      "https://assets.codepen.io/3685267/snowflake5.png"];
+
+      sprites.forEach(sprite => {
+       createSnowSet(sprite);
+      });
+     }
+
+     function addPlane(scene, uniforms, totalPoints) {
+      const vertexShader = `
+      attribute float size;
+      attribute vec3 customColor;
+      varying vec3 vColor;
+      void main() {
+       vColor = customColor;
+       vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+       gl_PointSize = size * ( 300.0 / -mvPosition.z );
+       gl_Position = projectionMatrix * mvPosition;
+      }
+      `;
+      const fragmentShader = `
+      uniform vec3 color;
+      uniform sampler2D pointTexture;
+      varying vec3 vColor;
+      void main() {
+       gl_FragColor = vec4( vColor, 1.0 );
+       gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
+      }
+      `;
+      const shaderMaterial = new THREE.ShaderMaterial({
+       uniforms: {
+        ...uniforms,
+        pointTexture: {
+         value: new THREE.TextureLoader().load(`https://assets.codepen.io/3685267/spark1.png`) } },
+
+
+         vertexShader,
+         fragmentShader,
+         blending: THREE.AdditiveBlending,
+         depthTest: false,
+         transparent: true,
+         vertexColors: true });
+
+
+      const geometry = new THREE.BufferGeometry();
+      const positions = [];
+      const colors = [];
+      const sizes = [];
+
+      const color = new THREE.Color();
+
+      for (let i = 0; i < totalPoints; i++) {
+       const [x, y, z] = [rand(-25, 25), 0, rand(-150, 15)];
+       positions.push(x);
+       positions.push(y);
+       positions.push(z);
+
+       color.set(randChoise(["#93abd3", "#f2f4c0", "#9ddfd3"]));
+
+       colors.push(color.r, color.g, color.b);
+       sizes.push(1);
+      }
+
+      geometry.setAttribute(
+       "position",
+       new THREE.Float32BufferAttribute(positions, 3).setUsage(
+        THREE.DynamicDrawUsage));
+
+
+      geometry.setAttribute(
+       "customColor",
+       new THREE.Float32BufferAttribute(colors, 3));
+
+      geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+
+      const plane = new THREE.Points(geometry, shaderMaterial);
+
+      plane.position.y = -8;
+      scene.add(plane);
+     }
+
+     function addListners(camera, renderer, composer) {
+      document.addEventListener("keydown", e => {
+       const { x, y, z } = camera.position;
+       console.log(`camera.position.set(${x},${y},${z})`);
+       const { x: a, y: b, z: c } = camera.rotation;
+       console.log(`camera.rotation.set(${a},${b},${c})`);
+      });
+
+      window.addEventListener(
+       "resize",
+       () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(width, height);
+        composer.setSize(width, height);
+       },
+       false);
+
+     }
 </script>
 
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
-
-
-
-  
-
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
 </body>
+
 </html>
